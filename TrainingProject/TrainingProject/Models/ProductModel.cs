@@ -1,13 +1,11 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace TrainingProject.Models
 {
-    public class HomeModel
+    public class ProductModel
     {
         public int Product_ID { get; set; }
 
@@ -20,10 +18,9 @@ namespace TrainingProject.Models
         public DateTime Date { get; set; }
 
         public string Category { get; set; }
-        
+
         public string Description { get; set; }
 
         public bool IsActive { get; set; }
- 
     }
 }
