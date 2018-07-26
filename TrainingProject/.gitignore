@@ -193,15 +193,19 @@ _Pvt_Extensions
 .idea/
 *.sln.iml
 
+# Visual Studio temp something
+ .vs/
+ 
 # angular init files
 favicon.ico
 .DS_Store
-/.vs/SubQuip.Web/v15/Server/sqlite3/*.lock
-/.vs/SubQuip.Web/v15/Server/sqlite3/*.ide
+/.vs/TrainingProject/v15/Server/sqlite3/*.*
+/.vs/TrainingProject/v15/Server/sqlite3/*.lock
+/.vs/TrainingProject/v15/Server/sqlite3/*.ide
 /.vs/config
-/.vs/SubQuip.Web/v15/Server/sqlite3/*.ide-shm
-/.vs/SubQuip.Web/v15/Server/sqlite3/*.ide-wal
-/SubQuip.Web/Upload
+/.vs/TrainingProject/v15/Server/sqlite3/*.ide-shm
+/.vs/TrainingProject/v15/Server/sqlite3/*.ide-wal
+/TrainingProject/Upload
 
 # Vim swp files
 *.swp
