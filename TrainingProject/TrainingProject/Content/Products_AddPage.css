@@ -1,0 +1,28 @@
+﻿
+body {
+    background-color: antiquewhite;
+}
+
+h1 {
+    margin-left: 420px;
+    font-family: Courier New;
+    font-weight: bold;
+}
+
+#form1 {
+    align-content: center;
+    margin-left: 400px;
+    font-family: Calibri;
+}
+
+.form-control {
+    align-content: center;
+    width: 320px;
+}
+
+.error {
+    color: red;
+    margin-left: 5px;
+}
+
+

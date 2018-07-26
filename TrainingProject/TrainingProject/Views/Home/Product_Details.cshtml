@@ -1,0 +1,163 @@
+﻿@*@model TrainingProject.Models.HomeModel
+
+@{
+    ViewBag.Title = "Product";
+}
+
+<style>
+    h1 {
+        text-align: center;
+        font-family: Calibri;
+        font-weight: bold;
+    }
+
+    #div1 {
+        display: inline-block;
+        font-family: Calibri;
+        font-weight: bold;
+        font-size: medium;
+        margin-left: 400px;
+    }
+
+    .error {
+        color: red;
+        margin-left: 5px;
+    }
+
+    /*#form1{
+        background-color: lightcyan;
+    }*/
+
+    #btn {
+        width: 100px;
+        height: 35px;
+        margin-top: 20px;
+        border: 1px solid #000
+    }
+
+</style>
+
+<h1>PRODUCTS</h1>
+<br />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('#form1').submit(function (e) {
+
+                var Active = true;
+                var Product_name = $('#Product_name').val();
+                var Description = $('#Description').val();
+                var Price = $("#Price").val();
+                var Date = $('#Date').val();
+                var Active = $('input[id=Active]:checked').val();
+                var NoOfProducts = $('#NoOfProducts').val();
+
+
+                var name_regex = /^[A-Za-z]+$/
+                var numbers = /^[0-9]+$/;
+
+                $(".error").remove();
+
+                if (Product_name.length < 1 || !Product_name.match(name_regex)) {
+                    $('#Product_name').after('<span class="error">Please Enter a Valid Name</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+
+                
+
+                if (Description.length < 1 ) {
+                    $('#Description').after('<span class="error">This field is required</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+                if (!Active) {
+                    $('#Active').after('<span class="error">This field is required</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+
+                if (Date.length < 1) {
+                    $('#Date').after('<span class="error">This field is required</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+
+                if (Price.length < 1 || !Price.match(numbers)) {
+                    $('#Price').after('<span class="error">This field is required</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+
+                if (NoOfProducts.length < 1) {
+                    $('#NoOfProducts').after('<span class="error">This field is required</span>');
+                    ischeck = true;
+                }
+                else {
+                    ischeck = false;
+                }
+
+                if (ischeck == true) {
+                    e.preventDefault();
+                } 
+            });
+        });
+</script>
+
+@using (Html.BeginForm("Product", "Home", FormMethod.Post, new { id = "form1" }))
+{
+        <div id="div1">
+            <div>
+                @Html.Label("Product Name:") <br />
+                @Html.TextBoxFor(m => m.Product_name, new { @class = "name" }) <br /><br />
+            </div>
+
+            @*<div>
+            @Html.Label("Category ")  <br />
+            @Html.DropDownListFor(m => m.DesigId, Model.desgDetails, "-select-")
+        </div>*@
+
+            <div>
+                @Html.Label("Description:", new { @class = "name" }) <br />
+                @Html.TextAreaFor(m => m.Description, new { @class = "name" }) <br /><br />
+            </div>
+
+
+            <div>
+                @Html.Label("Visible Date ", new { @class = "name" })  <br />
+                @Html.TextBoxFor(m => m.Date, new { @class = "name" }) <br /><br />
+            </div>
+
+            <div>
+                @Html.Label("Price ", new { @class = "name" }) <br />
+                @Html.TextBoxFor(m => m.Price, new { @class = "name" }) <br /><br />
+            </div>
+
+            <div>
+                @Html.Label("Number of products ", new { @class = "name" }) <br />
+                @Html.TextBoxFor(m => m.NoOfProducts, new { @class = "name" }) <br /><br />
+            </div>s
+
+            <div>
+                @Html.Label("Please Confirm if product is active ") @Html.CheckBoxFor(m => m.Active, new { id = "Active" })  <br />
+                <br />
+            </div>
+
+            <div>
+                <button type="submit" id="btn" value="Submit">Submit</button>
+                <button type="reset" id="btn" value="Reset">Reset</button>
+            </div>
+        </div>
+
+}*@

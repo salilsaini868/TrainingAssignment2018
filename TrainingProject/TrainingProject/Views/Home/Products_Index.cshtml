@@ -1,0 +1,69 @@
+﻿@model TrainingProject.Models.HomeModel
+@{
+    ViewBag.Title = "Products_Index";
+}
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Products_AddPage.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/Products_AddPage.css">
+
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>PRODUCTS</h1>
+
+        @using (Html.BeginForm("Products_Index", "Home", FormMethod.Post, new { id = "form1" }))
+        {
+            <div class="form-group">
+                <label for="usr">Product Name:</label>
+                @Html.TextBoxFor(x => x.Product_name, new { @class = "form-control", name = "Product_name", @maxlength = "20", id = "Product_name" })
+            </div>
+
+            <div class="form-group">
+                <label for="usr">Price:</label>
+                @Html.TextBoxFor(x => x.Price, new { @class = "form-control", name = "Price", @maxlength = "20", id = "Price" })
+            </div>
+
+            <div class="form-group">
+                <label for="usr">Number of Products:</label>
+                @Html.TextBoxFor(x => x.NoOfProducts, new { @class = "form-control", name = "NoOfProducts", @maxlength = "20", id = "NoOfProducts" })
+            </div>
+
+            <div class="form-group">
+                <label for="date">Visible Till: </label>
+                <input type="date" class="form-control" id="Date" name="Date" placeholder="">
+            </div>
+
+
+            <div class="form-group">
+                <label for="Description">Description:</label>
+                @Html.TextAreaFor(x => x.Description, new { id = "Description", @class = "form-control", @maxlength = "100", name = "Description" })
+            </div>
+
+            <div class="form-group">
+                <label class="form-group"> Please Confirm if product is active </label>
+                @Html.CheckBoxFor(x => x.IsActive, new { @id = "IsActive" })
+
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-default "> Submit</button>
+                <button type="reset" class="btn btn-default" id="reset_btn">Reset </button>
+            </div>
+
+        }
+
+    </div>
+</body>
+
+
