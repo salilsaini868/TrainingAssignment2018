@@ -2,72 +2,84 @@
 //JAVASCRIPT PAGE
 
 
-    $(document).ready(function () {
-        $('#form1').submit(function (e) {
+$(document).ready(function () {
+    $('#Product_Form').submit(function (e) {
+      
+        var ischeck = true;
+        var Product_name = $('#Product_name').val();
+        var Description = $('#Description').val();
+        var Date = $('#Date').val();
+        var Price = $("#Price").val();
+        var IsActive = $('#IsActive').prop('checked');
+        var NoOfProducts = $('#NoOfProducts').val();
 
-            var ischeck = true;
-            var Product_name = $('#Product_name').val();
-            var Description = $('#Description').val();
-            var Date = $('#Date').val();
-            var Price = $("#Price").val();
-            var IsActive = $('#IsActive').prop('checked');
+        var name_regex = /^[A-Za-z]+$/
+        var numbers = /^[0-9]+$/;
 
-            var NoOfProducts = $('#NoOfProducts').val();
+        if (Product_name.length < 1 || !Product_name.match(name_regex)) {
+            $('#p_name').show();
+            ischeck = true;
+        }
+        else {
+            $('#p_name').hide();
+            ischeck = false;
+        }
 
-            var name_regex = /^[A-Za-z]+$/
-            var numbers = /^[0-9]+$/;
 
-            $(".error").remove();
 
-            if (Product_name.length < 1 || !Product_name.match(name_regex)) {
-                $('#Product_name').after('<span class="error">Please Enter a Valid Name</span>');
-                ischeck = true;
-            }
-            else {
-                ischeck = false;
-            }
+        if (Description.length < 1) {
+            $('#p_description').show();
+            ischeck = true;
+        }
+        else {
+            $('#p_description').hide();
+            ischeck = false;
+        }
 
-            if (Description.length < 1) {
-                $('#Description').after('<span class="error">This field is required</span>');
-                ischeck = true;
-            }
-            else {
-                ischeck = false;
-            }
 
-            if (Date.length < 1) {
-                $('#Date').after('<span class="error">This field is required</span>');
-                ischeck = true;
-            }
-            else {
-                ischeck = false;
-            }
 
-            if (Price.length < 1 || !Price.match(numbers)) {
-                $('#Price').after('<span class="error">Enter a valid Number</span>');
-                ischeck = true;
-            }
-            else {
-                ischeck = false;
-            }
+        if (Date.length < 1) {
+            $('#p_date').show();
+            ischeck = true;
+        }
+        else {
+            $('#p_date').hide();
+            ischeck = false;
+        }
 
-            if (NoOfProducts.length < 1 || !Price.match(numbers)) {
-                $('#NoOfProducts').after('<span class="error">Enter a valid Number</span>');
-                ischeck = true;
-            }
-            else {
-                ischeck = false;
-            }
 
-            if (ischeck == true) {
-                e.preventDefault();
-            }
 
-        });
+        if (Price.length < 1 || !Price.match(numbers)) {
+            $('#p_price').show();
+            ischeck = true;
+        }
+        else {
+            $('#p_price').hide();
+            ischeck = false;
+        }
+
+
+
+        if (NoOfProducts.length < 1 || !Price.match(numbers)) {
+            $('#p_no').show();
+            ischeck = true;
+        }
+        else {
+            $('#p_no').hide();
+            ischeck = false;
+        }
+
+
+       
+        if (ischeck == true) {
+            e.preventDefault();
+        }
+
+    });
 
     $('#reset_btn').click(function () {
-        $('#form1').trigger("reset");
-    $(".error").remove();
+        $('#Product_Form').trigger("reset");
+        $(".error").remove();
+
+    });
 });
-});
-  
