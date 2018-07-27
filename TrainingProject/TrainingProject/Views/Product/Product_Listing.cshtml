@@ -1,0 +1,76 @@
+﻿
+@using TrainingProject.Models
+@model IEnumerable < TrainingProject.Models.ProductModel>
+@using System.Data;
+@using System.Collections.Generic;
+
+@{
+    ViewBag.Title = "Product_Listing";
+}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+    body {
+        background-color: antiquewhite;
+    }
+
+    h1 {
+        margin-left: 425px;
+        font-family: Courier New;
+        font-weight: bold;
+    }
+
+    table {
+        font-family: Courier New;
+    }
+
+    th {
+        font-weight: bold;
+    }
+</style>
+
+<h1> Product Listing </h1>
+
+<div class="container">
+    <form>
+        <table class="table table-hover">
+
+            <tr>
+                <th>Product_Name</th>
+                <th>Price</th>
+                @*<th>Category</th>*@
+                <th>No of Products</th>
+                <th>Visible Till</th>
+                <th>Description</th>
+                <th>IsActive</th>
+
+            </tr>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    
+                    <td>@item.Product_name</td>
+                    <td>@item.Price</td>
+                    <td>@item.NoOfProducts</td>
+                    <td>@item.Date</td>
+                    <td>@item.Description</td>
+                    <td>@item.IsActive</td>
+
+                  
+                </tr>
+            }
+        </table>
+    </form>
+</div>
+
+
+
+
+

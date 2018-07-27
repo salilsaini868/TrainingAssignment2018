@@ -11,25 +11,27 @@
 
     <h1>PRODUCTS</h1>
 
+    <input type="button" value="Prod List" onclick="window.location='@Url.Action("Product_Listing", "Product")'" />
+
     @using (Html.BeginForm("Products_Index", "Product", FormMethod.Post, new { id = "Product_Form" }))
     {
 
-    <div class="form-group">
-        <label for="usr">Product Name:</label>
-        @Html.TextBoxFor(x => x.Product_name, new { @class = "form-control", name = "Product_name", @maxlength = "20", id = "Product_name" })
-        <span hidden id="p_name" class="error">Please Enter a Valid Name</span>
-    </div>
+        <div class="form-group">
+            <label for="usr">Product Name:</label>
+            @Html.TextBoxFor(x => x.Product_name, new { @class = "form-control", name = "Product_name", @maxlength = "20", id = "Product_name" })
+            <span hidden id="p_name" class="error">Please Enter a Valid Name</span>
+        </div>
 
-    <div class="form-group">
-        <label for="usr">Price:</label>
-        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", name = "Price", @maxlength = "20", id = "Price" })
-        <span hidden id="p_price" class="error">Please Enter a Valid Number</span>
-    </div>
+        <div class="form-group">
+            <label for="usr">Price:</label>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", name = "Price", @maxlength = "20", id = "Price" })
+            <span hidden id="p_price" class="error">Please Enter a Valid Number</span>
+        </div>
 
         <div class="form-group">
             <label for="usr">Number of Products:</label>
             @Html.TextBoxFor(x => x.NoOfProducts, new { @class = "form-control", name = "NoOfProducts", @maxlength = "20", id = "NoOfProducts" })
-            <span hidden id="p_no" class="error">Please Enter a Valid Number</span>      
+            <span hidden id="p_no" class="error">Please Enter a Valid Number</span>
         </div>
 
         <div class="form-group">
@@ -59,6 +61,6 @@
     }
 
 </div>
-@*</body>*@
+
 
 

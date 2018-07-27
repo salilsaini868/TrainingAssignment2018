@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
 using System.Data;
@@ -20,6 +18,46 @@ namespace TrainingProject.Controllers
         }
 
         // GET: Product
+        [HttpGet]
+        public ActionResult Product_Listing()
+        {
+            List<ProductModel> p_list = new List<ProductModel>();
+
+
+            // SELECT USER      
+
+            using (SqlConnection connect = new SqlConnection(strconnect))
+            {
+                SqlCommand cmd = new SqlCommand("[dbo].[Training_Products_Select]", connect);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (connect.State != ConnectionState.Open)
+                {
+                    connect.Open();
+                }
+                // cmd.Parameters.AddWithValue("@Product_ID", Product_ID);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductModel prop = new ProductModel
+                    {
+                        Product_name = Convert.ToString(reader["Prod_Name"]),
+                        Price = Convert.ToInt32(reader["Price"]),
+                        NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
+                        Date = Convert.ToDateTime(reader["Visible_Till"]),
+                        Description = Convert.ToString(reader["Product_Description"]),
+                        IsActive = Convert.ToBoolean(reader["IsActive"])
+                    };
+                    p_list.Add(prop);
+                }
+                connect.Close();
+            }
+
+            return View(p_list);
+        }
+
+        [HttpGet]
         public ActionResult Products_Index()
         {
             return View();
@@ -28,7 +66,7 @@ namespace TrainingProject.Controllers
         [HttpPost]
         public ActionResult Products_Index(ProductModel prop)
         {
-           
+
             using (SqlConnection connect = new SqlConnection(strconnect))
             {
                 if (connect.State != ConnectionState.Open)
@@ -47,13 +85,13 @@ namespace TrainingProject.Controllers
                     command.Parameters.AddWithValue("@Price", prop.Price);
                     command.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
                     command.Parameters.AddWithValue("@Visible_Till", prop.Date);
-                   
+
                     command.Parameters.AddWithValue("@Product_Description", prop.Description);
                     command.Parameters.AddWithValue("@IsActive ", prop.IsActive);
                     command.ExecuteNonQuery();
                 }
             }
-            return View(prop);
+            return RedirectToAction("Product_Listing");
         }
 
     }
