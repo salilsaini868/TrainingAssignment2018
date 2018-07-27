@@ -1,0 +1,13 @@
+﻿.body-content
+{
+    margin-top:51px;
+}
+
+#username_display {
+    margin-left:800px; 
+    font-size: 16px;
+}
+
+#logout_btn {
+    font-size: 16px;
+}

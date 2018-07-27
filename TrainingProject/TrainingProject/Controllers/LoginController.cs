@@ -24,7 +24,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginScreen(LoginPage lpage)
+        public ActionResult LoginScreen(LoginModel lpage)
         {
             if (ModelState.IsValid)
             {
@@ -48,14 +48,13 @@ namespace TrainingProject.Controllers
                         lpage.UserID = Convert.ToInt32(reader["UserID"]);
                         lpage.FirstName = Convert.ToString(reader["FirstName"]);
                         lpage.LastName = Convert.ToString(reader["LastName"]);
-                        Session["User"] = lpage;
-                        ViewBag.message = "login successfull.";
+                        Session["user"] = lpage;
                         return RedirectToAction("Product_ListView");
 
                     }
                     else
                     {
-                        ViewBag.message2 = "details incorrect.";
+                        ViewBag.Message_IncorrectLogin = "details incorrect.";
                     }
 
                     connectLogin.Close();

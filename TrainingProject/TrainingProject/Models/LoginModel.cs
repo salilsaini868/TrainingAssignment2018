@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TrainingProject.Models
 {
-    public class LoginPage
+    public class LoginModel
     {
         public string FirstName
         { get; set; }

@@ -1,22 +1,25 @@
 ﻿$(document).ready(function () {
-    $('#form1').submit(function (e) {
+    $('#form_login').submit(function (e) {
         var user_name = $('#userName').val();
         var password = $('#password').val();
-        $(".error").remove();
 
         if (user_name.length < 1) {
-            $('#userName').after('<span class="error">This field is required.</span>');
+            $('#error_username').show();
             ischeck = true;
+            e.preventDefault();
         }
         else {
+            $('#error_username').hide();
             ischeck = false;
         }
 
         if (password.length < 1) {
-            $('#password').after('<span class="error">This field is required.</span>');
+            $('#error_password').show();
             ischeck = true;
+            e.preventDefault();
         }
         else {
+            $('#error_password').hide();
             ischeck = false;
         }
 
@@ -26,8 +29,9 @@
     });
 
     $('#res_btn').click(function () {
-        $('#form1').trigger("reset");
-        $(".error").remove();
+        $('#form_login').trigger("reset");
+        $(".error").hide();
+
     });
 
 });
