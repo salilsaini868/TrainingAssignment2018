@@ -1,0 +1,53 @@
+﻿@using System.Data;
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "CategoryPage_ListView";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/CategoryListStyle.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/CategoryListView.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="div_main">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+                <div id="div_header">
+                    <h2 id="text_header">Product Categories</h2>
+                    <text id="text_link">@Html.ActionLink("add new", "CategoryPage_Insert", " ")</text>
+                </div>
+                <br>
+                <form id="form_categorylsit">
+                    <table cellspacing="8" cellpadding="5">
+                        <tr>
+                            <th>Category Id</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>IsActive</th>
+                        </tr>
+                        @foreach (DataRow item in Model.Rows)
+                        {
+                            <tr>
+                                <td>@item["CategoryId"].ToString()</td>
+                                <td>@item["CategoryName"].ToString()</td>
+                                <td>@item["CategoryDescription"].ToString()</td>
+                                <td>@item["IsActive"].ToString()</td>
+                                <td>
+                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("CategoryPage_Insert", " ", new { id = item["CategoryId"] })">edit</a></text> |
+                                    <text id="link_delete"><a href="@Url.Action("DeleteCategoryPage", " ", new { id = item["CategoryId"] })">delete</a></text>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+
+
