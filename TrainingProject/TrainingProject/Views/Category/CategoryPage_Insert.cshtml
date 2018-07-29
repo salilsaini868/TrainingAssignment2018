@@ -1,0 +1,55 @@
+﻿@model TrainingProject.Models.CategoryModel
+@{
+    ViewBag.Title = "CategoryPage_Insert";
+}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/CategoryInsert.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="div_main">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-8">
+                <div id="heading">
+                    <h2 id="text_heading">Insert Category</h2>
+                    <text id="text_link">@Html.ActionLink("Category List", " ", " ")</text>
+                    <br><br>
+                </div>
+                @using (Html.BeginForm("CategoryPage_Insert", "Category", FormMethod.Post, new { id = "form_category" }))
+                {
+                    <div>
+                        <label for="category_name">Name </label>
+                        @Html.TextBoxFor(m => m.CategoryName, new { maxlength = 20, autocomplete = "off", id = "category_name" })
+                        <span hidden id="error_category_name" class="error">This field is required.</span>
+                    </div>
+                    <div>
+                        <label for="category_description">Description </label>
+                        @Html.TextAreaFor(m => m.CategoryDescription, new { maxlength = 60, autocomplete = "off", id = "category_description" })
+                        <span hidden id="error_category_description" class="error">This field is required.</span>
+                    </div>
+                    <div>
+                        <text>Check if the details are correct : &nbsp;</text>
+                        @Html.CheckBoxFor(m => m.IsActive, new { id=  "category_check"})
+                    </div>
+                    <div id="div_btn">
+                        <button type="submit" value="Submit" id="sub_btn">Submit</button>
+                        <button type="reset" value="Reset" id="res_btn">Reset</button>
+                        <br>
+                        <div>
+                            <br>
+                            <text id="view_messageInsert">@ViewBag.Message_CategoryInsert</text>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+
+

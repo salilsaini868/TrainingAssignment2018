@@ -1,0 +1,48 @@
+﻿#text_heading {
+    margin-left: 50px;
+}
+
+#div_main {
+    margin-top: 40px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+form label {
+    display: inline-block;
+    width: 100px;
+    font-family: Tahoma;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+.error {
+    color: red;
+    margin-left: 5px;
+    font-family: Arial;
+}
+
+label.error {
+    display: inline;
+}
+
+﻿#view_messageInsert {
+    color: red;
+    font-family: Arial;
+    margin-top: 5px;
+}
+
+#text_link {
+    margin-left: 600px;
+}
+
+#div_btn {
+    margin-left: 125px;
+}
+
+#category_description {
+    margin: 0px;
+    width: 193px;
+    height: 80px;
+}
