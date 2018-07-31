@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/CategoryListStyle.css">
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/CategoryListView.js"></script>
+    <script src="~/Scripts/CategoryList.js"></script>
 </head>
 
 <body>
@@ -17,28 +17,40 @@
             <div class="col-md-1"></div>
             <div class="col-md-8">
                 <div id="div_header">
-                    <h2 id="text_header">Product Categories</h2>
-                    <text id="text_link">@Html.ActionLink("add new", "CategoryPage_Insert", " ")</text>
+                    <text id="text_header" , class="navbar-brand">
+                        <h2>
+                            @Html.ActionLink("Product Category", "ListCategory", "Category", new { id = "full_list" })
+                        </h2>
+                    </text>
+                   
+                    <input type="button" value="add new" id="text_link" onclick="window.location='@Url.Action("InsertCategory", "Category")'" />
                 </div>
                 <br>
                 <form id="form_categorylsit">
-                    <table cellspacing="8" cellpadding="5">
-                        <tr>
-                            <th>Category Id</th>
+                    <table cellspacing="9" cellpadding="6">
+                        <tr id="table_head">
+                            <th>Category ID</th>
+                            <td></td>
                             <th>Name</th>
+                            <td></td>
                             <th>Description</th>
+                            <td></td>
                             <th>IsActive</th>
                         </tr>
                         @foreach (DataRow item in Model.Rows)
                         {
                             <tr>
-                                <td>@item["CategoryId"].ToString()</td>
+                                <th>@item["CategoryId"].ToString()</th>
+                                <td></td>
                                 <td>@item["CategoryName"].ToString()</td>
+                                <td></td>
                                 <td>@item["CategoryDescription"].ToString()</td>
+                                <td></td>
                                 <td>@item["IsActive"].ToString()</td>
+                                <td></td>
                                 <td>
-                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("CategoryPage_Insert", " ", new { id = item["CategoryId"] })">edit</a></text> |
-                                    <text id="link_delete"><a href="@Url.Action("DeleteCategoryPage", " ", new { id = item["CategoryId"] })">delete</a></text>
+                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("EditCategory", "Category", new { id = item["CategoryId"] })">edit</a></text> |
+                                    <text id="link_delete"><a href="@Url.Action("DeleteCategory", "Category", new { id = item["CategoryId"] })">delete</a></text>
                                 </td>
                             </tr>
                         }

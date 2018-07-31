@@ -3,9 +3,18 @@
 }
 
 #text_link {
-    margin-left: 600px;
+    margin-left: 850px;
 }
 
 #div_header {
     margin-left: 20px;
+}
+
+#table_head {
+    font-size: medium;
+}
+
+#full_list {
+    text-decoration: none;
+    color: darkslategrey;
 }
