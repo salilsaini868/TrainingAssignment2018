@@ -1,6 +1,6 @@
 ﻿
 @using TrainingProject.Models
-@model IEnumerable < TrainingProject.Models.ProductModel>
+@model IEnumerable<TrainingProject.Models.ProductModel>
 @using System.Data;
 @using System.Collections.Generic;
 
@@ -43,7 +43,6 @@
             <tr>
                 <th>Product_Name</th>
                 <th>Price</th>
-                @*<th>Category</th>*@
                 <th>No of Products</th>
                 <th>Visible Till</th>
                 <th>Description</th>
@@ -51,19 +50,15 @@
 
             </tr>
 
-
             @foreach (var item in Model)
             {
                 <tr>
-                    
                     <td>@item.Product_name</td>
                     <td>@item.Price</td>
                     <td>@item.NoOfProducts</td>
                     <td>@item.Date</td>
                     <td>@item.Description</td>
                     <td>@item.IsActive</td>
-
-                  
                 </tr>
             }
         </table>

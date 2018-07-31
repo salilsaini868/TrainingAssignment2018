@@ -21,8 +21,7 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult Product_Listing()
         {
-            List<ProductModel> p_list = new List<ProductModel>();
-
+            List<ProductModel> prod_list = new List<ProductModel>();
 
             // SELECT USER      
 
@@ -34,7 +33,6 @@ namespace TrainingProject.Controllers
                 {
                     connect.Open();
                 }
-                // cmd.Parameters.AddWithValue("@Product_ID", Product_ID);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -49,12 +47,11 @@ namespace TrainingProject.Controllers
                         Description = Convert.ToString(reader["Product_Description"]),
                         IsActive = Convert.ToBoolean(reader["IsActive"])
                     };
-                    p_list.Add(prop);
+                    prod_list.Add(prop);
                 }
                 connect.Close();
             }
-
-            return View(p_list);
+            return View(prod_list);
         }
 
         [HttpGet]
@@ -85,7 +82,6 @@ namespace TrainingProject.Controllers
                     command.Parameters.AddWithValue("@Price", prop.Price);
                     command.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
                     command.Parameters.AddWithValue("@Visible_Till", prop.Date);
-
                     command.Parameters.AddWithValue("@Product_Description", prop.Description);
                     command.Parameters.AddWithValue("@IsActive ", prop.IsActive);
                     command.ExecuteNonQuery();
