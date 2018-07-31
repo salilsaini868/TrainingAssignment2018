@@ -25,4 +25,10 @@ h1 {
     margin-left: 5px;
 }
 
+#InsertMsg {
+    align-content: Center;
+    font-weight: bold;
+    font-family: Calibri;
+    font-size:150px;
+}
 
