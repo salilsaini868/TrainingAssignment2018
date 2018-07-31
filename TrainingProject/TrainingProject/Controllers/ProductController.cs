@@ -84,10 +84,16 @@ namespace TrainingProject.Controllers
                     command.Parameters.AddWithValue("@Visible_Till", prop.Date);
                     command.Parameters.AddWithValue("@Product_Description", prop.Description);
                     command.Parameters.AddWithValue("@IsActive ", prop.IsActive);
-                    command.ExecuteNonQuery();
+                    
+                    int sucess = command.ExecuteNonQuery();
+                    if (sucess > 0)
+                    {
+                        TempData["DataInsertMessage"] = "Data Inserted";
+                    }
+
                 }
             }
-            return RedirectToAction("Listing");
+            return RedirectToAction("InsertProduct");
             
         }
 

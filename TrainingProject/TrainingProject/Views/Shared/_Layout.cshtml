@@ -27,9 +27,9 @@
             {
                 <div class="navbar-brand" id="username_display">
                     @userlogin.FirstName &nbsp;
-                    @Html.ActionLink("Logout", "Index", "Login");
+                    @*@Html.ActionLink("Logout", "Index", "Login")*@
 
-                    @*<input type="button" id="logout_btn" value="Logout" onclick="window.location='@Url.Action("Logout ", "Index","Login")'" />*@
+                    <input type="button" id="logout_btn" value="Logout" onclick="window.location='@Url.Action("Logout ", "Index","Login")'" />
                 </div>
             }
         </div>

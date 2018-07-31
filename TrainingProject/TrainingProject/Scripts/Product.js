@@ -77,9 +77,19 @@ $(document).ready(function () {
 
     });
 
+    $(document).ready(function () {
+        $('#submitbtn').on('click', function () {          
+            $("#Product_name").empty();
+            $("#NoOfProducts").empty();
+            $("#Date").empty();
+            $("#Description").empty();
+            $("#IsActive").empty();
+
+        });
+
+
     $('#reset_btn').click(function () {
         $('#Product_Form').trigger("reset");
-        $(".error").remove();
-
+        $(".error").hide();        
     });
 });
