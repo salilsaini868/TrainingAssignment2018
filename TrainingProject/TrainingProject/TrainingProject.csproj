@@ -99,6 +99,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CategoryInsertStyle.css" />
     <Content Include="Content\LayoutStyle.css" />
     <Content Include="Content\LoginStyle.css" />
     <Content Include="Content\ProductStyle.css" />
@@ -108,6 +109,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CategoryInsert.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -124,12 +126,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -147,6 +151,7 @@
     <Content Include="Views\Product\Products_Index.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Login\LoginScreen.cshtml" />
+    <Content Include="Views\Category\InsertCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
