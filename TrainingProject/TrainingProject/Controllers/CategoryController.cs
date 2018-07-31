@@ -19,7 +19,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult CategoryPage_Edit(int? id)
+        public ActionResult EditCategory(int? id)
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -48,9 +48,8 @@ namespace TrainingProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult CategoryPage_Edit(int CategoryID)
+        public ActionResult EditCategory(CategoryModel category)
         {
-            CategoryModel category = new CategoryModel();
             using (SqlConnection connect_edit = new SqlConnection(strConnect))
             {
                 if (connect_edit.State != ConnectionState.Open)
@@ -61,8 +60,9 @@ namespace TrainingProject.Controllers
                 {
                     SqlCommand update_category = new SqlCommand("[dbo].[Training_editCategory]", connect_edit);
                     update_category.CommandType = CommandType.StoredProcedure;
+                    update_category.Parameters.AddWithValue("@CategoryID", category.CategoryID);
                     update_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                    update_category.Parameters.AddWithValue("@CatergoryDescription", category.CategoryDescription);
+                    update_category.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
                     update_category.Parameters.AddWithValue("@IsActive", category.IsActive);
                     int result = update_category.ExecuteNonQuery();
                     if (result > 0)

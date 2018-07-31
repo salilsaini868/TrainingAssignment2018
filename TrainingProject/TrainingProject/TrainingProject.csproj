@@ -99,7 +99,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\CategoryUpdate.css" />
+    <Content Include="Content\CategoryEditStyle.css" />
     <Content Include="Content\LayoutStyle.css" />
     <Content Include="Content\LoginStyle.css" />
     <Content Include="Content\ProductStyle.css" />
@@ -109,7 +109,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\CategoryUpdate.js" />
+    <Content Include="Scripts\CategoryEdit.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -151,7 +151,7 @@
     <Content Include="Views\Product\Products_Index.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Login\LoginScreen.cshtml" />
-    <Content Include="Views\Category\CategoryPage_Edit.cshtml" />
+    <Content Include="Views\Category\EditCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
