@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
@@ -19,7 +20,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult InsertCategory(int? id)
+        public ActionResult Detail(int? id)
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -44,7 +45,7 @@ namespace TrainingProject.Controllers
                     connect_selectcategory.Close();
                 }
             }
-            return View(category);
+            return View("InsertCategory");
         }
 
         [HttpPost]
@@ -67,10 +68,10 @@ namespace TrainingProject.Controllers
                     int result = add_category.ExecuteNonQuery();
                     if (result > 0)
                     {
-                        ViewBag.Message_CategoryInsert = "category added.";
+                        ViewBag.Message_CategoryInsert = "category added.";                        
                     }
                 }                
-            }
+            }            
             return View(category);
         }
     }

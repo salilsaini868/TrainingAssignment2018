@@ -17,8 +17,7 @@
             <div class="col-md-8">
                 <div id="heading">
                     <h2 id="text_heading">Insert Category</h2>
-                    @*<text id="text_link">@Html.ActionLink("Category List", " ", " ")</text>*@
-                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action(" ", " ")'" />
+                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action("ListCategory", "Category")'" />
                     <br><br>
                 </div>
                 @using (Html.BeginForm("InsertCategory", "Category", FormMethod.Post, new { id = "form_category" }))
@@ -44,9 +43,9 @@
                         <button type="submit" value="Submit" id="sub_btn">Submit</button>
                         <button type="reset" value="Reset" id="res_btn">Reset</button>
                         <br>
-                        <div>
+                        <div  id="view_messageInsert">
                             <br>
-                            <text id="view_messageInsert">@ViewBag.Message_CategoryInsert</text>
+                            @ViewBag.Message_CategoryInsert
                         </div>
                     </div>
                 }
