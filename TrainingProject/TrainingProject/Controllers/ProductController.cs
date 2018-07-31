@@ -51,13 +51,13 @@ namespace TrainingProject.Controllers
                 }
                 connect.Close();
             }
-            return View(prod_list);
+            return View("ProductListing",prod_list);
         }
 
         [HttpGet]
         public ActionResult InsertProduct()
         {
-            return View();
+            return View("ProductInsert");
         }
 
         [HttpPost]
@@ -88,6 +88,7 @@ namespace TrainingProject.Controllers
                 }
             }
             return RedirectToAction("Listing");
+            
         }
 
     }
