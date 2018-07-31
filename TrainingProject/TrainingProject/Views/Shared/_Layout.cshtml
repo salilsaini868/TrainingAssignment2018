@@ -1,9 +1,12 @@
 ﻿﻿<!DOCTYPE html>
 @using System.Data;
 @using TrainingProject.Models;
+
 @{
     var userlogin = Session["user"] as LoginModel;
 }
+
+
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,25 +21,15 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-<<<<<<< HEAD
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Products_Index", "Home", new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
-=======
                 @Html.ActionLink("Training Project", "LoginScreen", "Login", new { area = "" }, new { @class = "navbar-brand" })
->>>>>>> master
             </div>
             @if (userlogin != null)
             {
                 <div class="navbar-brand" id="username_display">
                     @userlogin.FirstName &nbsp;
-                    <input type="button" id="logout_btn" value="Logout" onclick="window.location='@Url.Action(" ", " ")'" />
+                    @Html.ActionLink("Logout", "Index", "Login");
+
+                    @*<input type="button" id="logout_btn" value="Logout" onclick="window.location='@Url.Action("Logout ", "Index","Login")'" />*@
                 </div>
             }
         </div>
@@ -45,8 +38,11 @@
         <div style="font-size: 16px">
             @if (userlogin != null)
             {
-                <br><br>
-                @Html.ActionLink("Categories", " ", " ")
+                <br><br><br />
+                <p>
+                    @Html.ActionLink("Categories", "Category_ListView", "Category") &nbsp;&nbsp;
+                    @Html.ActionLink("Products", "Product_Listing", "Product")
+                </p>
             }
         </div>
         @RenderBody()
@@ -55,4 +51,4 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
-</html>
+</html>y
