@@ -16,7 +16,7 @@ namespace TrainingProject.Controllers
         {
             strConnect = @"Data Source=172.20.21.129; MultipleActiveResultSets=True; Initial Catalog=RHPM; User ID=RHPM; Password=evry@123";
         }
-        public ActionResult ListCategory()
+        public ActionResult Listing()
         {
             DataTable dataset = new DataTable();
             using (SqlConnection connect_listview = new SqlConnection(strConnect))
@@ -30,7 +30,7 @@ namespace TrainingProject.Controllers
                 adapter.Fill(dataset);
                 connect_listview.Close();
             }
-            return View(dataset);
-        }
+            return View("ListCategory",dataset);
+        }    
     }
 }

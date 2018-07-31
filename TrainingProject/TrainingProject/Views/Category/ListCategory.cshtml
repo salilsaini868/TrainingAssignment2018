@@ -1,7 +1,7 @@
 ﻿@using System.Data;
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "CategoryPage_ListView";
+    ViewBag.Title = "CategoryList";
 }
 
 <head>
@@ -19,11 +19,11 @@
                 <div id="div_header">
                     <text id="text_header" , class="navbar-brand">
                         <h2>
-                            @Html.ActionLink("Product Category", "ListCategory", "Category", new { id = "full_list" })
+                            @Html.ActionLink("Product Category", "Listing", "Category", new { id = "full_list" })
                         </h2>
                     </text>
                    
-                    <input type="button" value="add new" id="text_link" onclick="window.location='@Url.Action("InsertCategory", "Category")'" />
+                    <input type="button" value="add new" id="text_link" onclick="window.location='@Url.Action("Detail", "Category")'" />
                 </div>
                 <br>
                 <form id="form_categorylsit">
@@ -49,8 +49,8 @@
                                 <td>@item["IsActive"].ToString()</td>
                                 <td></td>
                                 <td>
-                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("EditCategory", "Category", new { id = item["CategoryId"] })">edit</a></text> |
-                                    <text id="link_delete"><a href="@Url.Action("DeleteCategory", "Category", new { id = item["CategoryId"] })">delete</a></text>
+                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })">edit</a></text> |
+                                    <text id="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })">delete</a></text>
                                 </td>
                             </tr>
                         }
