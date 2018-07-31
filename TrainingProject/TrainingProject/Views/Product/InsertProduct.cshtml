@@ -1,6 +1,6 @@
 ﻿@model TrainingProject.Models.ProductModel
 @{
-    ViewBag.Title = "Products_Index";
+    ViewBag.Title = "InsertProduct";
 }
 
 
@@ -11,9 +11,9 @@
 
     <h1>PRODUCTS</h1>
 
-    <input type="button" value="Prod List" onclick="window.location='@Url.Action("Product_Listing", "Product")'" />
+    <input type="button" value="Prod List" onclick="window.location='@Url.Action("Listing", "Product")'" />
 
-    @using (Html.BeginForm("Products_Index", "Product", FormMethod.Post, new { id = "Product_Form" }))
+    @using (Html.BeginForm("InsertProduct", "Product", FormMethod.Post, new { id = "Product_Form" }))
     {
 
         <div class="form-group">

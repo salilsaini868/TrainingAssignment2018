@@ -19,7 +19,7 @@ namespace TrainingProject.Controllers
 
         // GET: Product
         [HttpGet]
-        public ActionResult Product_Listing()
+        public ActionResult Listing()
         {
             List<ProductModel> prod_list = new List<ProductModel>();
 
@@ -55,13 +55,13 @@ namespace TrainingProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult Products_Index()
+        public ActionResult InsertProduct()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Products_Index(ProductModel prop)
+        public ActionResult InsertProduct(ProductModel prop)
         {
 
             using (SqlConnection connect = new SqlConnection(strconnect))
@@ -87,7 +87,7 @@ namespace TrainingProject.Controllers
                     command.ExecuteNonQuery();
                 }
             }
-            return RedirectToAction("Product_Listing");
+            return RedirectToAction("Listing");
         }
 
     }
