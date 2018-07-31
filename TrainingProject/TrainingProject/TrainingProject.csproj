@@ -151,7 +151,7 @@
     <Content Include="Views\Product\Products_Index.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Login\LoginScreen.cshtml" />
-    <Content Include="Views\Category\CategoryPage_Insert.cshtml" />
+    <Content Include="Views\Category\InsertCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

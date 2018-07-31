@@ -19,7 +19,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult CategoryPage_Insert(int? id)
+        public ActionResult InsertCategory(int? id)
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -48,7 +48,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult CategoryPage_Insert(CategoryModel category)
+        public ActionResult InsertCategory(CategoryModel category)
         {
             List<CategoryModel> categories = new List<CategoryModel>();
             using (SqlConnection connect_category = new SqlConnection(strConnect))

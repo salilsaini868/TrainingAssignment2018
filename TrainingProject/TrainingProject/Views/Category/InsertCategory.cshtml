@@ -1,6 +1,6 @@
 ﻿@model TrainingProject.Models.CategoryModel
 @{
-    ViewBag.Title = "CategoryPage_Insert";
+    ViewBag.Title = "InsertCategory";
 }
 
 <head>
@@ -17,11 +17,15 @@
             <div class="col-md-8">
                 <div id="heading">
                     <h2 id="text_heading">Insert Category</h2>
-                    <text id="text_link">@Html.ActionLink("Category List", " ", " ")</text>
+                    @*<text id="text_link">@Html.ActionLink("Category List", " ", " ")</text>*@
+                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action(" ", " ")'" />
                     <br><br>
                 </div>
-                @using (Html.BeginForm("CategoryPage_Insert", "Category", FormMethod.Post, new { id = "form_category" }))
+                @using (Html.BeginForm("InsertCategory", "Category", FormMethod.Post, new { id = "form_category" }))
                 {
+                    <div hidden>                        
+                        @Html.HiddenFor(m => m.CategoryID, new { id = "category_id" })                        
+                    </div>
                     <div>
                         <label for="category_name">Name </label>
                         @Html.TextBoxFor(m => m.CategoryName, new { maxlength = 20, autocomplete = "off", id = "category_name" })
@@ -34,7 +38,7 @@
                     </div>
                     <div>
                         <text>Check if the details are correct : &nbsp;</text>
-                        @Html.CheckBoxFor(m => m.IsActive, new { id=  "category_check"})
+                        @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
                     </div>
                     <div id="div_btn">
                         <button type="submit" value="Submit" id="sub_btn">Submit</button>
