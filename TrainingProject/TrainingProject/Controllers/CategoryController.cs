@@ -75,5 +75,21 @@ namespace TrainingProject.Controllers
             }            
             return RedirectToAction("Detail");
         }
+        public ActionResult Listing()
+        {
+            DataTable dataset = new DataTable();
+            using (SqlConnection connect_listview = new SqlConnection(strConnect))
+            {
+                if (connect_listview.State != ConnectionState.Open)
+                {
+                    connect_listview.Open();
+                }
+                SqlCommand list_category = new SqlCommand("select * from Training_ProductCategories", connect_listview);
+                SqlDataAdapter adapter = new SqlDataAdapter(list_category);
+                adapter.Fill(dataset);
+                connect_listview.Close();
+            }
+            return View("ListCategory", dataset);
+        }
     }
 }
