@@ -31,6 +31,6 @@
         $('#category_description').empty();
         $('#category_name').empty();
         $(".error").hide();
-        $('#view_messageInsert').hide();
+        $("#view_messageInsert").hide();
     });
 });

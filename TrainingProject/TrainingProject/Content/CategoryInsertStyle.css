@@ -31,6 +31,7 @@ label.error {
     color: red;
     font-family: Arial;
     margin-top: 5px;
+    margin-left:150px;
 }
 
 #text_link {

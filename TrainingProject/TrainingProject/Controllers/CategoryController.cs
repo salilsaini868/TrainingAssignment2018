@@ -21,6 +21,7 @@ namespace TrainingProject.Controllers
 
         [HttpGet]
         public ActionResult Detail(int? id)
+
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -68,11 +69,11 @@ namespace TrainingProject.Controllers
                     int result = add_category.ExecuteNonQuery();
                     if (result > 0)
                     {
-                        ViewBag.Message_CategoryInsert = "category added.";                        
+                        TempData["Message_CategoryInsert"] = "category added.";
                     }
                 }                
             }            
-            return View(category);
+            return RedirectToAction("Detail");
         }
     }
 }

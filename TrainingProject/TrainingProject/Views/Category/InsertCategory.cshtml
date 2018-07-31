@@ -3,7 +3,7 @@
     ViewBag.Title = "InsertCategory";
 }
 
-<head>
+<head>    
     <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -39,16 +39,18 @@
                         <text>Check if the details are correct : &nbsp;</text>
                         @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
                     </div>
+                    <div id="view_messageInsert">
+                        @if (TempData["Message_CategoryInsert"] != null)
+                        {
+                            <p>@TempData["Message_CategoryInsert"]</p>
+                        }
+                    </div>
                     <div id="div_btn">
                         <button type="submit" value="Submit" id="sub_btn">Submit</button>
                         <button type="reset" value="Reset" id="res_btn">Reset</button>
-                        <br>
-                        <div  id="view_messageInsert">
-                            <br>
-                            @ViewBag.Message_CategoryInsert
-                        </div>
+                        <br>                        
                     </div>
-                }
+                }                
             </div>
             <div class="col-md-3"></div>
         </div>
