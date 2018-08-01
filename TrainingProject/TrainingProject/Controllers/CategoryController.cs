@@ -19,7 +19,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditCategory(int? id)
+        public ActionResult Detail(int? id)
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -44,35 +44,66 @@ namespace TrainingProject.Controllers
                     connect_selectcategory.Close();
                 }
             }
-            return View(category);
+            return View("InsertCategory", category);
         }
 
         [HttpPost]
-        public ActionResult EditCategory(CategoryModel category)
+        public ActionResult InsertCategory(CategoryModel category)
         {
-            using (SqlConnection connect_edit = new SqlConnection(strConnect))
+            //List<CategoryModel> categories = new List<CategoryModel>();
+            using (SqlConnection connect_category = new SqlConnection(strConnect))
             {
-                if (connect_edit.State != ConnectionState.Open)
+                if (connect_category.State != ConnectionState.Open)
                 {
-                    connect_edit.Open();
+                    connect_category.Open();
                 }
-                if (category.CategoryID != 0)
+                if (category.CategoryID == 0)
                 {
-                    SqlCommand update_category = new SqlCommand("[dbo].[Training_editCategory]", connect_edit);
+                    SqlCommand add_category = new SqlCommand("[dbo].[Training_addCategory]", connect_category);
+                    add_category.CommandType = CommandType.StoredProcedure;
+                    add_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    add_category.Parameters.AddWithValue("@CatergoryDescription", category.CategoryDescription);
+                    add_category.Parameters.AddWithValue("@IsActive", category.IsActive);
+                    int result = add_category.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        TempData["Message_CategoryInsert"] = "category added.";
+                    }
+                }
+                else
+                {
+                    SqlCommand update_category = new SqlCommand("[dbo].[Training_editCategory]", connect_category);
                     update_category.CommandType = CommandType.StoredProcedure;
                     update_category.Parameters.AddWithValue("@CategoryID", category.CategoryID);
                     update_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                     update_category.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
                     update_category.Parameters.AddWithValue("@IsActive", category.IsActive);
-                    int result = update_category.ExecuteNonQuery();
-                    if (result > 0)
+                    int result_update = update_category.ExecuteNonQuery();
+                    if (result_update > 0)
                     {
-                        ViewBag.Message_CategoryUpdate = "category updated.";
+                        TempData["Message_CategoryUpdate"] = "category updated.";
                     }
                 }
-                connect_edit.Close();
+                connect_category.Close();
             }
-            return View(category);
+            return RedirectToAction("Detail");
+        }
+
+        public ActionResult Listing()
+        {
+            DataTable dataset = new DataTable();
+            using (SqlConnection connect_listview = new SqlConnection(strConnect))
+            {
+                if (connect_listview.State != ConnectionState.Open)
+                {
+                    connect_listview.Open();
+                }
+                SqlCommand list_category = new SqlCommand("select * from Training_ProductCategories", connect_listview);
+                SqlDataAdapter adapter = new SqlDataAdapter(list_category);
+                adapter.Fill(dataset);
+                connect_listview.Close();
+            }
+            return View("ListCategory", dataset);
         }
     }
 }

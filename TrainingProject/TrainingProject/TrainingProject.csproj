@@ -101,6 +101,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\CategoryEditStyle.css" />
     <Content Include="Content\LayoutStyle.css" />
+    <Content Include="Content\CategoryInsertStyle.css" />
+    <Content Include="Content\CategoryListStyle.css" />
     <Content Include="Content\LoginStyle.css" />
     <Content Include="Content\ProductStyle.css" />
     <Content Include="Content\Site.css" />
@@ -111,6 +113,8 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\CategoryEdit.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\CategoryInsert.js" />
+    <Content Include="Scripts\CategoryList.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -151,7 +155,8 @@
     <Content Include="Views\Product\Products_Index.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Login\LoginScreen.cshtml" />
-    <Content Include="Views\Category\EditCategory.cshtml" />
+    <Content Include="Views\Category\InsertCategory.cshtml" />
+    <Content Include="Views\Category\ListCategory.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -3,7 +3,7 @@
         var name = $('#category_name').val();
         var desc = $('#category_description').val();
 
-        if (name.length < 1) {
+        if (name.length < 1 ){
             $('#error_category_name').show();
             ischeck = true;
             e.preventDefault();
@@ -31,6 +31,6 @@
         $('#category_description').empty();
         $('#category_name').empty();
         $(".error").hide();
-        $('#view_messageUpdate').hide();
+        $("#view_messageInsert").hide();
     });
 });

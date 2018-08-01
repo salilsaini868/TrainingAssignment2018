@@ -1,13 +1,13 @@
 ﻿@model TrainingProject.Models.CategoryModel
 @{
-    ViewBag.Title = "EditCategory";
+    ViewBag.Title = "InsertCategory";
 }
 
-<head>
-    <link rel="stylesheet" type="text/css" href="~/Content/CategoryEditStyle.css">
+<head>    
+    <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/CategoryEdit.js"></script>
+    <script src="~/Scripts/CategoryInsert.js"></script>
 </head>
 
 <body>
@@ -16,15 +16,14 @@
             <div class="col-md-1"></div>
             <div class="col-md-8">
                 <div id="heading">
-                    <h2 id="text_heading">Edit Category</h2>
-                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action("CategoryList", "Category")'" />
+                    <h2 id="text_heading">Insert Category</h2>
+                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action("Listing", "Category")'" />
                     <br><br>
                 </div>
-                @using (Html.BeginForm("EditCategory", "Category", FormMethod.Post, new { id = "form_category" }))
+                @using (Html.BeginForm("InsertCategory", "Category", FormMethod.Post, new { id = "form_category" }))
                 {
-                    <div hidden>
-                        <label for="category_id">ID </label>
-                        @Html.TextBoxFor(m => m.CategoryID, new { id = "category_id" })
+                    <div hidden>                        
+                        @Html.HiddenFor(m => m.CategoryID, new { id = "category_id" })                        
                     </div>
                     <div>
                         <label for="category_name">Name </label>
@@ -40,24 +39,27 @@
                         <text>Check if the details are correct : &nbsp;</text>
                         @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
                     </div>
+                    <div id="view_messageInsert">
+                        @if (TempData["Message_CategoryInsert"] != null)
+                        {
+                            <p>@TempData["Message_CategoryInsert"]</p>
+                        }
+
+                        @if (TempData["Message_CategoryUpdate"] != null)
+                        {
+                            <p>@TempData["Message_CategoryUpdate"]</p>
+                        }
+                    </div>
                     <div id="div_btn">
                         <button type="submit" value="Submit" id="sub_btn">Submit</button>
                         <button type="reset" value="Reset" id="res_btn">Reset</button>
-                        <br>
-                        <div>
-                            <br>
-                            <text id="view_messageUpdate">@ViewBag.Message_CategoryUpdate</text>
-                        </div>
+                        <br>                        
                     </div>
-                }
+                }                
             </div>
             <div class="col-md-3"></div>
         </div>
     </div>
 </body>
-
-
-
-
 
 
