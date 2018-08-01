@@ -9,4 +9,7 @@
             e.preventDefault();
         }
     });
+    $('#full_list').click(function() {
+        $('#txtSearch').val("");
+    });
 });
