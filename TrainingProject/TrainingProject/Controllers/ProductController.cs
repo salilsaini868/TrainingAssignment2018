@@ -40,6 +40,7 @@ namespace TrainingProject.Controllers
                 {
                     ProductModel prop = new ProductModel
                     {
+                        Product_ID = Convert.ToInt32(reader["Product_ID"]),
                         Product_name = Convert.ToString(reader["Prod_Name"]),
                         Price = Convert.ToInt32(reader["Price"]),
                         NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
@@ -97,5 +98,66 @@ namespace TrainingProject.Controllers
             
         }
 
+        //Edit.....
+        [HttpGet]
+        public ActionResult UpdateProduct(int? id)
+        {
+            ProductModel edit = new ProductModel();
+            using (SqlConnection connect_edit = new SqlConnection(strconnect))
+            {
+                if (connect_edit.State != ConnectionState.Open)
+                {
+                    connect_edit.Open();
+                }
+                if (id != 0)
+                {
+                    SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
+
+                    cmd_update.Parameters.AddWithValue("@Product_ID", id);
+
+                    SqlDataReader reader = cmd_update.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        edit.Product_name = Convert.ToString(reader["Prod_Name"]);
+                        edit.Price = Convert.ToInt32(reader["Price"]);
+                        edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
+                        edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
+                        edit.Description = Convert.ToString(reader["Product_Description"]);
+                        edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                    }
+                }
+                return View("ProductInsert", edit);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateProduct(int id)
+        {
+            ProductModel edit = new ProductModel();
+            if (id != 0)
+            {
+                using (SqlConnection connect = new SqlConnection(strconnect))
+                {
+                    SqlCommand cmd_update = new SqlCommand("Update Training_Products SET Product_name = @Prod_Name, Price = @Price, NoOfProducts = @No_Of_Products, Date = @Visible_Till, Description = @Product_Description, IsActive = @IsActive where Product_ID = @Product_ID", connect);
+
+                    if (connect.State != ConnectionState.Open)
+                    {
+                        connect.Open();
+                    }
+                    cmd_update.Parameters.AddWithValue("@Product_ID", id);
+                    cmd_update.Parameters.AddWithValue("@Prod_Name", edit.Product_name);
+                    cmd_update.Parameters.AddWithValue("@Price", edit.Price);
+                    cmd_update.Parameters.AddWithValue("@No_Of_Products", edit.NoOfProducts);
+                    cmd_update.Parameters.AddWithValue("@Visible_Till", edit.Date);
+                    cmd_update.Parameters.AddWithValue("@Product_Description", edit.Description);
+                    cmd_update.Parameters.AddWithValue("@IsActive", edit.IsActive);
+
+                    cmd_update.ExecuteNonQuery();
+
+                }
+            }
+            return View("ProductListing", edit);
+        }
     }
 }
