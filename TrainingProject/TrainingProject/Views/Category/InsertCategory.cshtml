@@ -44,6 +44,11 @@
                         {
                             <p>@TempData["Message_CategoryInsert"]</p>
                         }
+
+                        @if (TempData["Message_CategoryUpdate"] != null)
+                        {
+                            <p>@TempData["Message_CategoryUpdate"]</p>
+                        }
                     </div>
                     <div id="div_btn">
                         <button type="submit" value="Submit" id="sub_btn">Submit</button>

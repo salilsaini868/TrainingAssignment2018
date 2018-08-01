@@ -49,8 +49,8 @@
                                 <td>@item["IsActive"].ToString()</td>
                                 <td></td>
                                 <td>
-                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })">edit</a></text> |
-                                    <text id="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })">delete</a></text>
+                                    <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })">edit</a></text> |
+                                    <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })">delete</a></text>
                                 </td>
                             </tr>
                         }

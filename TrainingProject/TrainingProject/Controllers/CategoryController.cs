@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
@@ -21,7 +20,6 @@ namespace TrainingProject.Controllers
 
         [HttpGet]
         public ActionResult Detail(int? id)
-
         {
             CategoryModel category = new CategoryModel();
             if (id != null)
@@ -46,13 +44,13 @@ namespace TrainingProject.Controllers
                     connect_selectcategory.Close();
                 }
             }
-            return View("InsertCategory");
+            return View("InsertCategory", category);
         }
 
         [HttpPost]
         public ActionResult InsertCategory(CategoryModel category)
         {
-            List<CategoryModel> categories = new List<CategoryModel>();
+            //List<CategoryModel> categories = new List<CategoryModel>();
             using (SqlConnection connect_category = new SqlConnection(strConnect))
             {
                 if (connect_category.State != ConnectionState.Open)
@@ -71,10 +69,26 @@ namespace TrainingProject.Controllers
                     {
                         TempData["Message_CategoryInsert"] = "category added.";
                     }
-                }                
-            }            
+                }
+                else
+                {
+                    SqlCommand update_category = new SqlCommand("[dbo].[Training_editCategory]", connect_category);
+                    update_category.CommandType = CommandType.StoredProcedure;
+                    update_category.Parameters.AddWithValue("@CategoryID", category.CategoryID);
+                    update_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    update_category.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
+                    update_category.Parameters.AddWithValue("@IsActive", category.IsActive);
+                    int result_update = update_category.ExecuteNonQuery();
+                    if (result_update > 0)
+                    {
+                        TempData["Message_CategoryUpdate"] = "category updated.";
+                    }
+                }
+                connect_category.Close();
+            }
             return RedirectToAction("Detail");
         }
+
         public ActionResult Listing()
         {
             DataTable dataset = new DataTable();
