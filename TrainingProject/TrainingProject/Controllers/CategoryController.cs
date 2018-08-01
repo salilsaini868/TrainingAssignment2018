@@ -106,8 +106,8 @@ namespace TrainingProject.Controllers
                     SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
                     cmd_search.CommandType = CommandType.StoredProcedure;
                     cmd_search.Parameters.AddWithValue("@search", strSearch);
-                    SqlDataAdapter adapter2 = new SqlDataAdapter(cmd_search);
-                    adapter2.Fill(searchResult);                    
+                    SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
+                    adapter_search.Fill(searchResult);                    
                     return View("ListCategory", searchResult);
                 }
                 else
@@ -120,6 +120,23 @@ namespace TrainingProject.Controllers
                 connect_listview.Close();               
             }            
             return View("ListCategory", dataset);
+        }
+
+        public ActionResult Delete(int ID)
+        {
+            using (SqlConnection connect_delete = new SqlConnection(strConnect))
+            {
+                if (connect_delete.State != ConnectionState.Open)
+                {
+                    connect_delete.Open();
+                }
+                SqlCommand cmd_delete = new SqlCommand("Training_deleteCategory", connect_delete);
+                cmd_delete.CommandType = CommandType.StoredProcedure;
+                cmd_delete.Parameters.AddWithValue("@CategoryID", ID);
+                int del_user = cmd_delete.ExecuteNonQuery();
+                connect_delete.Close();
+            }
+            return RedirectToAction("Listing");
         }
     }    
 }
