@@ -101,18 +101,15 @@ namespace TrainingProject.Controllers
         {
             string searchName = collection["name"];
             List<ProductModel> p_list = new List<ProductModel>();
-
-            if (!string.IsNullOrEmpty(searchName))
+            using (SqlConnection connect_search = new SqlConnection(strconnect))
             {
-                ViewBag.search = searchName;
-
-                using (SqlConnection connect_search = new SqlConnection(strconnect))
+                if (connect_search.State != ConnectionState.Open)
                 {
-                    if (connect_search.State != ConnectionState.Open)
-                    {
-                        connect_search.Open();
-                    }
-
+                    connect_search.Open();
+                }
+                if (!string.IsNullOrEmpty(searchName))
+                {
+                    ViewBag.search = searchName;
                     SqlCommand cmd_search = new SqlCommand("Select * from Training_Products where  Prod_Name Like '%' + @Prod_Name + '%' OR Product_Description Like '%' + @Prod_Name + '%'  ", connect_search);
                     cmd_search.Parameters.AddWithValue("@Prod_Name", searchName);
 
@@ -132,22 +129,16 @@ namespace TrainingProject.Controllers
                         p_list.Add(prop);
                     }
                 }
-            }
-            else
-            {
-                ViewBag.SearchMessage = "Enter a Valid Input";
-               
-            }
-             return View("ProductListing", p_list);
-        }
+                else
+                {
+                    ViewBag.SearchMessage = "Enter a Valid Input";
 
+                }
+                return View("ProductListing", p_list);
+            }
+
+        }
     }
 }
 
 
-//if (!string.IsNullOrEmpty(strSearch))
-//                {
-//                    ViewBag.searchQuery = strSearch; 
-//in controller
-
-//     <input name="txtSearch" type="text" autocomplete="off" id="txtSearch" value="@ViewBag.searchQuery"/>
