@@ -39,6 +39,7 @@ namespace TrainingProject.Controllers
                 {
                     ProductModel prop = new ProductModel
                     {
+                        Product_ID = Convert.ToInt32(reader["Product_ID"]),
                         Product_name = Convert.ToString(reader["Prod_Name"]),
                         Price = Convert.ToInt32(reader["Price"]),
                         NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
@@ -60,7 +61,7 @@ namespace TrainingProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertProduct(ProductModel prop)
+        public ActionResult InsertUpdateProduct(ProductModel prop)
         {
 
             using (SqlConnection connect = new SqlConnection(strconnect))
@@ -91,8 +92,64 @@ namespace TrainingProject.Controllers
                     }
 
                 }
+                else
+                {
+                    SqlCommand cmd_update = new SqlCommand("Update Training_Products SET Prod_Name = @Prod_Name, Price = @Price, No_Of_Products = @No_Of_Products, Visible_Till = @Visible_Till, Product_Description = @Product_Description, IsActive = @IsActive where Product_ID = @Product_ID", connect);
+
+                    if (connect.State != ConnectionState.Open)
+                    {
+                        connect.Open();
+                    }
+                    cmd_update.Parameters.AddWithValue("@Product_ID", prop.Product_ID);
+                    cmd_update.Parameters.AddWithValue("@Prod_Name", prop.Product_name);
+                    cmd_update.Parameters.AddWithValue("@Price", prop.Price);
+                    cmd_update.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
+                    cmd_update.Parameters.AddWithValue("@Visible_Till", prop.Date);
+                    cmd_update.Parameters.AddWithValue("@Product_Description", prop.Description);
+                    cmd_update.Parameters.AddWithValue("@IsActive", prop.IsActive);
+
+                    int sucess = cmd_update.ExecuteNonQuery();
+                    if (sucess > 0)
+                    {
+                        TempData["DataInsertMessage"] = "Data Updated";
+                    }
+                    
+                }
             }
             return RedirectToAction("InsertProduct");
+        }
+
+        //Edit.....
+        [HttpGet]
+        public ActionResult GetProductByID(int? id)
+        {
+            ProductModel edit = new ProductModel();
+            using (SqlConnection connect_edit = new SqlConnection(strconnect))
+            {
+                if (connect_edit.State != ConnectionState.Open)
+                {
+                    connect_edit.Open();
+                }
+                if (id != 0)
+                {
+                    SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
+
+                    cmd_update.Parameters.AddWithValue("@Product_ID", id);
+
+                    SqlDataReader reader = cmd_update.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
+                        edit.Product_name = Convert.ToString(reader["Prod_Name"]);
+                        edit.Price = Convert.ToInt32(reader["Price"]);
+                        edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
+                        edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
+                        edit.Description = Convert.ToString(reader["Product_Description"]);
+                        edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                    }
+                }
+                return View("ProductInsert", edit);
+            }
 
         }
 

@@ -19,14 +19,20 @@
                 <div id="div_header">
                     <text id="text_header" , class="navbar-brand">
                         <h2>
-                            @Html.ActionLink("Product Category", "Listing", "Category", new { id = "full_list" })
+                            Product Category
                         </h2>
                     </text>
-                   
                     <input type="button" value="add new" id="text_link" onclick="window.location='@Url.Action("Detail", "Category")'" />
                 </div>
+                <div id="search_box">
+                    @using (Html.BeginForm("Listing", "Category"))
+                    {
+                        <input name="txtSearch" type="text" autocomplete="off" id="txtSearch" value="@ViewBag.searchQuery"/>    
+                        <input type="submit" value="Search" id="btn_submit" />                    
+                        <input type="submit" value="Show all" id="full_list" onclick="window.location='@Url.Action("Listing", "Category")'" />
+                    }
+                </div>
                 <br>
-                <form id="form_categorylsit">
                     <table cellspacing="9" cellpadding="6">
                         <tr id="table_head">
                             <th>Category ID</th>
@@ -49,13 +55,12 @@
                                 <td>@item["IsActive"].ToString()</td>
                                 <td></td>
                                 <td>
-                                    <text id="link_edit"><a id="redirect_edit" href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })">edit</a></text> |
-                                    <text id="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })">delete</a></text>
+                                    <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })">edit</a></text> |
+                                    <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })">delete</a></text>
                                 </td>
                             </tr>
                         }
                     </table>
-                </form>
             </div>
             <div class="col-md-3"></div>
         </div>

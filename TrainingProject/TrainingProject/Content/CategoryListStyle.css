@@ -14,7 +14,6 @@
     font-size: medium;
 }
 
-#full_list {
-    text-decoration: none;
-    color: darkslategrey;
+#full_list{
+    margin-left:160px;
 }
