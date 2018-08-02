@@ -13,18 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $("#searchBox").focusout(function () {
-            if ($(this).val() == "") {
-                alert("Please Enter Something to Search");
-                $("#searchBox").focusin();
-            }
-        });
-    });
 
-
-</script>
 
 
 <head>
@@ -33,7 +22,7 @@
     <script src="~/Scripts/Product.js"></script>
 </head>
 
-@using (Html.BeginForm("Listing", "Product", FormMethod.Post, new { id = "SearchForm" }))
+@using (Html.BeginForm("Listing", "Product", new { id = "SearchForm" }))
 {
     <h3 id="SearchText"> Search Product</h3>
 
@@ -99,7 +88,7 @@
             @foreach (var item in Model)
             {
             <tr>
-                
+                <th hidden>@item.Product_ID</th>
                 <td>@item.Product_name</td>
                 <td>@item.Price</td>
                 <td>@item.NoOfProducts</td>
