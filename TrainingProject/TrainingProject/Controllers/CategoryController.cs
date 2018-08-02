@@ -57,33 +57,24 @@ namespace TrainingProject.Controllers
                 {
                     connect_category.Open();
                 }
+                SqlCommand command = new SqlCommand();
+                command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
+                command.Parameters.AddWithValue("@IsActive", category.IsActive);
                 if (category.CategoryID == 0)
                 {
-                    SqlCommand add_category = new SqlCommand("[dbo].[Training_addCategory]", connect_category);
-                    add_category.CommandType = CommandType.StoredProcedure;
-                    add_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                    add_category.Parameters.AddWithValue("@CatergoryDescription", category.CategoryDescription);
-                    add_category.Parameters.AddWithValue("@IsActive", category.IsActive);
-                    int result = add_category.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        TempData["Message_CategoryInsert"] = "category added.";
-                    }
+                    int result = command.ExecuteNonQuery();
+                    TempData["Message_CategoryInsert"] = "category added.";
                 }
                 else
                 {
-                    SqlCommand update_category = new SqlCommand("[dbo].[Training_editCategory]", connect_category);
-                    update_category.CommandType = CommandType.StoredProcedure;
-                    update_category.Parameters.AddWithValue("@CategoryID", category.CategoryID);
-                    update_category.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                    update_category.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                    update_category.Parameters.AddWithValue("@IsActive", category.IsActive);
-                    int result_update = update_category.ExecuteNonQuery();
-                    if (result_update > 0)
-                    {
-                        TempData["Message_CategoryUpdate"] = "category updated.";
-                    }
+                    command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
+                    int result = command.ExecuteNonQuery();
+                    TempData["Message_CategoryUpdate"] = "category updated.";
                 }
+
                 connect_category.Close();
             }
             return RedirectToAction("Detail");
@@ -100,26 +91,18 @@ namespace TrainingProject.Controllers
                 }
                 string strSearch = coll["txtSearch"];
                 DataTable searchResult = new DataTable();
+                ViewBag.searchQuery = strSearch;
+                SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
+                cmd_search.CommandType = CommandType.StoredProcedure;
                 if (!string.IsNullOrEmpty(strSearch))
                 {
-                    ViewBag.searchQuery = strSearch;
-                    SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
-                    cmd_search.CommandType = CommandType.StoredProcedure;
                     cmd_search.Parameters.AddWithValue("@search", strSearch);
-                    SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
-                    adapter_search.Fill(searchResult);                    
-                    return View("ListCategory", searchResult);
                 }
-                else
-                {
-                    SqlCommand list_category = new SqlCommand("select * from Training_ProductCategories", connect_listview);
-                    SqlDataAdapter adapter = new SqlDataAdapter(list_category);
-                    adapter.Fill(dataset);
-
-                }
-                connect_listview.Close();               
-            }            
-            return View("ListCategory", dataset);
+                SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
+                adapter_search.Fill(searchResult);
+                connect_listview.Close();
+                return View("ListCategory", searchResult);
+            }
         }
 
         public ActionResult Delete(int ID)
@@ -138,5 +121,5 @@ namespace TrainingProject.Controllers
             }
             return RedirectToAction("Listing");
         }
-    }    
+    }
 }
