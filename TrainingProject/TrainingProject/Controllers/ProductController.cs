@@ -9,7 +9,6 @@ namespace TrainingProject.Controllers
 {
     public class ProductController : Controller
     {
-
         string strconnect = string.Empty;
 
         public ProductController()
@@ -17,42 +16,52 @@ namespace TrainingProject.Controllers
             strconnect = @"Data Source=172.20.21.129;MultipleActiveResultSets=True;Initial Catalog=RHPM;User ID=RHPM;Password=evry@123";
         }
 
-        // GET: Product
-        [HttpGet]
-        public ActionResult Listing()
+        public ActionResult Listing(FormCollection collection)
         {
-            List<ProductModel> prod_list = new List<ProductModel>();
+            SqlCommand cmd_search;
+            string searchName = collection["name"];
 
-            // SELECT USER      
-
-            using (SqlConnection connect = new SqlConnection(strconnect))
+            List<ProductModel> ListOfProducts = new List<ProductModel>();
+            using (SqlConnection connect_search = new SqlConnection(strconnect))
             {
-                SqlCommand cmd = new SqlCommand("[dbo].[Training_Products_Select]", connect);
-                cmd.CommandType = CommandType.StoredProcedure;
-                if (connect.State != ConnectionState.Open)
+                if (connect_search.State != ConnectionState.Open)
                 {
-                    connect.Open();
+                    connect_search.Open();
                 }
 
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                ViewBag.search = searchName;
+                cmd_search = new SqlCommand("[dbo].[Training_SearchProduct]", connect_search);
+                cmd_search.CommandType = CommandType.StoredProcedure;
+                if (!string.IsNullOrEmpty(searchName))
                 {
-                    ProductModel prop = new ProductModel
-                    {
-                        Product_ID = Convert.ToInt32(reader["Product_ID"]),
-                        Product_name = Convert.ToString(reader["Prod_Name"]),
-                        Price = Convert.ToInt32(reader["Price"]),
-                        NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
-                        Date = Convert.ToDateTime(reader["Visible_Till"]),
-                        Description = Convert.ToString(reader["Product_Description"]),
-                        IsActive = Convert.ToBoolean(reader["IsActive"])
-                    };
-                    prod_list.Add(prop);
+                    cmd_search.Parameters.AddWithValue("@searchProduct", searchName);
                 }
-                connect.Close();
+
+                ListOfProducts = SearchFunction(cmd_search);
+                connect_search.Close();
+                return View("ProductListing", ListOfProducts);
             }
-            return View("ProductListing", prod_list);
+        }
+
+        List<ProductModel> SearchFunction(SqlCommand cmd_search)
+        {
+            List<ProductModel> p_list = new List<ProductModel>();
+            SqlDataReader reader = cmd_search.ExecuteReader();
+            while (reader.Read())
+            {
+                ProductModel prop = new ProductModel
+                {
+                    Product_ID = Convert.ToInt32(reader["Product_ID"]),
+                    Product_name = Convert.ToString(reader["Prod_Name"]),
+                    Price = Convert.ToInt32(reader["Price"]),
+                    NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
+                    Date = Convert.ToDateTime(reader["Visible_Till"]),
+                    Description = Convert.ToString(reader["Product_Description"]),
+                    IsActive = Convert.ToBoolean(reader["IsActive"])
+                };
+                p_list.Add(prop);
+            }
+            return p_list;
         }
 
         [HttpGet]
@@ -64,6 +73,7 @@ namespace TrainingProject.Controllers
         [HttpPost]
         public ActionResult InsertUpdateProduct(ProductModel prop)
         {
+            SqlCommand command_InsertUpdate;
 
             using (SqlConnection connect = new SqlConnection(strconnect))
             {
@@ -72,57 +82,33 @@ namespace TrainingProject.Controllers
                     connect.Open();
                 }
 
-                if (prop.Product_ID == 0)
+                command_InsertUpdate = new SqlCommand("[dbo].[Training_Products_Insert]", connect);
+                command_InsertUpdate.CommandType = CommandType.StoredProcedure;
+                int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
+               
+                if (InsertUpdate > 0)
                 {
-                    SqlCommand command = new SqlCommand("[dbo].[Training_Products_Insert]", connect)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    };
-
-                    command.Parameters.AddWithValue("@Prod_Name", prop.Product_name);
-                    command.Parameters.AddWithValue("@Price", prop.Price);
-                    command.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
-                    command.Parameters.AddWithValue("@Visible_Till", prop.Date);
-                    command.Parameters.AddWithValue("@Product_Description", prop.Description);
-                    command.Parameters.AddWithValue("@IsActive ", prop.IsActive);
-
-                    int sucess = command.ExecuteNonQuery();
-                    if (sucess > 0)
-                    {
-                        TempData["DataInsertMessage"] = "Data Inserted";
-                    }
-
+                    TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
                 }
-                else
-                {
-                    SqlCommand cmd_update = new SqlCommand("Update Training_Products SET Prod_Name = @Prod_Name, Price = @Price, No_Of_Products = @No_Of_Products, Visible_Till = @Visible_Till, Product_Description = @Product_Description, IsActive = @IsActive where Product_ID = @Product_ID", connect);
-
-                    if (connect.State != ConnectionState.Open)
-                    {
-                        connect.Open();
-                    }
-                    cmd_update.Parameters.AddWithValue("@Product_ID", prop.Product_ID);
-                    cmd_update.Parameters.AddWithValue("@Prod_Name", prop.Product_name);
-                    cmd_update.Parameters.AddWithValue("@Price", prop.Price);
-                    cmd_update.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
-                    cmd_update.Parameters.AddWithValue("@Visible_Till", prop.Date);
-                    cmd_update.Parameters.AddWithValue("@Product_Description", prop.Description);
-                    cmd_update.Parameters.AddWithValue("@IsActive", prop.IsActive);
-
-                    int sucess = cmd_update.ExecuteNonQuery();
-                    if (sucess > 0)
-                    {
-                        TempData["DataInsertMessage"] = "Data Updated";
-                    }
-
-
-                }
+ 
             }
             return RedirectToAction("InsertProduct");
-
         }
 
-        //Edit.....
+        int InsertUpdateFunction(SqlCommand command_InsertUpdate, ProductModel prop)
+        {
+            command_InsertUpdate.Parameters.AddWithValue("@Prod_Name", prop.Product_name);
+            command_InsertUpdate.Parameters.AddWithValue("@Price", prop.Price);
+            command_InsertUpdate.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
+            command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.Date);
+            command_InsertUpdate.Parameters.AddWithValue("@Product_Description", prop.Description);
+            command_InsertUpdate.Parameters.AddWithValue("@IsActive ", prop.IsActive);
+            var SucessMessage= command_InsertUpdate.ExecuteNonQuery();
+
+            return (SucessMessage);
+        }
+
+        
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {
@@ -154,6 +140,6 @@ namespace TrainingProject.Controllers
                 return View("ProductInsert", edit);
             }
         }
-
     }
 }
+

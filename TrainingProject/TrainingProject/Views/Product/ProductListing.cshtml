@@ -1,5 +1,4 @@
-﻿
-@using TrainingProject.Models
+﻿@using TrainingProject.Models
 @model IEnumerable<TrainingProject.Models.ProductModel>
 @using System.Data;
 @using System.Collections.Generic;
@@ -13,6 +12,31 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/ProductStyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/Scripts/Product.js"></script>
+</head>
+
+@using (Html.BeginForm("Listing", "Product", new { id = "SearchForm" }))
+{
+    <h3 id="SearchText"> Search Product</h3>
+
+    <input name="name" type="text"  id="searchBox" value="@ViewBag.search" />
+   
+    <br />
+    <input type="submit" id="searchBTN" class="btn btn-default" value="Search" />
+
+
+
+
+    @ViewBag.SearchMessage;
+}
+
 
 <style>
     body {
@@ -31,6 +55,16 @@
 
     th {
         font-weight: bold;
+    }
+
+    #SearchText {
+        font-family: Courier New;
+        font-weight: bold;
+    }
+
+    #SearchForm {
+        margin-left: 900px;
+        margin-top: 30px;
     }
 </style>
 
@@ -54,7 +88,7 @@
             @foreach (var item in Model)
             {
             <tr>
-                
+                <th hidden>@item.Product_ID</th>
                 <td>@item.Product_name</td>
                 <td>@item.Price</td>
                 <td>@item.NoOfProducts</td>
