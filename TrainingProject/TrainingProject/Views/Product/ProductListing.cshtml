@@ -68,6 +68,17 @@
     }
 </style>
 
+<script>
+    $(document).ready(function () {
+        $('.del').click(function (e) {
+            if (!window.confirm("Confirm Delete")) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+
 <h1> Product List </h1>
 
 <div class="container">
@@ -95,10 +106,10 @@
                 <td>@item.Date</td>
                 <td>@item.Description</td>
                 <td>@item.IsActive</td>
-
-                @*ID = @item.Product_ID*@
                 <td>
-                    <a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })">Edit</a>
+                   <a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })">Edit</a>
+                    <text class="del"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })">Delete</a></text>
+
                 </td>
             </tr>
             }
