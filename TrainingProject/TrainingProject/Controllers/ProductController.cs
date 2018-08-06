@@ -139,6 +139,24 @@ namespace TrainingProject.Controllers
                 return View("ProductInsert", edit);
             }
         }
+        public ActionResult DeleteProduct(int ID)
+        {
+            DataTable dataset = new DataTable();
+            using (SqlConnection connect = new SqlConnection(strconnect))
+            {
+                if (connect.State != ConnectionState.Open)
+                {
+                    connect.Open();
+                }
+                SqlCommand DeleteCommand = new SqlCommand("[dbo].[Training_Products_Delete]", connect);
+                DeleteCommand.CommandType = CommandType.StoredProcedure;
+                DeleteCommand.Parameters.AddWithValue("@Product_ID", ID);
+                DeleteCommand.ExecuteNonQuery();
+                connect.Close();
+            }
+            return RedirectToAction("Listing");
+        }
+
     }
 }
 
