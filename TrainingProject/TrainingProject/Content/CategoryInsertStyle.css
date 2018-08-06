@@ -20,11 +20,12 @@ label.error {
     display: inline;
 }
 
-﻿#view_messageInsert {
+﻿.view_messageInsert {
     color: red;
     font-family: Arial;
     margin-top: 5px;
     margin-left:150px;
+    font-size: 18px;
 }
 
 #div_btn {
@@ -47,4 +48,12 @@ label.error {
 
 #form-style{
     min-height:350px;
+}
+
+p {
+    color: red;
+    font-family: Arial;
+    margin-top: 5px;
+    margin-left: 150px;
+    font-size: 18px;
 }

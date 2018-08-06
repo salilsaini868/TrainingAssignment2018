@@ -40,15 +40,15 @@
                         <text>Check if the details are correct : &nbsp;</text>
                         @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
                     </div>
-                    <div id="view_messageInsert">
+                    <div>
                         @if (TempData["Message_CategoryInsert"] != null)
                         {
-                            <p>@TempData["Message_CategoryInsert"]</p>
+                            <p class="view_messageInsert">@TempData["Message_CategoryInsert"]</p>
                         }
 
                         @if (TempData["Message_CategoryUpdate"] != null)
                         {
-                            <p>@TempData["Message_CategoryUpdate"]</p>
+                            <p class="view_messageInsert">@TempData["Message_CategoryUpdate"]</p>
                         }
                     </div>
                     <div id="div_btn">
