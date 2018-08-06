@@ -108,17 +108,27 @@
     <Content Include="Content\images\login-bg.jpg" />
     <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\right-arrow.jpg" />
+    <Content Include="Content\images\logo_training.png" />
     <Content Include="Content\images\user-icon.jpg" />
     <Content Include="Content\LayoutStyle.css" />
     <Content Include="Content\CategoryInsertStyle.css" />
     <Content Include="Content\CategoryListStyle.css" />
-    <Content Include="Content\ProductStyle.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\LoginStyle.css" />
+    <Content Include="Content\mixins.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\variable.css" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\CategoryEdit.js" />
     <Content Include="Scripts\custom.js" />
@@ -170,6 +180,7 @@
     <Content Include="Views\Category\InsertCategory.cshtml" />
     <Content Include="Views\Category\ListCategory.cshtml" />
     <Content Include="Views\Login\LoginPage.cshtml" />
+    <Content Include="Views\Shared\LoginLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -179,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\NewFolder1\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
