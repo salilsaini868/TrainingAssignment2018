@@ -25,6 +25,14 @@ namespace TrainingProject.Models
 
         public bool IsActive { get; set; }
 
+        //public class Category
+        //{
+        //    public List<SelectListItem> CategoryList
+        //    {
+        //        get; set;
+        //    }
+        //}
+
 
     }
 }
