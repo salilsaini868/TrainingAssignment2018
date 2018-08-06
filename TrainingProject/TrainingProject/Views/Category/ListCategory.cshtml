@@ -19,25 +19,24 @@
                         Product Category
                     </h2>
                 </text>
-                <input type="button" class="btn btn-primary" value="add new" id="text_link" onclick="window.location='@Url.Action("Detail", "Category")'" />
+                <input type="button" class="btn btn-primary" value="add new" title="add new category" id="text_link" onclick="window.location='@Url.Action("Detail", "Category")'" />
             </div>
             <div id="search_box">
                 @using (Html.BeginForm("Listing", "Category"))
                 {
                     <div class="col-md-3"><input name="txtSearch" type="text" class="search-cont" autocomplete="off" id="txtSearch" value="@ViewBag.searchQuery" /></div>
                     <div class="col-md-9">
-                        <input type="submit" value="Search" id="btn_submit" class="btn" />
-                        <input type="submit" value="Show all" id="full_list" class="btn" onclick="window.location='@Url.Action("Listing", "Category")'" />
+                        <input type="submit" value="Search" id="btn_submit" class="btn" title="Submit"/>
+                        <input type="submit" value="Show all" id="full_list" class="btn" title="Show all" onclick="window.location='@Url.Action("Listing", "Category")'" />
                     </div>
                 }
             </div>
             <br>
             <br>
             <div class="table-responsive" id="table_style">
-                <table class="table admin-table">
-                    <tr id="table_head">
-                        <th>Category ID</th>
-
+                <br>
+                <table class="table table-bordered">
+                    <tr id="table_head">                       
                         <th>Name</th>
 
                         <th>Description</th>
@@ -48,8 +47,6 @@
                     @foreach (DataRow item in Model.Rows)
                     {
                         <tr>
-                            <th>@item["CategoryId"].ToString()</th>
-
                             <td>@item["CategoryName"].ToString()</td>
 
                             <td>@item["CategoryDescription"].ToString()</td>
@@ -57,8 +54,8 @@
                             <td>@item["IsActive"].ToString()</td>
 
                             <td>
-                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"], @class="btn btn-primary" })"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></text> 
-                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"],@class="btn btn-primary"})"><i class="fa fa-trash" aria-hidden="true"></i></a></text>
+                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"], @class="btn btn-primary" })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text> 
+                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"],@class="btn btn-primary"})"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
                             </td>
                         </tr>
                     }

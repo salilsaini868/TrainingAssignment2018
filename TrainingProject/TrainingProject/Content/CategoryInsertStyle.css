@@ -1,16 +1,9 @@
-﻿#text_heading {
-    margin-left: 50px;
-}
-
-#div_main {
-    margin-top: 40px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
+﻿
 form label {
     display: inline-block;
-    width: 100px;
-    font-family: Tahoma;
+    width: 115px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
 }
 
 form div {
@@ -34,10 +27,6 @@ label.error {
     margin-left:150px;
 }
 
-#text_link {
-    margin-left: 600px;
-}
-
 #div_btn {
     margin-left: 125px;
 }
@@ -46,4 +35,16 @@ label.error {
     margin: 0px;
     width: 193px;
     height: 80px;
+}
+ 
+#text_link{
+    margin-left: 850px;
+}
+
+#category_name {
+    width: 193px;
+}
+
+#form-style{
+    min-height:350px;
 }

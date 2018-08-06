@@ -111,7 +111,6 @@
     <Content Include="Content\CategoryInsertStyle.css" />
     <Content Include="Content\CategoryListStyle.css" />
     <Content Include="Content\LoginStyle.css" />
-    <Content Include="Content\logo_training.png" />
     <Content Include="Content\mixins.css" />
     <Content Include="Content\ProductStyle.css" />
     <Content Include="Content\Site.css" />

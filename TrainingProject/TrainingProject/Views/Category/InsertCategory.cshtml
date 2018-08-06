@@ -3,39 +3,40 @@
     ViewBag.Title = "InsertCategory";
 }
 
-<head>    
-    <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/CategoryInsert.js"></script>
-</head>
 
-<body>
-    <div class="container-fluid" id="div_main">
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-8">
-                <div id="heading">
-                    <h2 id="text_heading">Insert Category</h2>
-                    <input type="button" value="Category List" id="text_link" onclick="window.location='@Url.Action("Listing", "Category")'" />
-                    <br><br>
-                </div>
+<link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/CategoryInsert.js"></script>
+
+<div class="container" id="div_main">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="div_header">
+                <h2>
+                    Insert Category
+                </h2>
+                <input type="button" class="btn btn-primary" title="Category list" value="Category List" id="text_link" onclick="window.location='@Url.Action("Listing", "Category")'" />
+                <br><br>
+            </div>
+            <div id="form-style">
                 @using (Html.BeginForm("InsertCategory", "Category", FormMethod.Post, new { id = "form_category" }))
                 {
-                    <div hidden>                        
-                        @Html.HiddenFor(m => m.CategoryID, new { id = "category_id" })                        
+                    <div hidden>
+                        @Html.HiddenFor(m => m.CategoryID, new { id = "category_id" })
                     </div>
                     <div>
                         <label for="category_name">Name </label>
-                        @Html.TextBoxFor(m => m.CategoryName, new { maxlength = 20, autocomplete = "off", id = "category_name" })
+                        @Html.TextBoxFor(m => m.CategoryName, new { maxlength = 20, autocomplete = "off", id = "category_name" , @class="search-input"})
                         <span hidden id="error_category_name" class="error">This field is required.</span>
                     </div>
                     <div>
                         <label for="category_description">Description </label>
-                        @Html.TextAreaFor(m => m.CategoryDescription, new { maxlength = 60, autocomplete = "off", id = "category_description" })
+                        @Html.TextAreaFor(m => m.CategoryDescription, new { maxlength = 60, autocomplete = "off", id = "category_description", @class = "search-input" })
                         <span hidden id="error_category_description" class="error">This field is required.</span>
                     </div>
                     <div>
+                        <br>
                         <text>Check if the details are correct : &nbsp;</text>
                         @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
                     </div>
@@ -51,15 +52,14 @@
                         }
                     </div>
                     <div id="div_btn">
-                        <button type="submit" value="Submit" id="sub_btn">Submit</button>
-                        <button type="reset" value="Reset" id="res_btn">Reset</button>
-                        <br>                        
+                        <button type="submit" value="Submit"class="btn" id="sub_btn" title="Submit">Submit</button>
+                        <button type="reset" value="Reset" class="btn" id="res_btn" title="Reset">Reset</button>
+                        <br>
                     </div>
-                }                
+                }
             </div>
-            <div class="col-md-3"></div>
         </div>
     </div>
-</body>
+</div>
 
 
