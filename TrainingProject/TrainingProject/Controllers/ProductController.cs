@@ -42,7 +42,6 @@ namespace TrainingProject.Controllers
                 return View("ProductListing", ListOfProducts);
             }
         }
-
         List<ProductModel> SearchFunction(SqlCommand cmd_search)
         {
             List<ProductModel> p_list = new List<ProductModel>();
@@ -85,12 +84,12 @@ namespace TrainingProject.Controllers
                 command_InsertUpdate = new SqlCommand("[dbo].[Training_Products_Insert]", connect);
                 command_InsertUpdate.CommandType = CommandType.StoredProcedure;
                 int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
-               
+
                 if (InsertUpdate > 0)
                 {
                     TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
                 }
- 
+
             }
             return RedirectToAction("InsertProduct");
         }
@@ -103,12 +102,12 @@ namespace TrainingProject.Controllers
             command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.Date);
             command_InsertUpdate.Parameters.AddWithValue("@Product_Description", prop.Description);
             command_InsertUpdate.Parameters.AddWithValue("@IsActive ", prop.IsActive);
-            var SucessMessage= command_InsertUpdate.ExecuteNonQuery();
+            var SucessMessage = command_InsertUpdate.ExecuteNonQuery();
 
             return (SucessMessage);
         }
 
-        
+
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {

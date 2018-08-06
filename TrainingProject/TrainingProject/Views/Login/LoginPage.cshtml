@@ -1,0 +1,60 @@
+﻿
+
+@model TrainingProject.Models.LoginModel
+@{
+    ViewBag.Title = "LoginScreen";
+}
+
+@{
+    Layout = "";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css">
+<link href="~/Content/LayoutStyle.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/modernizr-2.6.2.js"></script>
+
+
+s
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/LoginStyle.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="~/Scripts/Login.js"></script>
+
+<body class="login-main">
+    <div>
+
+        <section class="login-pop-over">
+            <img src="~/Content/images/logo.png" alt="LOGO" class="img-fluid" />
+            @using (Html.BeginForm("LoginPage", "Login", FormMethod.Post, new { id = "form_login" }))
+            {
+                <div class="input-main">
+                    <div>
+                        @Html.TextBoxFor(lpage => lpage.Username, new { maxlength = 20, autocomplete = "off", id = "userName", @class = "input-inner t-top-radius", @placeholder = "Username" })
+                        <span id="error_username" class="error">This field is required.</span>
+                    </div>
+
+                    <div>
+                        @Html.PasswordFor(lpage => lpage.Password, new { maxlength = 20, id = "password", @class = "input-inner b-top-radius", @placeholder = "Password" })
+                        <span id="error_password" class="error">This field is required.</span>
+                    </div>
+                </div>
+
+                <div id="div_btn">
+                    <button type="submit" class="login-btn" id="sub_btn">Login</button>
+                </div>
+
+                <div id="view_message">
+                    @ViewBag.Message_IncorrectLogin
+                </div>
+
+
+            }
+        </section>
+    </div>
+
+</body>
