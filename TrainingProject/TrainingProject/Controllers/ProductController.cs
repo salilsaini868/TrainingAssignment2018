@@ -19,7 +19,7 @@ namespace TrainingProject.Controllers
         public ActionResult Listing(FormCollection collection)
         {
             SqlCommand cmd_search;
-            string searchName = collection["name"];
+            string searchName = collection["txtSearch"];
 
             List<ProductModel> ListOfProducts = new List<ProductModel>();
             using (SqlConnection connect_search = new SqlConnection(strconnect))
