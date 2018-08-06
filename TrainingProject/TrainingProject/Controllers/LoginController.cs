@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
 
@@ -18,13 +15,13 @@ namespace TrainingProject.Controllers
             strConnect = @"Data Source=172.20.21.129; MultipleActiveResultSets=True; Initial Catalog=RHPM; User ID=RHPM; Password=evry@123";
         }
         [HttpGet]
-        public ActionResult LoginScreen()
+        public ActionResult LoginPage()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult LoginScreen(LoginModel lpage)
+        public ActionResult LoginPage(LoginModel lpage)
         {
             if (ModelState.IsValid)
             {
@@ -47,12 +44,13 @@ namespace TrainingProject.Controllers
                         lpage.UserID = Convert.ToInt32(reader["UserID"]);
                         lpage.FirstName = Convert.ToString(reader["FirstName"]);
                         lpage.LastName = Convert.ToString(reader["LastName"]);
-                        Session["user"] = lpage;                        
-                        return RedirectToAction("Product_ListView");
+                        Session["user"] = lpage;
+
+                        return RedirectToAction("Listing", "Product");
                     }
                     else
                     {
-                        ViewBag.Message_IncorrectLogin = "details incorrect.";
+                        ViewBag.Message_IncorrectLogin = "Authentication Failed";
                     }
 
                     connectLogin.Close();

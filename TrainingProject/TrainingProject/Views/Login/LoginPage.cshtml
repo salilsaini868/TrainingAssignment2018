@@ -1,0 +1,43 @@
+﻿﻿@model TrainingProject.Models.LoginModel
+@{
+    ViewBag.Title = "LoginScreen";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/style.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="~/Scripts/Login.js"></script>
+
+
+
+
+<div>
+    <section class="login-pop-over">
+        <img src="~/Content/images/logo.png" alt="LOGO" class="img-fluid" />
+        @using (Html.BeginForm("LoginPage", "Login", FormMethod.Post, new { id = "form_login" }))
+        {
+            <div class="input-main">
+                <div>
+                    @Html.TextBoxFor(lpage => lpage.Username, new { maxlength = 20, autocomplete = "off", id = "userName", @class = "input-inner t-top-radius", @placeholder = "Username" })
+                    <span  id="error_username" class="error">This field is required.</span>
+                </div>
+
+                <div>
+                    @Html.PasswordFor(lpage => lpage.Password, new { maxlength = 20, id = "password", @class = "input-inner b-top-radius", @placeholder = "Password" })
+                    <span  id="error_password" class="error">This field is required.</span>
+                </div>
+            </div>
+
+            <div id="div_btn">
+                <button type="submit" class="login-btn" id="sub_btn">Login</button>
+            </div>
+
+            <div id="view_message">
+                @ViewBag.Message_IncorrectLogin
+            </div>
+
+        }
+    </section>
+</div>
+
