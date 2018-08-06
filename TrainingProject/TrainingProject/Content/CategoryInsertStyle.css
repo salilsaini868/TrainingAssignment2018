@@ -24,7 +24,7 @@ label.error {
     color: red;
     font-family: Arial;
     margin-top: 5px;
-    margin-left:150px;
+    margin-left: 150px;
     font-size: 18px;
 }
 
@@ -37,8 +37,8 @@ label.error {
     width: 193px;
     height: 80px;
 }
- 
-#text_link{
+
+#text_link {
     margin-left: 850px;
 }
 
@@ -46,8 +46,8 @@ label.error {
     width: 193px;
 }
 
-#form-style{
-    min-height:350px;
+#form-style {
+    min-height: 350px;
 }
 
 p {

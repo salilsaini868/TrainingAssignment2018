@@ -3,70 +3,11 @@
 @using System.Data;
 @using System.Collections.Generic;
 
-@{
-    ViewBag.Title = "Listing";
-}
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-
-<head>
-    <link rel="stylesheet" type="text/css" href="~/Content/ProductStyle.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="~/Scripts/Product.js"></script>
-</head>
-
-@using (Html.BeginForm("Listing", "Product", new { id = "SearchForm" }))
-{
-    <h3 id="SearchText"> Search Product</h3>
-
-    <input name="name" type="text"  id="searchBox" value="@ViewBag.search" />
-   
-    <br />
-    <input type="submit" id="searchBTN" class="btn btn-default" value="Search" />
-
-
-
-
-    @ViewBag.SearchMessage;
-}
-
-
-<style>
-    body {
-        background-color: antiquewhite;
-    }
-
-    h1 {
-        margin-left: 425px;
-        font-family: Courier New;
-        font-weight: bold;
-    }
-
-    table {
-        font-family: Courier New;
-    }
-
-    th {
-        font-weight: bold;
-    }
-
-    #SearchText {
-        font-family: Courier New;
-        font-weight: bold;
-    }
-
-    #SearchForm {
-        margin-left: 900px;
-        margin-top: 30px;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="~/Content/CategoryListStyle.css">
+<link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/CategoryList.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -79,46 +20,67 @@
 </script>
 
 
-<h1> Product List </h1>
+<div class="container" id="div_main">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="div_header">
+                <text id="text_header">
+                    <h2>
+                        Product List
+                    </h2>
+                </text>
+                <input type="button" class="btn btn-primary" value="Add new" title="Add New Product" id="text_link" onclick="window.location='@Url.Action("InsertProduct", "Product")'" />
+            </div>
 
-<div class="container">
-    <form>
-        <table class="table table-hover">
+            <div id="search_box">
+                @using (Html.BeginForm("Listing", "Product", new { id = "SearchForm" }))
+                {
+                    <div class="col-md-3"><input name="txtSearch" type="text" class="search-cont" autocomplete="off" id="searchBox" value="@ViewBag.search" /></div>
+                    <div class="col-md-9">
+                        <input type="submit" id="searchBTN" class="btn" title="Submit" value="Search" />
+                        <input type="submit" value="Show all" id="full_list" class="btn" title="Show all" onclick="window.location='@Url.Action("Listing", "Product")'" />
+                        @ViewBag.SearchMessage
+                    </div>
+                }
+            </div>
+            <br>
+            <br>
+            <div class="table-responsive" id="table_style">
+                <br>
 
-            <tr>
-                
-                <th>Product_Name</th>
-                <th>Price</th>
-                <th>No of Products</th>
-                <th>Visible Till</th>
-                <th>Description</th>
-                <th>IsActive</th>
+                <table class="table table-bordered">
 
-            </tr>
+                    <tr id="table_head">
 
-            @foreach (var item in Model)
-            {
-            <tr>
-                <th hidden>@item.Product_ID</th>
-                <td>@item.Product_name</td>
-                <td>@item.Price</td>
-                <td>@item.NoOfProducts</td>
-               
-                <td>@item.Date</td>
-                <td>@item.Description</td>
-                <td>@item.IsActive</td>
-                <td>
-                   <a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })">Edit</a>
-                    <text class="del"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })">Delete</a></text>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>No of Products</th>
+                        <th>Visible Till</th>
+                        <th>Description</th>
+                        <th>IsActive</th>
 
-                </td>
-            </tr>
-            }
-        </table>
-    </form>
-</div>
+                    </tr>
 
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th hidden>@item.Product_ID</th>
+                            <td>@item.Product_name</td>
+                            <td>@item.Price</td>
+                            <td>@item.NoOfProducts</td>
+                            <td>@item.Date</td>
+                            <td>@item.Description</td>
+                            <td>@item.IsActive</td>
+                            <td>
+                                <text class="link_edit"><a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
+                                <text class="link_delete"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
 
+                            </td>
+                        </tr>
+                    }
 
-
-
+                </table>
+            </div>
+        </div>
+    </div>
+  
