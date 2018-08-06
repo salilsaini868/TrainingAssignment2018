@@ -1,13 +1,5 @@
-﻿#div_main {
-    margin-top: 40px;
-}
-
-#text_link {
+﻿#text_link {
     margin-left: 850px;
-}
-
-#div_header {
-    margin-left: 20px;
 }
 
 #table_head {
@@ -15,5 +7,10 @@
 }
 
 #full_list{
-    margin-left:150px;
+    margin-left:5px;
+}
+
+#table_style {
+    min-height: 350px;
+    overflow: scroll;
 }
