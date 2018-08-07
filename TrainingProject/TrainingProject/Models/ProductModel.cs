@@ -19,20 +19,25 @@ namespace TrainingProject.Models
 
         public DateTime Date { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string Category { get; set; }
 
         public string Description { get; set; }
 
         public bool IsActive { get; set; }
+        
+        public int CreatedBy { get; set; }
 
-        //public class Category
-        //{
-        //    public List<SelectListItem> CategoryList
-        //    {
-        //        get; set;
-        //    }
-        //}
+        public DateTime CreatedDate { get; set; }
 
+        public int ModifiedBy { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
+        public string ModifiedUser { get; set; }
+
+        public string CreatedUser { get; set; }
 
     }
 }
