@@ -13,7 +13,7 @@ namespace TrainingProject.Models
 
         public string Product_name { get; set; }
 
-        public int CategoryID { get; set; }
+        public string CategoryID { get; set; }
 
         public string Category { get; set; }
 
@@ -22,12 +22,11 @@ namespace TrainingProject.Models
         public int NoOfProducts { get; set; }
 
         public DateTime Date { get; set; }
-       
 
         public string Description { get; set; }
 
         public bool IsActive { get; set; }
-        
+
         public int CreatedBy { get; set; }
 
         public DateTime CreatedDate { get; set; }

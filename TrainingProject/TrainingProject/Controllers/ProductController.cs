@@ -128,14 +128,15 @@ namespace TrainingProject.Controllers
                     foreach (DataRow row in ds.Tables[0].Rows)
                     {
                         Categories.Add(
-                       new SelectListItem
-                       {
-                           Text = Convert.ToString(row["CategoryName"]),
-                           Value = Convert.ToString(row["CategoryID"])
-                       });
+                            new SelectListItem
+                            {
+                                   Value = Convert.ToString(row["CategoryID"]),
+                                   Text = Convert.ToString(row["CategoryName"]) 
+                            });
                         };
                 }
                 TempData["Categories"] = Categories;
+                TempData.Keep();
             }
         }
 
@@ -147,7 +148,6 @@ namespace TrainingProject.Controllers
             command_InsertUpdate.Parameters.AddWithValue("@CategoryID", prop.CategoryID);
             command_InsertUpdate.Parameters.AddWithValue("@Price", prop.Price);
             command_InsertUpdate.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
-            command_InsertUpdate.Parameters.AddWithValue("@CategoryId", prop.CategoryID);
             command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.Date);
             command_InsertUpdate.Parameters.AddWithValue("@Product_Description", prop.Description);
             command_InsertUpdate.Parameters.AddWithValue("@IsActive ", prop.IsActive);
@@ -170,6 +170,8 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {
+           
+            GetCategories();
             ProductModel edit = new ProductModel();
             using (SqlConnection connect_edit = new SqlConnection(strconnect))
             {
@@ -186,10 +188,9 @@ namespace TrainingProject.Controllers
                     {
                         edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
                         edit.Product_name = Convert.ToString(reader["Prod_Name"]);
-                        edit.Product_name = Convert.ToString(reader["CategoryID"]);
+                        edit.CategoryID = Convert.ToString(reader["CategoryID"]);
                         edit.Price = Convert.ToInt32(reader["Price"]);
                         edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
-                        edit.CategoryID = Convert.ToInt32(reader["CategoryId"]);
                         edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
                         edit.Description = Convert.ToString(reader["Product_Description"]);
                         edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
