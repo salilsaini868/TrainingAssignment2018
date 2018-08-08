@@ -5,6 +5,8 @@ using TrainingProject.Models;
 using System.Data;
 using System.Data.SqlClient;
 
+
+
 namespace TrainingProject.Controllers
 {
     public class ProductController : Controller
@@ -14,11 +16,13 @@ namespace TrainingProject.Controllers
         public ProductController()
         {
             strconnect = @"Data Source=172.20.21.129;MultipleActiveResultSets=True;Initial Catalog=RHPM;User ID=RHPM;Password=evry@123";
+
         }
 
         public ActionResult Listing(FormCollection collection)
         {
             SqlCommand cmd_search;
+
             string searchName = collection["txtSearch"];
 
             List<ProductModel> ListOfProducts = new List<ProductModel>();
@@ -39,6 +43,7 @@ namespace TrainingProject.Controllers
 
                 ListOfProducts = SearchFunction(cmd_search);
                 connect_search.Close();
+
                 return View("ProductListing", ListOfProducts);
             }
         }
@@ -52,6 +57,7 @@ namespace TrainingProject.Controllers
                 {
                     Product_ID = Convert.ToInt32(reader["Product_ID"]),
                     Product_name = Convert.ToString(reader["Prod_Name"]),
+                    Category = Convert.ToString(reader["Category"]),
                     Price = Convert.ToInt32(reader["Price"]),
                     NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
                     Date = Convert.ToDateTime(reader["Visible_Till"]),
@@ -66,12 +72,14 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult InsertProduct()
         {
+            GetCategories();
             return View("ProductInsert");
         }
 
         [HttpPost]
         public ActionResult InsertUpdateProduct(ProductModel prop)
         {
+
             SqlCommand command_InsertUpdate;
 
             using (SqlConnection connect = new SqlConnection(strconnect))
@@ -85,6 +93,7 @@ namespace TrainingProject.Controllers
                 command_InsertUpdate.CommandType = CommandType.StoredProcedure;
                 int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
 
+
                 if (InsertUpdate > 0)
                 {
                     TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
@@ -93,10 +102,46 @@ namespace TrainingProject.Controllers
             }
             return RedirectToAction("InsertProduct");
         }
+        
+        public void GetCategories()
+        {
+
+            using (SqlConnection con = new SqlConnection(strconnect))
+            {
+                if (con.State != ConnectionState.Open)
+                {
+                    con.Open();
+                }
+                
+                SqlCommand cmd = new SqlCommand("Training_GetCategoryName", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                List<SelectListItem> Categories = new List<SelectListItem>();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        Categories.Add(
+                       new SelectListItem
+                       {
+                           Text = Convert.ToString(row["CategoryName"]),
+                           Value = Convert.ToString(row["CategoryID"])
+                       });
+                        };
+                }
+                TempData["Categories"] = Categories;
+            }
+        }
+
 
         int InsertUpdateFunction(SqlCommand command_InsertUpdate, ProductModel prop)
         {
             command_InsertUpdate.Parameters.AddWithValue("@Prod_Name", prop.Product_name);
+            command_InsertUpdate.Parameters.AddWithValue("@CategoryID", prop.CategoryID);
             command_InsertUpdate.Parameters.AddWithValue("@Price", prop.Price);
             command_InsertUpdate.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
             command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.Date);
@@ -129,6 +174,7 @@ namespace TrainingProject.Controllers
                     {
                         edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
                         edit.Product_name = Convert.ToString(reader["Prod_Name"]);
+                        edit.Product_name = Convert.ToString(reader["CategoryID"]);
                         edit.Price = Convert.ToInt32(reader["Price"]);
                         edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
                         edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
