@@ -16,29 +16,32 @@ namespace TrainingProject.Controllers
             strconnect = @"Data Source=172.20.21.129;MultipleActiveResultSets=True;Initial Catalog=RHPM;User ID=RHPM;Password=evry@123";
         }
 
+
         public ActionResult Listing(FormCollection collection)
         {
-            SqlCommand cmd_search;
-            string searchName = collection["txtSearch"];
+            
+                SqlCommand cmd_search;
+                string searchName = collection["txtSearch"];
 
-            List<ProductModel> ListOfProducts = new List<ProductModel>();
-            using (SqlConnection connect_search = new SqlConnection(strconnect))
-            {
-                if (connect_search.State != ConnectionState.Open)
+                List<ProductModel> ListOfProducts = new List<ProductModel>();
+                using (SqlConnection connect_search = new SqlConnection(strconnect))
                 {
-                    connect_search.Open();
+                    if (connect_search.State != ConnectionState.Open)
+                    {
+                        connect_search.Open();
+                    }
+                    ViewBag.search = searchName;
+                    cmd_search = new SqlCommand("[dbo].[Training_SearchProduct]", connect_search);
+                    cmd_search.CommandType = CommandType.StoredProcedure;
+                    if (!string.IsNullOrEmpty(searchName))
+                    {
+                        cmd_search.Parameters.AddWithValue("@searchProduct", searchName);
+                    }
+                    ListOfProducts = SearchFunction(cmd_search);
+                    connect_search.Close();
+                    return View("ProductListing", ListOfProducts);
                 }
-                ViewBag.search = searchName;
-                cmd_search = new SqlCommand("[dbo].[Training_SearchProduct]", connect_search);
-                cmd_search.CommandType = CommandType.StoredProcedure;
-                if (!string.IsNullOrEmpty(searchName))
-                {
-                    cmd_search.Parameters.AddWithValue("@searchProduct", searchName);
-                }
-                ListOfProducts = SearchFunction(cmd_search);
-                connect_search.Close();
-                return View("ProductListing", ListOfProducts);
-            }
+            
         }
 
         List<ProductModel> SearchFunction(SqlCommand cmd_search)
@@ -64,7 +67,7 @@ namespace TrainingProject.Controllers
                     ModifiedUser = reader["ModifiedUser"] != DBNull.Value ? Convert.ToString(reader["ModifiedUser"]) : null,
                     ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0,
                     ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime)
-            };
+                };
                 p_list.Add(prop);
             }
             return p_list;
@@ -73,27 +76,29 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult InsertProduct()
         {
-            return View("ProductInsert");
+           
+                return View("ProductInsert");
+            
         }
 
         [HttpPost]
         public ActionResult InsertUpdateProduct(ProductModel prop)
         {
-            SqlCommand command_InsertUpdate;
-            using (SqlConnection connect = new SqlConnection(strconnect))
-            {
-                if (connect.State != ConnectionState.Open)
+             SqlCommand command_InsertUpdate;
+                using (SqlConnection connect = new SqlConnection(strconnect))
                 {
-                    connect.Open();
-                }
-                command_InsertUpdate = new SqlCommand("[dbo].[Training_Products_Insert]", connect);
-                command_InsertUpdate.CommandType = CommandType.StoredProcedure;
-                int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
-                if (InsertUpdate > 0)
-                {
-                    TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
-                }
-
+                    if (connect.State != ConnectionState.Open)
+                    {
+                        connect.Open();
+                    }
+                    command_InsertUpdate = new SqlCommand("[dbo].[Training_Products_Insert]", connect);
+                    command_InsertUpdate.CommandType = CommandType.StoredProcedure;
+                    int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
+                    if (InsertUpdate > 0)
+                    {
+                        TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
+                    }
+                
             }
             return RedirectToAction("InsertProduct");
         }
@@ -115,7 +120,7 @@ namespace TrainingProject.Controllers
                 command_InsertUpdate.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
             }
             else
-            {                
+            {
                 command_InsertUpdate.Parameters.AddWithValue("@Product_ID", prop.Product_ID);
                 command_InsertUpdate.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
                 command_InsertUpdate.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
@@ -127,56 +132,59 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {
-            ProductModel edit = new ProductModel();
-            using (SqlConnection connect_edit = new SqlConnection(strconnect))
-            {
-                if (connect_edit.State != ConnectionState.Open)
+           
+                ProductModel edit = new ProductModel();
+                using (SqlConnection connect_edit = new SqlConnection(strconnect))
                 {
-                    connect_edit.Open();
-                }
-                if (id != 0)
-                {
-                    SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
-                    cmd_update.Parameters.AddWithValue("@Product_ID", id);
-                    SqlDataReader reader = cmd_update.ExecuteReader();
-                    while (reader.Read())
+                    if (connect_edit.State != ConnectionState.Open)
                     {
-                        edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
-                        edit.Product_name = Convert.ToString(reader["Prod_Name"]);
-                        edit.Price = Convert.ToInt32(reader["Price"]);
-                        edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
-                        edit.CategoryId = Convert.ToInt32(reader["CategoryId"]);
-                        edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
-                        edit.Description = Convert.ToString(reader["Product_Description"]);
-                        edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                        edit.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
-                        edit.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);                        
-                        edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
-                        edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
+                        connect_edit.Open();
                     }
-                }
-                return View("ProductInsert", edit);
+                    if (id != 0)
+                    {
+                        SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
+                        cmd_update.Parameters.AddWithValue("@Product_ID", id);
+                        SqlDataReader reader = cmd_update.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
+                            edit.Product_name = Convert.ToString(reader["Prod_Name"]);
+                            edit.Price = Convert.ToInt32(reader["Price"]);
+                            edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
+                            edit.CategoryId = Convert.ToInt32(reader["CategoryId"]);
+                            edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
+                            edit.Description = Convert.ToString(reader["Product_Description"]);
+                            edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                            edit.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
+                            edit.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                            edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
+                            edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
+                        }
+                    }
+                    return View("ProductInsert", edit);
+                
             }
         }
 
         public ActionResult DeleteProduct(int ID)
         {
-            DataTable dataset = new DataTable();
-            using (SqlConnection connect = new SqlConnection(strconnect))
-            {
-                if (connect.State != ConnectionState.Open)
+           
+                DataTable dataset = new DataTable();
+                using (SqlConnection connect = new SqlConnection(strconnect))
                 {
-                    connect.Open();
+                    if (connect.State != ConnectionState.Open)
+                    {
+                        connect.Open();
+                    }
+                    SqlCommand DeleteCommand = new SqlCommand("[dbo].[Training_Products_Delete]", connect);
+                    DeleteCommand.CommandType = CommandType.StoredProcedure;
+                    DeleteCommand.Parameters.AddWithValue("@Product_ID", ID);
+                    DeleteCommand.ExecuteNonQuery();
+                    connect.Close();
                 }
-                SqlCommand DeleteCommand = new SqlCommand("[dbo].[Training_Products_Delete]", connect);
-                DeleteCommand.CommandType = CommandType.StoredProcedure;
-                DeleteCommand.Parameters.AddWithValue("@Product_ID", ID);
-                DeleteCommand.ExecuteNonQuery();
-                connect.Close();
+                return RedirectToAction("Listing");
             }
-            return RedirectToAction("Listing");
-        }
-
+        
     }
 }
 
