@@ -1,4 +1,5 @@
-﻿@using TrainingProject.Models
+﻿
+@using TrainingProject.Models
 @model IEnumerable<TrainingProject.Models.ProductModel>
 @using System.Data;
 @using System.Collections.Generic;
@@ -8,17 +9,6 @@
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/CategoryList.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('.del').click(function (e) {
-            if (!window.confirm("Confirm Delete")) {
-                e.preventDefault();
-            }
-        });
-    });
-</script>
-
 
 <div class="container" id="div_main">
     <div class="row">
@@ -33,9 +23,9 @@
             </div>
 
             <div id="search_box">
-                @using (Html.BeginForm("Listing", "Product", new { id = "SearchForm" }))
+                @using (Html.BeginForm("Listing", "Product"))
                 {
-                    <div class="col-md-3"><input name="txtSearch" type="text" class="search-cont" autocomplete="off" id="searchBox" value="@ViewBag.search" /></div>
+                    <div class="col-md-3"><input name="txtSearch" type="text" class="search-cont" autocomplete="off" id="txtSearch" value="@ViewBag.search" /></div>
                     <div class="col-md-9">
                         <input type="submit" id="searchBTN" class="btn" title="Submit" value="Search" />
                         <input type="submit" value="Show all" id="full_list" class="btn" title="Show all" onclick="window.location='@Url.Action("Listing", "Product")'" />
@@ -51,15 +41,24 @@
                 <table class="table table-bordered">
 
                     <tr id="table_head">
+<<<<<<< HEAD
 
                         <th>Product Name</th>
                         <th>Category</th>
+=======
+                        <th hidden>Product ID</th>
+                        <th>Name</th>
+>>>>>>> master
                         <th>Price</th>
-                        <th>No of Products</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
                         <th>Visible Till</th>
                         <th>Description</th>
                         <th>IsActive</th>
-
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Modified By</th>
+                        <th></th>
                     </tr>
 
                     @foreach (var item in Model)
@@ -69,10 +68,14 @@
                             <td>@item.Product_name</td>
                             <td>@item.Category</td>
                             <td>@item.Price</td>
+                            <td>@item.Category</td>
                             <td>@item.NoOfProducts</td>
-                            <td>@item.Date</td>
+                            <td>@item.Date.ToString("dd-MMM-yyyy")</td>
                             <td>@item.Description</td>
                             <td>@item.IsActive</td>
+                            <td>@item.CreatedUser</td>
+                            <td>@item.CreatedDate.ToString("dd-MMM-yyyy")</td>
+                            <td>@item.ModifiedUser</td>                            
                             <td>
                                 <text class="link_edit"><a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
                                 <text class="link_delete"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
@@ -85,4 +88,4 @@
             </div>
         </div>
     </div>
-  
+  </div>

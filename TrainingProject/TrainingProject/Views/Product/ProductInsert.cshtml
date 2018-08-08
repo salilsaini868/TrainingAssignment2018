@@ -50,7 +50,17 @@
                     </div>
 
                     <div>
+<<<<<<< HEAD
                         <label for="Quantity">Quantity </label>
+=======
+                        <label for="category_description">CategoryID</label>
+                        @Html.TextBoxFor(x => x.CategoryId)
+                        <span hidden id="p_categoryId" class="error">Please enter a valid Input</span>
+                    </div>
+
+                    <div>
+                        <label for="category_description">Quantity </label>
+>>>>>>> master
                         @Html.TextBoxFor(x => x.NoOfProducts, new { name = "NoOfProducts", autocomplete = "off", @maxlength = "20", id = "NoOfProducts" })
                         <span hidden id="p_no" class="error">Please Enter a Valid Number</span>
                     </div>
