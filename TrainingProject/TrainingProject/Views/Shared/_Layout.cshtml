@@ -1,4 +1,11 @@
-﻿
+﻿<!DOCTYPE html>
+@using System.Data;
+@using TrainingProject.Models;
+
+@{
+    var userlogin = Session["user"] as LoginModel;
+}
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -41,42 +48,52 @@
                     <div>
                         <header class="row">
                             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-                                <text id="training-heading">Training Project</text>                              
+                                <text id="training-heading">Training Project</text>
                             </div>
                             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-                             
+                                <text>
+                                    @if (userlogin != null)
+                                    {
+                                        <div class="navbar-brand" id="user-name">
+                                            @userlogin.FirstName &nbsp;
+                                            <a href="@Url.Action("LoginPage", "Login")">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                </text>
                             </div>
-                        </header>
-                        <div class="row">
-                            <div class="col-12">
-                                <nav class="sup-dash">
-                                    <br>
-                                    <br>                                    
-                                </nav>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="white-main-inner">
-                                    <div class="col-md-12">
-                                        @RenderBody()
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                </header>
+                <div class="row">
+                    <div class="col-12">
+                        <nav class="sup-dash">
+                            <br>
+                            <br>
+                        </nav>
                     </div>
-                </main>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="white-main-inner">
+                            <div class="col-md-12">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-xs-12 col-sm-1 col-lg-1 col-xl-1"></div>
-        </div>
+        </main>
     </div>
-     Bootstrap core JavaScript 
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/custom.js"></script>
+    <div class="col-xs-12 col-sm-1 col-lg-1 col-xl-1"></div>
+</div>
+</div>
+    Bootstrap core JavaScript
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/Scripts/popper.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/custom.js"></script>
 
 </body>
 </html>
