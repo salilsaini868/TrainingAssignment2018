@@ -22,9 +22,7 @@ namespace TrainingProject.Controllers
         public ActionResult Listing(FormCollection collection)
         {
             SqlCommand cmd_search;
-
             string searchName = collection["txtSearch"];
-
             List<ProductModel> ListOfProducts = new List<ProductModel>();
             using (SqlConnection connect_search = new SqlConnection(strconnect))
             {
@@ -41,7 +39,6 @@ namespace TrainingProject.Controllers
                 }
                 ListOfProducts = SearchFunction(cmd_search);
                 connect_search.Close();
-
                 return View("ProductListing", ListOfProducts);
             }
         }
@@ -69,7 +66,7 @@ namespace TrainingProject.Controllers
                     ModifiedUser = reader["ModifiedUser"] != DBNull.Value ? Convert.ToString(reader["ModifiedUser"]) : null,
                     ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0,
                     ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime)
-            };
+                };
                 p_list.Add(prop);
             }
             return p_list;
@@ -85,7 +82,6 @@ namespace TrainingProject.Controllers
         [HttpPost]
         public ActionResult InsertUpdateProduct(ProductModel prop)
         {
-
             SqlCommand command_InsertUpdate;
             using (SqlConnection connect = new SqlConnection(strconnect))
             {
@@ -100,21 +96,19 @@ namespace TrainingProject.Controllers
                 {
                     TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
                 }
-
             }
             return RedirectToAction("InsertProduct");
         }
-        
+
         public void GetCategories()
         {
-
             using (SqlConnection con = new SqlConnection(strconnect))
             {
                 if (con.State != ConnectionState.Open)
                 {
                     con.Open();
                 }
-                
+
                 SqlCommand cmd = new SqlCommand("Training_GetCategoryName", con)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -130,16 +124,15 @@ namespace TrainingProject.Controllers
                         Categories.Add(
                             new SelectListItem
                             {
-                                   Value = Convert.ToString(row["CategoryID"]),
-                                   Text = Convert.ToString(row["CategoryName"]) 
+                                Value = Convert.ToString(row["CategoryID"]),
+                                Text = Convert.ToString(row["CategoryName"])
                             });
-                        };
+                    };
                 }
                 TempData["Categories"] = Categories;
                 TempData.Keep();
             }
         }
-
 
         int InsertUpdateFunction(SqlCommand command_InsertUpdate, ProductModel prop)
         {
@@ -158,7 +151,7 @@ namespace TrainingProject.Controllers
                 command_InsertUpdate.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
             }
             else
-            {                
+            {
                 command_InsertUpdate.Parameters.AddWithValue("@Product_ID", prop.Product_ID);
                 command_InsertUpdate.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
                 command_InsertUpdate.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
@@ -170,7 +163,6 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {
-           
             GetCategories();
             ProductModel edit = new ProductModel();
             using (SqlConnection connect_edit = new SqlConnection(strconnect))
@@ -188,19 +180,20 @@ namespace TrainingProject.Controllers
                     {
                         edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
                         edit.Product_name = Convert.ToString(reader["Prod_Name"]);
-                        edit.CategoryID = Convert.ToString(reader["CategoryID"]);
                         edit.Price = Convert.ToInt32(reader["Price"]);
                         edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
+                        edit.CategoryID = Convert.ToString(reader["CategoryID"]);
                         edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
                         edit.Description = Convert.ToString(reader["Product_Description"]);
                         edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
                         edit.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
-                        edit.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);                        
+                        edit.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
                         edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
                         edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
                     }
                 }
                 return View("ProductInsert", edit);
+
             }
         }
 
@@ -221,7 +214,6 @@ namespace TrainingProject.Controllers
             }
             return RedirectToAction("Listing");
         }
-
     }
 }
 

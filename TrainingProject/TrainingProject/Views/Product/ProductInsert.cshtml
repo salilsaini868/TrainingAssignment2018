@@ -35,7 +35,7 @@
                     </div>
 
                     <div>
-                        <label for="Category DropDown">Category </label>
+                        <label for="Category_DropDown">Category </label>
                         @Html.DropDownListFor(x => x.CategoryID, new SelectList((IEnumerable<SelectListItem>)TempData["Categories"], "Value", "Text"),"-select-")
                         <span hidden id="cat" class="error">Please Enter a Valid Category</span>
                     </div>
