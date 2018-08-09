@@ -59,6 +59,17 @@ $(document).ready(function () {
         }
 
 
+        if (Category.length < 1) {
+            $('#cat').show();
+            ischeck = true;
+        }
+        else {
+            $('#cat').hide();
+            ischeck = false;
+        }
+
+
+
 
         if (NoOfProducts.length < 1 || !Price.match(numbers)) {
             $('#p_no').show();

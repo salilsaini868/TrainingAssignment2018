@@ -24,7 +24,6 @@
                 @using (Html.BeginForm("InsertUpdateProduct", "Product", FormMethod.Post, new { id = "Product_Form" }))
                 {
                     <div hidden>
-
                         @Html.TextBoxFor(x => x.Product_ID, new { name = "Product_name", @maxlength = "20", id = "Product_ID" })
 
                     </div>
@@ -36,29 +35,29 @@
                     </div>
 
                     <div>
-                        <label for="category_description">Price </label>
+                        <label for="Category_DropDown">Category </label>
+                        @Html.DropDownListFor(x => x.CategoryID, new SelectList((IEnumerable<SelectListItem>)TempData["Categories"], "Value", "Text"),"-select-")
+                        <span hidden id="cat" class="error">Please Enter a Valid Category</span>
+                    </div>
+
+                    <div>
+                        <label for="Price">Price </label>
                         @Html.TextBoxFor(x => x.Price, new { name = "Price", @maxlength = "20", id = "Price" })
                         <span hidden id="p_price" class="error">Please Enter a Valid Number</span>
                     </div>
-
+                    
                     <div>
-                        <label for="category_description">CategoryID</label>
-                        @Html.TextBoxFor(x => x.CategoryId)
-                        <span hidden id="p_categoryId" class="error">Please enter a valid Input</span>
-                    </div>
-
-                    <div>
-                        <label for="category_description">Quantity </label>
+                        <label for="Quantity">Quantity </label>
                         @Html.TextBoxFor(x => x.NoOfProducts, new { name = "NoOfProducts", autocomplete = "off", @maxlength = "20", id = "NoOfProducts" })
                         <span hidden id="p_no" class="error">Please Enter a Valid Number</span>
                     </div>
 
                     <div>
-                        <label for="category_description">Valid Till </label>
+                        <label for="Valid Till">Valid Till </label>
                         @Html.TextBoxFor(x => x.Date, new { @type = "date", name = "date", id = "Date" })
                         <span hidden id="p_date" class="error">Please Enter a Valid date</span>
                     </div>
-                    
+
                     <div>
                         <label for="category_description">Description </label>
                         @Html.TextAreaFor(x => x.Description, new { id = "Description", autocomplete = "off", @maxlength = "100", name = "Description" })
@@ -66,7 +65,7 @@
                     </div>
 
                     <div>
-                        <label for="category_description">Active or Not </label>
+                        <label for="Active or Not">Active or Not </label>
                         @Html.CheckBoxFor(x => x.IsActive, new { @id = "IsActive" })
 
                     </div>
