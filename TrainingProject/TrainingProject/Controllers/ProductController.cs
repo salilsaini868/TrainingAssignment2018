@@ -4,11 +4,11 @@ using System.Web.Mvc;
 using TrainingProject.Models;
 using System.Data;
 using System.Data.SqlClient;
-
-
+using TrainingProject.Logout;
 
 namespace TrainingProject.Controllers
 {
+    [ForceLogoutFilter]
     public class ProductController : Controller
     {
         string strconnect = string.Empty;
@@ -31,6 +31,7 @@ namespace TrainingProject.Controllers
                     connect_search.Open();
                 }
                 ViewBag.search = searchName;
+
                 cmd_search = new SqlCommand("[dbo].[Training_SearchProduct]", connect_search);
                 cmd_search.CommandType = CommandType.StoredProcedure;
                 if (!string.IsNullOrEmpty(searchName))
@@ -76,6 +77,8 @@ namespace TrainingProject.Controllers
         public ActionResult InsertProduct()
         {
             GetCategories();
+            ViewBag.Message = "Insert Product";
+
             return View("ProductInsert");
         }
 
@@ -94,7 +97,7 @@ namespace TrainingProject.Controllers
                 int InsertUpdate = InsertUpdateFunction(command_InsertUpdate, prop);
                 if (InsertUpdate > 0)
                 {
-                    TempData["DataInsertMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
+                    TempData["DataInsertorUpdateMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
                 }
             }
             return RedirectToAction("InsertProduct");
@@ -157,6 +160,7 @@ namespace TrainingProject.Controllers
                 command_InsertUpdate.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
             }
             var SuccessMessage = command_InsertUpdate.ExecuteNonQuery();
+
             return (SuccessMessage);
         }
 
@@ -167,6 +171,8 @@ namespace TrainingProject.Controllers
             ProductModel edit = new ProductModel();
             using (SqlConnection connect_edit = new SqlConnection(strconnect))
             {
+                ViewBag.Message = "Update Product";
+
                 if (connect_edit.State != ConnectionState.Open)
                 {
                     connect_edit.Open();
@@ -176,7 +182,7 @@ namespace TrainingProject.Controllers
                     SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
                     cmd_update.Parameters.AddWithValue("@Product_ID", id);
                     SqlDataReader reader = cmd_update.ExecuteReader();
-                    while (reader.Read())
+                    reader.Read();
                     {
                         edit.Product_ID = Convert.ToInt32(reader["Product_ID"]);
                         edit.Product_name = Convert.ToString(reader["Prod_Name"]);
@@ -193,7 +199,6 @@ namespace TrainingProject.Controllers
                     }
                 }
                 return View("ProductInsert", edit);
-
             }
         }
 

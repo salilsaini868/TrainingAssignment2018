@@ -59,8 +59,5 @@ namespace TrainingProject.Controllers
             }
             return View();
         }
-
-       
-        
     }
 }

@@ -57,3 +57,10 @@ p {
     margin-left: 150px;
     font-size: 18px;
 }
+
+#InsertMsg{
+    text-align:center;
+    font-family:Calibri;
+    font-weight:bold;
+    font-size:30px;
+}
