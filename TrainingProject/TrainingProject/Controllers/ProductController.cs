@@ -4,11 +4,11 @@ using System.Web.Mvc;
 using TrainingProject.Models;
 using System.Data;
 using System.Data.SqlClient;
-using TrainingProject.Logout;
+
 
 namespace TrainingProject.Controllers
 {
-    [ForceLogoutFilter]
+    
     public class ProductController : Controller
     {
         string strconnect = string.Empty;
