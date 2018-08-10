@@ -33,8 +33,9 @@ namespace TrainingProject.Controllers
                         connect_selectcategory.Open();
                     }
                     select_category.Parameters.AddWithValue("@CategoryId", id);
+                    ViewBag.categoryid = category.CategoryID;
                     SqlDataReader reader = select_category.ExecuteReader();
-                    while (reader.Read())
+                    reader.Read();
                     {
                         category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
                         category.CategoryName = Convert.ToString(reader["CategoryName"]);
@@ -73,6 +74,7 @@ namespace TrainingProject.Controllers
                     command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryUpdate"] = "category updated.";
+                    return View("InsertCategory", category);
                 }
 
                 connect_category.Close();
@@ -97,9 +99,14 @@ namespace TrainingProject.Controllers
                 if (!string.IsNullOrEmpty(strSearch))
                 {
                     cmd_search.Parameters.AddWithValue("@search", strSearch);
-                }
+                }                
                 SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
                 adapter_search.Fill(searchResult);
+                var count = searchResult.Rows.Count;
+                if (count == 0)
+                {
+                    TempData["nodata"] = "No records found.";
+                }
                 connect_listview.Close();
                 return View("ListCategory", searchResult);
             }

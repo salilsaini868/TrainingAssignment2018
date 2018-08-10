@@ -36,7 +36,7 @@
             <div class="table-responsive" id="table_style">
                 <br>
                 <table class="table table-bordered">
-                    <tr id="table_head">                       
+                    <tr id="table_head">
                         <th>Name</th>
 
                         <th>Description</th>
@@ -54,12 +54,16 @@
                             <td>@item["IsActive"].ToString()</td>
 
                             <td>
-                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"], @class="btn btn-primary" })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text> 
-                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"],@class="btn btn-primary"})"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
+                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
+                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
                             </td>
                         </tr>
                     }
                 </table>
+                @if (TempData["nodata"] != null)
+                {
+                    <p>@TempData["nodata"]</p>                    
+                }
             </div>
         </div>
     </div>

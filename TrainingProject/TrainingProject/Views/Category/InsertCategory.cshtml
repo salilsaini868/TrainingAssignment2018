@@ -13,11 +13,33 @@
     <div class="row">
         <div class="col-md-12">
             <div id="div_header">
-                <h2>
-                    Insert Category
-                </h2>
+                @{
+                    if (ViewBag.categoryid != null)
+                    {
+                        <h2>
+                            Update Category
+                        </h2>
+                    }
+                    else
+                    {
+                        <h2>
+                            Insert Category
+                        </h2>
+                    }
+                }
                 <input type="button" class="btn btn-primary" title="Category list" value="Category List" id="text_link" onclick="window.location='@Url.Action("Listing", "Category")'" />
                 <br><br>
+            </div>
+            <div>
+                @if (TempData["Message_CategoryInsert"] != null)
+                {
+                    <p class="view_messageInsert">@TempData["Message_CategoryInsert"]</p>
+                }
+
+                @if (TempData["Message_CategoryUpdate"] != null)
+                {
+                    <p class="view_messageInsert">@TempData["Message_CategoryUpdate"]</p>
+                }
             </div>
             <div id="form-style">
                 @using (Html.BeginForm("InsertCategory", "Category", FormMethod.Post, new { id = "form_category" }))
@@ -39,17 +61,6 @@
                         <br>
                         <text>Check if the details are correct : &nbsp;</text>
                         @Html.CheckBoxFor(m => m.IsActive, new { id = "category_check" })
-                    </div>
-                    <div>
-                        @if (TempData["Message_CategoryInsert"] != null)
-                        {
-                            <p class="view_messageInsert">@TempData["Message_CategoryInsert"]</p>
-                        }
-
-                        @if (TempData["Message_CategoryUpdate"] != null)
-                        {
-                            <p class="view_messageInsert">@TempData["Message_CategoryUpdate"]</p>
-                        }
                     </div>
                     <div id="div_btn">
                         <button type="submit" value="Submit" class="btn" id="sub_btn" title="Submit">Submit</button>

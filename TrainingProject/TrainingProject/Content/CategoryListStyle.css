@@ -14,3 +14,11 @@
     min-height: 350px;
     overflow: scroll;
 }
+
+p {
+    color: red;
+    font-family: Arial;
+    margin-top: 5px;
+    margin-left: 400px;
+    font-size: 18px;
+}
