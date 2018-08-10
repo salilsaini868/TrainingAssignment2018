@@ -34,6 +34,7 @@ namespace TrainingProject.Models
         public int ModifiedBy { get; set; }
 
         public DateTime ModifiedDate { get; set; }
+
         public string ModifiedUser { get; set; }
 
         public string CreatedUser { get; set; }

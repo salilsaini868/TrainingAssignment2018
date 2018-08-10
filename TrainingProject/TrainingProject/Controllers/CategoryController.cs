@@ -21,88 +21,106 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult Detail(int? id)
         {
-            CategoryModel category = new CategoryModel();
-            if (id != null)
-            {
-                using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
+            
+                CategoryModel category = new CategoryModel();
+                if (id != null)
                 {
-                    SqlCommand select_category = new SqlCommand("[dbo].[Training_selectCategory]", connect_selectcategory);
-                    select_category.CommandType = CommandType.StoredProcedure;
-                    if (connect_selectcategory.State != ConnectionState.Open)
+                    using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
                     {
-                        connect_selectcategory.Open();
-                    }
-                    select_category.Parameters.AddWithValue("@CategoryId", id);
-                    SqlDataReader reader = select_category.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
-                        category.CategoryName = Convert.ToString(reader["CategoryName"]);
-                        category.CategoryDescription = Convert.ToString(reader["CategoryDescription"]);
-                        category.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                    }
-                    connect_selectcategory.Close();
-                }
-            }
-            return View("InsertCategory", category);
-        }
+                        SqlCommand select_category = new SqlCommand("[dbo].[Training_selectCategory]", connect_selectcategory);
+                        select_category.CommandType = CommandType.StoredProcedure;
+                        if (connect_selectcategory.State != ConnectionState.Open)
+                        {
+                            connect_selectcategory.Open();
+                        }
+                        select_category.Parameters.AddWithValue("@CategoryId", id);
+                        SqlDataReader reader = select_category.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
+                            category.CategoryName = Convert.ToString(reader["CategoryName"]);
+                            category.CategoryDescription = Convert.ToString(reader["CategoryDescription"]);
+                            category.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                            category.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
+                            category.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                            category.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
+                            category.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
 
+                        }
+                        connect_selectcategory.Close();
+                    }
+                }
+                return View("InsertCategory", category);
+            
+        }
         [HttpPost]
         public ActionResult InsertCategory(CategoryModel category)
         {
+           
+                using (SqlConnection connect_category = new SqlConnection(strConnect))
+                {
+                    if (connect_category.State != ConnectionState.Open)
+                    {
+                        connect_category.Open();
+                    }
+                    SqlCommand command = new SqlCommand();
+                    command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
+                    command.CommandType = CommandType.StoredProcedure;
 
-            using (SqlConnection connect_category = new SqlConnection(strConnect))
-            {
-                if (connect_category.State != ConnectionState.Open)
-                {
-                    connect_category.Open();
-                }
-                SqlCommand command = new SqlCommand();
-                command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                command.Parameters.AddWithValue("@IsActive", category.IsActive);
-                if (category.CategoryID == 0)
-                {
-                    int result = command.ExecuteNonQuery();
-                    TempData["Message_CategoryInsert"] = "category added.";
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
-                    int result = command.ExecuteNonQuery();
-                    TempData["Message_CategoryUpdate"] = "category updated.";
-                }
+                    var userlogin = Session["user"] as LoginModel;
+                    command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
+                    command.Parameters.AddWithValue("@IsActive", category.IsActive);
+                    if (category.CategoryID == 0)
+                    {
+                        category.CreatedUser = userlogin.Username;
+                        command.Parameters.AddWithValue("@CreatedBy", userlogin.UserID);
+                        command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
 
-                connect_category.Close();
-            }
-            return RedirectToAction("Detail");
+                        int result = command.ExecuteNonQuery();
+                        TempData["Message_CategoryInsert"] = "category added.";
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
+                        command.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
+                        command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
+
+                        int result = command.ExecuteNonQuery();
+                        TempData["Message_CategoryUpdate"] = "category updated.";
+                    }
+
+                    connect_category.Close();
+                }
+                return RedirectToAction("Detail");
+            
         }
 
         public ActionResult Listing(FormCollection coll)
         {
-            DataTable dataset = new DataTable();
-            using (SqlConnection connect_listview = new SqlConnection(strConnect))
-            {
-                if (connect_listview.State != ConnectionState.Open)
+            
+                DataTable dataset = new DataTable();
+                using (SqlConnection connect_listview = new SqlConnection(strConnect))
                 {
-                    connect_listview.Open();
+                    if (connect_listview.State != ConnectionState.Open)
+                    {
+                        connect_listview.Open();
+                    }
+                    string strSearch = coll["txtSearch"];
+                    DataTable searchResult = new DataTable();
+                    ViewBag.searchQuery = strSearch;
+                    SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
+                    cmd_search.CommandType = CommandType.StoredProcedure;
+                    if (!string.IsNullOrEmpty(strSearch))
+                    {
+                        cmd_search.Parameters.AddWithValue("@search", strSearch);
+                    }
+                    SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
+                    adapter_search.Fill(searchResult);
+                    connect_listview.Close();
+                    return View("ListCategory", searchResult);
                 }
-                string strSearch = coll["txtSearch"];
-                DataTable searchResult = new DataTable();
-                ViewBag.searchQuery = strSearch;
-                SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
-                cmd_search.CommandType = CommandType.StoredProcedure;
-                if (!string.IsNullOrEmpty(strSearch))
-                {
-                    cmd_search.Parameters.AddWithValue("@search", strSearch);
-                }
-                SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
-                adapter_search.Fill(searchResult);
-                connect_listview.Close();
-                return View("ListCategory", searchResult);
-            }
+            
         }
 
         public ActionResult Delete(int ID)
