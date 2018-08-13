@@ -21,10 +21,10 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult Detail(int? id)
         {
-            CategoryModel category = new CategoryModel();
-            if (id != null)
+            using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
             {
-                using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
+                CategoryModel category = new CategoryModel();
+                if (id != null)
                 {
                     SqlCommand select_category = new SqlCommand("[dbo].[Training_selectCategory]", connect_selectcategory);
                     select_category.CommandType = CommandType.StoredProcedure;
@@ -41,11 +41,16 @@ namespace TrainingProject.Controllers
                         category.CategoryName = Convert.ToString(reader["CategoryName"]);
                         category.CategoryDescription = Convert.ToString(reader["CategoryDescription"]);
                         category.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                        category.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
+                        category.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
+                        category.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
+                        category.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
+
                     }
                     connect_selectcategory.Close();
                 }
+                return View("InsertCategory", category);
             }
-            return View("InsertCategory", category);
         }
 
         [HttpPost]
@@ -61,25 +66,31 @@ namespace TrainingProject.Controllers
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
                 command.CommandType = CommandType.StoredProcedure;
+                var userlogin = Session["user"] as LoginModel;
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
                 command.Parameters.AddWithValue("@IsActive", category.IsActive);
                 if (category.CategoryID == 0)
                 {
+                    category.CreatedUser = userlogin.Username;
+                    command.Parameters.AddWithValue("@CreatedBy", userlogin.UserID);
+                    command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryInsert"] = "category added.";
                 }
                 else
                 {
                     command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
+                    command.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
+                    command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryUpdate"] = "category updated.";
                     return View("InsertCategory", category);
                 }
-
                 connect_category.Close();
+                return RedirectToAction("Detail");
+
             }
-            return RedirectToAction("Detail");
         }
 
         public ActionResult Listing(FormCollection coll)
@@ -99,7 +110,7 @@ namespace TrainingProject.Controllers
                 if (!string.IsNullOrEmpty(strSearch))
                 {
                     cmd_search.Parameters.AddWithValue("@search", strSearch);
-                }                
+                }
                 SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
                 adapter_search.Fill(searchResult);
                 var count = searchResult.Rows.Count;
@@ -129,4 +140,5 @@ namespace TrainingProject.Controllers
             return RedirectToAction("Listing");
         }
     }
+
 }

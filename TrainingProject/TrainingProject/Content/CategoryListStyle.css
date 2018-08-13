@@ -22,3 +22,18 @@ p {
     margin-left: 400px;
     font-size: 18px;
 }
+
+#InsertMsg {
+    text-align: center;
+    font-family: Calibri;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#active{
+    color:forestgreen;
+}
+
+#inactive{
+    color: red;
+}

@@ -30,15 +30,15 @@
                 <input type="button" class="btn btn-primary" title="Category list" value="Category List" id="text_link" onclick="window.location='@Url.Action("Listing", "Category")'" />
                 <br><br>
             </div>
-            <div>
+            <div id="InsertMsg">
                 @if (TempData["Message_CategoryInsert"] != null)
                 {
-                    <p class="view_messageInsert">@TempData["Message_CategoryInsert"]</p>
+                    @TempData["Message_CategoryInsert"]
                 }
 
                 @if (TempData["Message_CategoryUpdate"] != null)
                 {
-                    <p class="view_messageInsert">@TempData["Message_CategoryUpdate"]</p>
+                    @TempData["Message_CategoryUpdate"]
                 }
             </div>
             <div id="form-style">

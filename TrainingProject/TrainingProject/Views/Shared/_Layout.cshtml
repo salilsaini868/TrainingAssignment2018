@@ -16,13 +16,19 @@
     <link rel="icon" href="images/favicon.ico">
     <title>Training Project</title>
     <!-- Bootstrap core CSS -->
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
     <!-- Icons -->
     <link href="~/Content/font-awesome.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="~/Content/style.css" rel="stylesheet">
-
     <link href="~/Content/LayoutStyle.css" rel="stylesheet" type="text/css" />
+
+
 
 
 </head>
@@ -62,7 +68,7 @@
                                         <div class="navbar-brand" id="user-name">
                                             @userlogin.FirstName &nbsp;
                                             <a href="@Url.Action("LoginPage", "Login")">
-                                                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                                <i class="fa fa-sign-out" aria-hidden="true"> </i>
                                             </a>
                                         </div>
                                     }
@@ -94,21 +100,5 @@
             <div class="col-xs-12 col-sm-1 col-lg-1 col-xl-1"></div>
         </div>
     </div>
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/custom.js"></script>
-    @*<script>
-            $(document).ready(function () {
-                var link = window.location.href;
-                var url = link.indexOf("Dashboard");
-                if (url == link.indexOf("Dashboard")) {
-                    $('li').click(function (e) {
-                        $('li').removeClass('active');
-                        $(this).addClass('active');
-                    });
-                }
-            });
-        </script>*@
 </body>
 </html>

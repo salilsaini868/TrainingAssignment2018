@@ -26,7 +26,7 @@
                 {
                     <div class="col-md-3"><input name="txtSearch" type="text" class="search-cont" autocomplete="off" id="txtSearch" value="@ViewBag.searchQuery" /></div>
                     <div class="col-md-9">
-                        <input type="submit" value="Search" id="btn_submit" class="btn" title="Submit"/>
+                        <input type="submit" value="Search" id="btn_submit" class="btn" title="Submit" />
                         <input type="submit" value="Show all" id="full_list" class="btn" title="Show all" onclick="window.location='@Url.Action("Listing", "Category")'" />
                     </div>
                 }
@@ -37,21 +37,57 @@
                 <br>
                 <table class="table table-bordered">
                     <tr id="table_head">
+
+                        <th hidden>Category ID</th>
+
                         <th>Name</th>
 
                         <th>Description</th>
 
                         <th>IsActive</th>
+
+                        <th>Created By</th>
+
+                        <th>Created Date</th>
+
+                        <th>Modified By</th>
+
                         <th></th>
                     </tr>
                     @foreach (DataRow item in Model.Rows)
                     {
                         <tr>
+                            <td hidden>@item["CategoryID"].ToString()</td>
+
                             <td>@item["CategoryName"].ToString()</td>
 
                             <td>@item["CategoryDescription"].ToString()</td>
 
-                            <td>@item["IsActive"].ToString()</td>
+                            @{
+                                if (item["IsActive"].ToString() == "True")
+                                {
+                                    <td id="active">
+                                        Active
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td id="inactive">
+                                        InActive
+                                    </td>
+                                }
+                            }
+
+                            <td>@item["CreatedUser"].ToString()</td>
+
+                            <td>
+                                @{ DateTime createdDate = @item["CreatedDate"].ToString().AsDateTime();
+                                    var Date = String.Format("{0:dd-MMM-yyyy}", createdDate);                                   
+                                }
+                                @Date
+                            </td>
+
+                            <td>@item["ModifiedUser"].ToString()</td>
 
                             <td>
                                 <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
@@ -62,7 +98,7 @@
                 </table>
                 @if (TempData["nodata"] != null)
                 {
-                    <p>@TempData["nodata"]</p>                    
+                    <div id="InsertMsg">@TempData["nodata"]</div>
                 }
             </div>
         </div>
