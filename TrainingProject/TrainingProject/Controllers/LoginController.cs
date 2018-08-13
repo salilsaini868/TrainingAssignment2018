@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
 
 namespace TrainingProject.Controllers
 {
+
     public class LoginController : Controller
     {
         // GET: Default
@@ -59,5 +59,17 @@ namespace TrainingProject.Controllers
             }
             return View();
         }
+        public ActionResult LogOut()
+        {
+            Session["user"] = null;
+            Session.Clear();
+            Session.Abandon();
+
+            return RedirectToAction("LoginPage", "Login");
+        }
     }
 }
+
+
+
+

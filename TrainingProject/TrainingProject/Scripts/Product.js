@@ -3,8 +3,6 @@
 $(document).ready(function () {
 
     $('#Product_Form').submit(function (e) {
-
-        var ischeck = true;
         var Product_name = $('#Product_name').val();
         var Categoryid = $('#Category_ID').val();
         var Description = $('#Description').val();
@@ -83,8 +81,15 @@ $(document).ready(function () {
         }
 
         $('#reset_btn').click(function () {
-            $('#Product_Form').trigger('reset');
+            $('#p_name').empty();
+            $('#cat').empty();
+            $('#p_price').empty();
+            $('#p_no').empty();
+            $('#p_date').empty();
+            $('#p_description').empty();
+            $('#check').empty();
             $(".error").hide();
+            $("#InsertMsg").hide();
         });
 
     });

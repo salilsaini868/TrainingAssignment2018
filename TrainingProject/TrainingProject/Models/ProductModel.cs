@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace TrainingProject.Models
 {
@@ -21,8 +22,8 @@ namespace TrainingProject.Models
 
         public int NoOfProducts { get; set; }
 
-        public DateTime Date { get; set; }
-
+        public DateTime VisibleDate { get; set; }
+        
         public string Description { get; set; }
 
         public bool IsActive { get; set; }

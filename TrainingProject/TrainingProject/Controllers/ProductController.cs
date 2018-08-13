@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace TrainingProject.Controllers
 {
-    
+    [RedirectToLogin]
     public class ProductController : Controller
     {
         string strconnect = string.Empty;
@@ -38,11 +38,20 @@ namespace TrainingProject.Controllers
                 {
                     cmd_search.Parameters.AddWithValue("@searchProduct", searchName);
                 }
+
                 ListOfProducts = SearchFunction(cmd_search);
+
+                var count = ListOfProducts.Count;
+                if (count == 0)
+                {
+                    TempData["DataNotFound"] = "No records found.";
+                }
+
                 connect_search.Close();
                 return View("ProductListing", ListOfProducts);
             }
         }
+
 
         List<ProductModel> SearchFunction(SqlCommand cmd_search)
         {
@@ -58,7 +67,7 @@ namespace TrainingProject.Controllers
                     Category = Convert.ToString(reader["Category"]),
                     Price = Convert.ToInt32(reader["Price"]),
                     NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]),
-                    Date = Convert.ToDateTime(reader["Visible_Till"]),
+                    VisibleDate = Convert.ToDateTime(reader["Visible_Till"]),
                     Description = Convert.ToString(reader["Product_Description"]),
                     IsActive = Convert.ToBoolean(reader["IsActive"]),
                     CreatedBy = Convert.ToInt32(reader["CreatedBy"]),
@@ -100,7 +109,7 @@ namespace TrainingProject.Controllers
                     TempData["DataInsertorUpdateMessage"] = prop.Product_ID > 0 ? "Data Updated" : "Data Inserted";
                 }
             }
-            return RedirectToAction("InsertProduct");
+            return View("ProductInsert", prop);
         }
 
         public void GetCategories()
@@ -144,7 +153,7 @@ namespace TrainingProject.Controllers
             command_InsertUpdate.Parameters.AddWithValue("@CategoryID", prop.CategoryID);
             command_InsertUpdate.Parameters.AddWithValue("@Price", prop.Price);
             command_InsertUpdate.Parameters.AddWithValue("@No_Of_Products", prop.NoOfProducts);
-            command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.Date);
+            command_InsertUpdate.Parameters.AddWithValue("@Visible_Till", prop.VisibleDate);
             command_InsertUpdate.Parameters.AddWithValue("@Product_Description", prop.Description);
             command_InsertUpdate.Parameters.AddWithValue("@IsActive ", prop.IsActive);
             if (prop.Product_ID == 0)
@@ -169,6 +178,7 @@ namespace TrainingProject.Controllers
         {
             GetCategories();
             ProductModel edit = new ProductModel();
+
             using (SqlConnection connect_edit = new SqlConnection(strconnect))
             {
                 ViewBag.Message = "Update Product";
@@ -177,6 +187,7 @@ namespace TrainingProject.Controllers
                 {
                     connect_edit.Open();
                 }
+
                 if (id != 0)
                 {
                     SqlCommand cmd_update = new SqlCommand("Select * from Training_Products where Product_ID = @Product_ID", connect_edit);
@@ -189,7 +200,7 @@ namespace TrainingProject.Controllers
                         edit.Price = Convert.ToInt32(reader["Price"]);
                         edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
                         edit.CategoryID = Convert.ToString(reader["CategoryID"]);
-                        edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
+                        edit.VisibleDate = Convert.ToDateTime(reader["Visible_Till"].ToString());
                         edit.Description = Convert.ToString(reader["Product_Description"]);
                         edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
                         edit.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
@@ -197,6 +208,7 @@ namespace TrainingProject.Controllers
                         edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
                         edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
                     }
+
                 }
                 return View("ProductInsert", edit);
             }

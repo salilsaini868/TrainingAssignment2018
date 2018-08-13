@@ -14,3 +14,9 @@
     min-height: 350px;
     overflow: scroll;
 }
+#InsertMsg {
+    text-align: center;
+    font-family: Calibri;
+    font-weight: bold;
+    font-size: 30px;
+}

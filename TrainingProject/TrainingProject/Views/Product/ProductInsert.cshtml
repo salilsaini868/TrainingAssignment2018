@@ -54,7 +54,7 @@
 
                     <div>
                         <label for="Valid Till">Valid Till </label>
-                        @Html.TextBoxFor(x => x.Date, new { @type = "date", name = "date", id = "Date"})
+                        @Html.TextBoxFor(x => x.VisibleDate, "{0:yyyy-MM-dd}", new { type = "date" })
                         <span hidden id="p_date" class="error">Please Enter a Valid date</span>
                     </div>
 
@@ -67,7 +67,7 @@
                     <div>
                         <label for="Active or Not">Active or Not </label>
                         @Html.CheckBoxFor(x => x.IsActive, new { @id = "IsActive" })
-
+                        <span hidden id="check"></span>
                     </div>
 
                     <div id="div_btn">
