@@ -37,11 +37,9 @@
             <br>
             <div class="table-responsive" id="table_style">
                 <br>
-
                 <table class="table table-bordered">
 
                     <tr id="table_head">
-
                         <th hidden>Product ID</th>
                         <th>Name</th>
                         <th>Category</th>
@@ -53,7 +51,6 @@
                         <th>Created By</th>
                         <th>Created Date</th>
                         <th>Modified By</th>
-
                     </tr>
 
                     @foreach (var item in Model)
@@ -96,16 +93,12 @@
                         </tr>
                         @TempData["DataNotFound"]
                     }
-
-
                 </table>
 
                 @if (TempData["DataNotFound"] != null)
                 {
-                <div id="InsertMsg">@TempData["DataNotFound"]</div>
+                    <div id="InsertMsg">@TempData["DataNotFound"]</div>
                 }
-
-
             </div>
         </div>
     </div>

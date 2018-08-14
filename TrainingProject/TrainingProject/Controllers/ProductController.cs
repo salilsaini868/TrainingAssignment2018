@@ -5,7 +5,6 @@ using TrainingProject.Models;
 using System.Data;
 using System.Data.SqlClient;
 
-
 namespace TrainingProject.Controllers
 {
     [RedirectToLogin]
@@ -51,8 +50,6 @@ namespace TrainingProject.Controllers
                 return View("ProductListing", ListOfProducts);
             }
         }
-
-
         List<ProductModel> SearchFunction(SqlCommand cmd_search)
         {
             List<ProductModel> p_list = new List<ProductModel>();
@@ -120,7 +117,6 @@ namespace TrainingProject.Controllers
                 {
                     con.Open();
                 }
-
                 SqlCommand cmd = new SqlCommand("Training_GetCategoryName", con)
                 {
                     CommandType = CommandType.StoredProcedure

@@ -62,6 +62,7 @@ namespace TrainingProject.Controllers
                 if (connect_category.State != ConnectionState.Open)
                 {
                     connect_category.Open();
+
                 }
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
@@ -89,7 +90,6 @@ namespace TrainingProject.Controllers
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryUpdate"] = "category updated.";
                 }
-
                 connect_category.Close();
             }
 
@@ -116,6 +116,11 @@ namespace TrainingProject.Controllers
                 }
                 SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
                 adapter_search.Fill(searchResult);
+                var count = searchResult.Rows.Count;
+                if (count == 0)
+                {
+                    TempData["nodata"] = "No records found.";
+                }
                 connect_listview.Close();
                 return View("ListCategory", searchResult);
             }
@@ -138,4 +143,5 @@ namespace TrainingProject.Controllers
             return RedirectToAction("Listing");
         }
     }
+
 }

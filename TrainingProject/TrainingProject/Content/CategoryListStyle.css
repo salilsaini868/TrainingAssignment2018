@@ -14,9 +14,27 @@
     min-height: 350px;
     overflow: scroll;
 }
+
+p {
+    color: red;
+    font-family: Arial;
+    margin-top: 5px;
+    margin-left: 400px;
+    font-size: 18px;
+}
+
 #InsertMsg {
     text-align: center;
     font-family: Calibri;
     font-weight: bold;
     font-size: 30px;
 }
+
+#active{
+    color:forestgreen;
+}
+
+#inactive{
+    color: red;
+}
+

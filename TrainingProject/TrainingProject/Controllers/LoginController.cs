@@ -47,7 +47,7 @@ namespace TrainingProject.Controllers
                         lpage.LastName = Convert.ToString(reader["LastName"]);
                         Session["user"] = lpage;
 
-                        return RedirectToAction("Listing", "Product");
+                        return RedirectToAction("Index","Dashboard");
                     }
                     else
                     {
