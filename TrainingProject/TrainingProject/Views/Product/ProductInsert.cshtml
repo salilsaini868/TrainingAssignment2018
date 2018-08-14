@@ -41,7 +41,7 @@
                     </div>
 
                     <div>
-                        <label for="Price">Price </label>
+                        <label for="Price">Price in ₹ </label>
                         @Html.TextBoxFor(x => x.Price, new { name = "Price", autocomplete = "off", @maxlength = "20", id = "Price" })
                         <span hidden id="p_price" class="error">Please Enter a Valid Number</span>
                     </div>
@@ -54,7 +54,7 @@
 
                     <div>
                         <label for="Valid Till">Valid Till </label>
-                        @Html.TextBoxFor(x => x.VisibleDate, "{0:yyyy-MM-dd}", new { type = "date" })
+                        @Html.TextBoxFor(x => x.VisibleDate, "{0:yyyy-MM-dd}", new { type = "date", id= "VisibleDate" })
                         <span hidden id="p_date" class="error">Please Enter a Valid date</span>
                     </div>
 

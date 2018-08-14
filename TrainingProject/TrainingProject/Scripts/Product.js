@@ -1,17 +1,16 @@
-﻿//JAVASCRIPT PAGE
-
+﻿
 $(document).ready(function () {
 
     $('#Product_Form').submit(function (e) {
         var Product_name = $('#Product_name').val();
         var Categoryid = $('#Category_ID').val();
         var Description = $('#Description').val();
-        var Date = $('#Date').val();
+        var Date = $('#VisibleDate').val();
         var Price = $("#Price").val();
         var IsActive = $('#IsActive').prop('checked');
         var quantity = $('#NoOfProducts').val();
 
-        var name_regex = /^[A-Za-z]+$/
+        var name_regex = /^[A-Za-z_ ]+$/
         var numbers = /^[0-9]+$/;
 
         if (Product_name.length < 1 || !Product_name.match(name_regex)) {
@@ -94,5 +93,6 @@ $(document).ready(function () {
 
     });
 });
+
 
 
