@@ -1,13 +1,14 @@
 ﻿@model TrainingProject.Models.CategoryModel
+@using System.Web.Optimization
 @{
     ViewBag.Title = "InsertCategory";
 }
 
-
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/CategoryInsert.js"></script>
+
+@Scripts.Render("~/bundles/Project_Scripts")
+@Scripts.Render("~/bundles/Bootstrap")
 
 <div class="container" id="div_main">
     <div class="row">

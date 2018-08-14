@@ -1,12 +1,13 @@
-﻿
+﻿@using System.Web.Optimization
 @{
     ViewBag.Title = "Index";
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryListStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/CategoryList.js"></script>
+
+@Scripts.Render("~/bundles/Project_Scripts")
+@Scripts.Render("~/bundles/Bootstrap")
 
 <div class="container" id="div_main">
     <div class="row">
@@ -32,7 +33,8 @@
                                         <tr><th>Products</th></tr>
                                         <tr><td><a href="@Url.Action("Listing", "Product")">@TempData["Message_ProductCount"]</a></td></tr>
                                     </table>
-                                    </td><td>
+                                </td>
+                                <td>
                                     <table class="table table-striped table-bordered" style="width:30%">
                                         <tr><th>Categories</th></tr>
                                         <tr><td><a href="@Url.Action("Listing", "Category")">@TempData["Message_CategoryCount"]</a></td></tr>
