@@ -21,8 +21,7 @@ namespace TrainingProject.Controllers
 
         [HttpGet]
         public ActionResult Detail(int? id)
-        {
-
+        {       
             CategoryModel category = new CategoryModel();
             if (id != null)
             {
