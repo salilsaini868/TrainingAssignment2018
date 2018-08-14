@@ -101,6 +101,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\down-arrow.jpg" />
+    <Content Include="Content\images\evrylogo.png" />
     <Content Include="Content\images\left-side-02.png" />
     <Content Include="Content\images\lock-icon.jpg" />
     <Content Include="Content\images\login-bg-01.jpg" />
