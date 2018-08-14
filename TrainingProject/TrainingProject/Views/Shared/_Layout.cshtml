@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 @using System.Data;
 @using TrainingProject.Models;
+@using TrainingProject.Views.Shared;
 
 @{
     var userlogin = Session["user"] as LoginModel;
@@ -19,6 +20,7 @@
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/custom.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 
     <!-- Icons -->
     <link href="~/Content/font-awesome.min.css" rel="stylesheet">
@@ -42,9 +44,13 @@
                     <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">
                         <em class="fa fa-bars"></em>
                     </a>
-                    <ul class="nav sidebar-nav navbar-fixed-left">
-                        <li class="list-item">@Html.ActionLink("Products", "Listing", "Product")</li>
-                        <li class="list-item">@Html.ActionLink("Categories", "Listing", "Category")</li>
+                    <ul class="nav sidebar-nav navbar-fixed-left bgcolor">
+                        <li class="@Html.IsSelected(controllers: "Dashboard")">
+                            <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
+                        <li class="@Html.IsSelected(controllers: "Product")">
+                            <a href="@Url.Action("Listing", "Product")">Products</a>
+                        <li class="@Html.IsSelected(controllers: "Category")">
+                            <a href="@Url.Action("Listing", "Category")">Categories</a>
                     </ul>
                 </nav>
             </div>
@@ -61,7 +67,7 @@
                                     {
                                         <div class="navbar-brand" id="user-name">
                                             @userlogin.FirstName &nbsp;
-                                            <a href="@Url.Action("", "")">
+                                            <a href="@Url.Action("LoginPage", "Login")">
                                                 <i class="fa fa-sign-out" aria-hidden="true"> </i>
                                             </a>
                                         </div>
@@ -94,8 +100,5 @@
             <div class="col-xs-12 col-sm-1 col-lg-1 col-xl-1"></div>
         </div>
     </div>
-   
-    
-
 </body>
 </html>

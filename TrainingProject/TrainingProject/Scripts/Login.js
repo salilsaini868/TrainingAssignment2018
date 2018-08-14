@@ -8,7 +8,7 @@
         if (user_name.length < 1) {
             $('#error_username').show();
             ischeck = true;
-           e.preventDefault();
+            e.preventDefault();
         }
         else {
             $('#error_username').hide();
@@ -30,4 +30,6 @@
             
         }
     });
+
+
 });
