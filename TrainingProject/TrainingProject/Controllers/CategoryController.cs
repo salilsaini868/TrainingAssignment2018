@@ -1,142 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
+using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
     public class CategoryController : Controller
     {
-        // GET: Category
-        string strConnect = string.Empty;
-        public CategoryController()
-        {
-            strConnect = @"Data Source=172.20.21.129; MultipleActiveResultSets=True; Initial Catalog=RHPM; User ID=RHPM; Password=evry@123";
-        }
+        // GET: Category                
+        ConnectionHelper sqlconnect = new ConnectionHelper();
 
         [HttpGet]
         public ActionResult Detail(int? id)
         {
-            
-                CategoryModel category = new CategoryModel();
-                if (id != null)
+            CategoryModel category = new CategoryModel();
+            if (id != null)
+            {
+                List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
+                parameter.Add(new KeyValuePair<string, object>("CategoryId", id));
+                var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail ,query: "Training_selectCategory",command: CommandType.StoredProcedure, valuePairs: parameter);
+                command_select.Read();
                 {
-                    using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
-                    {
-                        SqlCommand select_category = new SqlCommand("[dbo].[Training_selectCategory]", connect_selectcategory);
-                        select_category.CommandType = CommandType.StoredProcedure;
-                        if (connect_selectcategory.State != ConnectionState.Open)
-                        {
-                            connect_selectcategory.Open();
-                        }
-                        select_category.Parameters.AddWithValue("@CategoryId", id);
-                        SqlDataReader reader = select_category.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
-                            category.CategoryName = Convert.ToString(reader["CategoryName"]);
-                            category.CategoryDescription = Convert.ToString(reader["CategoryDescription"]);
-                            category.IsActive = Convert.ToBoolean(reader["IsActive"]);
-                            category.CreatedBy = Convert.ToInt32(reader["CreatedBy"]);
-                            category.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]);
-                            category.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
-                            category.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
-
-                        }
-                        connect_selectcategory.Close();
-                    }
+                    category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
+                    category.CategoryName = Convert.ToString(command_select["CategoryName"]);
+                    category.CategoryDescription = Convert.ToString(command_select["CategoryDescription"]);
+                    category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
+                    category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
+                    category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
+                    category.ModifiedBy = command_select["ModifiedBy"] != null ? Convert.ToInt32(command_select["ModifiedBy"]) : 0;
+                    category.ModifiedDate = command_select["ModifiedDate"] != null ? Convert.ToDateTime(command_select["ModifiedDate"]) : default(DateTime);
                 }
-                return View("InsertCategory", category);
-            
+            }
+            return View("InsertCategory", category);
         }
+
         [HttpPost]
         public ActionResult InsertCategory(CategoryModel category)
         {
-           
-                using (SqlConnection connect_category = new SqlConnection(strConnect))
-                {
-                    if (connect_category.State != ConnectionState.Open)
-                    {
-                        connect_category.Open();
-                    }
-                    SqlCommand command = new SqlCommand();
-                    command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    var userlogin = Session["user"] as LoginModel;
-                    command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                    command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
-                    command.Parameters.AddWithValue("@IsActive", category.IsActive);
-                    if (category.CategoryID == 0)
-                    {
-                        category.CreatedUser = userlogin.Username;
-                        command.Parameters.AddWithValue("@CreatedBy", userlogin.UserID);
-                        command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
-
-                        int result = command.ExecuteNonQuery();
-                        TempData["Message_CategoryInsert"] = "category added.";
-                    }
-                    else
-                    {
-                        command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
-                        command.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
-                        command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
-
-                        int result = command.ExecuteNonQuery();
-                        TempData["Message_CategoryUpdate"] = "category updated.";
-                    }
-
-                    connect_category.Close();
-                }
-                return RedirectToAction("Detail");
+            var userlogin = Session["user"] as LoginModel;
+            List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
+            parameter.Add(new KeyValuePair<string, object>("CategoryName", category.CategoryName));
+            parameter.Add(new KeyValuePair<string, object>("CategoryDescription", category.CategoryDescription));
+            parameter.Add(new KeyValuePair<string, object>("IsActive", category.IsActive));
             
+            if (category.CategoryID == 0)
+            {
+                category.CreatedUser = userlogin.Username;
+                parameter.Add(new KeyValuePair<string, object>("CreatedBy", userlogin.UserID));
+                parameter.Add(new KeyValuePair<string, object>("CreatedDate", DateTime.Now));
+                
+                TempData["Message_CategoryInsert"] = "category added.";
+            }
+            else
+            {
+                parameter.Add(new KeyValuePair<string, object>("CategoryID", category.CategoryID));
+                parameter.Add(new KeyValuePair<string, object>("ModifiedBy", userlogin.UserID));
+                parameter.Add(new KeyValuePair<string, object>("ModifiedDate", DateTime.Now));
+
+                TempData["Message_CategoryUpdate"] = "category updated.";
+            }
+            var command_insert = sqlconnect.CreateResult(executeType: ExecuteEnum.Insert, query: "Training_insertCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            int result = command_insert;
+            return RedirectToAction("Detail");
         }
 
         public ActionResult Listing(FormCollection coll)
         {
-            
-                DataTable dataset = new DataTable();
-                using (SqlConnection connect_listview = new SqlConnection(strConnect))
-                {
-                    if (connect_listview.State != ConnectionState.Open)
-                    {
-                        connect_listview.Open();
-                    }
-                    string strSearch = coll["txtSearch"];
-                    DataTable searchResult = new DataTable();
-                    ViewBag.searchQuery = strSearch;
-                    SqlCommand cmd_search = new SqlCommand("Training_searchCategory", connect_listview);
-                    cmd_search.CommandType = CommandType.StoredProcedure;
-                    if (!string.IsNullOrEmpty(strSearch))
-                    {
-                        cmd_search.Parameters.AddWithValue("@search", strSearch);
-                    }
-                    SqlDataAdapter adapter_search = new SqlDataAdapter(cmd_search);
-                    adapter_search.Fill(searchResult);
-                    connect_listview.Close();
-                    return View("ListCategory", searchResult);
-                }
-            
+            string[] strSearch = new string[1];
+            strSearch[0] = coll["txtSearch"];
+            string searchView = coll["txtSearch"];
+            ViewBag.searchQuery = searchView;
+            List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
+            parameter.Add(new KeyValuePair<string, object>("search", strSearch[0]));
+            var cmd_search = sqlconnect.CreateResult(executeType:ExecuteEnum.List ,query: "Training_searchCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+
+            return View("ListCategory", cmd_search);
         }
 
         public ActionResult Delete(int ID)
         {
-            using (SqlConnection connect_delete = new SqlConnection(strConnect))
-            {
-                if (connect_delete.State != ConnectionState.Open)
-                {
-                    connect_delete.Open();
-                }
-                SqlCommand cmd_delete = new SqlCommand("Training_deleteCategory", connect_delete);
-                cmd_delete.CommandType = CommandType.StoredProcedure;
-                cmd_delete.Parameters.AddWithValue("@CategoryID", ID);
-                int del_user = cmd_delete.ExecuteNonQuery();
-                connect_delete.Close();
-            }
+            List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
+            parameter.Add(new KeyValuePair<string, object>("CategoryID", ID));
+            var cmd_delete = sqlconnect.CreateResult(executeType: ExecuteEnum.Delete ,query: "Training_deleteCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            int del_user = cmd_delete;
+
             return RedirectToAction("Listing");
         }
     }
