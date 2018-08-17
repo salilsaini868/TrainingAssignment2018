@@ -9,6 +9,7 @@ using TrainingProject.Models;
 
 namespace TrainingProject.Controllers
 {
+    [RedirectToLogin]
     public class CategoryController : Controller
     {
         // GET: Category
@@ -20,11 +21,11 @@ namespace TrainingProject.Controllers
 
         [HttpGet]
         public ActionResult Detail(int? id)
-        {
-            using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
+        {       
+            CategoryModel category = new CategoryModel();
+            if (id != null)
             {
-                CategoryModel category = new CategoryModel();
-                if (id != null)
+                using (SqlConnection connect_selectcategory = new SqlConnection(strConnect))
                 {
                     SqlCommand select_category = new SqlCommand("[dbo].[Training_selectCategory]", connect_selectcategory);
                     select_category.CommandType = CommandType.StoredProcedure;
@@ -33,9 +34,8 @@ namespace TrainingProject.Controllers
                         connect_selectcategory.Open();
                     }
                     select_category.Parameters.AddWithValue("@CategoryId", id);
-                    ViewBag.categoryid = category.CategoryID;
                     SqlDataReader reader = select_category.ExecuteReader();
-                    reader.Read();
+                    while (reader.Read())
                     {
                         category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
                         category.CategoryName = Convert.ToString(reader["CategoryName"]);
@@ -49,23 +49,24 @@ namespace TrainingProject.Controllers
                     }
                     connect_selectcategory.Close();
                 }
-                return View("InsertCategory", category);
             }
+            return View("InsertCategory", category);
         }
 
         [HttpPost]
         public ActionResult InsertCategory(CategoryModel category)
         {
-
             using (SqlConnection connect_category = new SqlConnection(strConnect))
             {
                 if (connect_category.State != ConnectionState.Open)
                 {
                     connect_category.Open();
+
                 }
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
                 command.CommandType = CommandType.StoredProcedure;
+
                 var userlogin = Session["user"] as LoginModel;
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryDescription", category.CategoryDescription);
@@ -75,6 +76,7 @@ namespace TrainingProject.Controllers
                     category.CreatedUser = userlogin.Username;
                     command.Parameters.AddWithValue("@CreatedBy", userlogin.UserID);
                     command.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryInsert"] = "category added.";
                 }
@@ -83,14 +85,14 @@ namespace TrainingProject.Controllers
                     command.Parameters.AddWithValue("@CategoryID", category.CategoryID);
                     command.Parameters.AddWithValue("@ModifiedBy", userlogin.UserID);
                     command.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
+
                     int result = command.ExecuteNonQuery();
                     TempData["Message_CategoryUpdate"] = "category updated.";
-                    return View("InsertCategory", category);
                 }
                 connect_category.Close();
-                return RedirectToAction("Detail");
-
             }
+
+            return View("insertCategory", category);
         }
 
         public ActionResult Listing(FormCollection coll)

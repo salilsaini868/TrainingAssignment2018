@@ -101,6 +101,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\down-arrow.jpg" />
+    <Content Include="Content\images\evrylogo.png" />
     <Content Include="Content\images\left-side-02.png" />
     <Content Include="Content\images\lock-icon.jpg" />
     <Content Include="Content\images\login-bg-01.jpg" />
@@ -154,6 +155,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RedirectToLogin.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +179,7 @@
     <Content Include="Views\Product\ProductListing.cshtml" />
     <Content Include="Views\Category\InsertCategory.cshtml" />
     <Content Include="Views\Category\ListCategory.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Login\LoginPage.cshtml" />
     <Content Include="Views\Shared\LoginLayout.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
