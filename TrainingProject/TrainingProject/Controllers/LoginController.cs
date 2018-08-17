@@ -6,7 +6,6 @@ using TrainingProject.Models;
 
 namespace TrainingProject.Controllers
 {
-
     public class LoginController : Controller
     {
         // GET: Default
@@ -20,7 +19,6 @@ namespace TrainingProject.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult LoginPage(LoginModel lpage)
         {
@@ -47,7 +45,7 @@ namespace TrainingProject.Controllers
                         lpage.LastName = Convert.ToString(reader["LastName"]);
                         Session["user"] = lpage;
 
-                        return RedirectToAction("Index","Dashboard");
+                        return RedirectToAction("Index", "Dashboard");
                     }
                     else
                     {
@@ -64,7 +62,6 @@ namespace TrainingProject.Controllers
             Session["user"] = null;
             Session.Clear();
             Session.Abandon();
-
             return RedirectToAction("LoginPage", "Login");
         }
     }

@@ -15,9 +15,7 @@ namespace TrainingProject.Controllers
         public ProductController()
         {
             strconnect = @"Data Source=172.20.21.129;MultipleActiveResultSets=True;Initial Catalog=RHPM;User ID=RHPM;Password=evry@123";
-
         }
-
         public ActionResult Listing(FormCollection collection)
         {
             SqlCommand cmd_search;
@@ -83,8 +81,6 @@ namespace TrainingProject.Controllers
         public ActionResult InsertProduct()
         {
             GetCategories();
-            ViewBag.Message = "Insert Product";
-
             return View("ProductInsert");
         }
 
@@ -177,8 +173,6 @@ namespace TrainingProject.Controllers
 
             using (SqlConnection connect_edit = new SqlConnection(strconnect))
             {
-                ViewBag.Message = "Update Product";
-
                 if (connect_edit.State != ConnectionState.Open)
                 {
                     connect_edit.Open();
@@ -204,7 +198,6 @@ namespace TrainingProject.Controllers
                         edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
                         edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
                     }
-
                 }
                 return View("ProductInsert", edit);
             }
@@ -219,8 +212,10 @@ namespace TrainingProject.Controllers
                 {
                     connect.Open();
                 }
-                SqlCommand DeleteCommand = new SqlCommand("[dbo].[Training_Products_Delete]", connect);
-                DeleteCommand.CommandType = CommandType.StoredProcedure;
+                SqlCommand DeleteCommand = new SqlCommand("[dbo].[Training_Products_Delete]", connect)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
                 DeleteCommand.Parameters.AddWithValue("@Product_ID", ID);
                 DeleteCommand.ExecuteNonQuery();
                 connect.Close();

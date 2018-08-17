@@ -1,5 +1,5 @@
 ﻿@model TrainingProject.Models.ProductModel
-@using System.Web.Optimization
+
 @{
     ViewBag.Title = "InsertProduct";
 }
@@ -7,17 +7,25 @@
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
 
-
-@Scripts.Render("~/bundles/Project_Scripts")
-@Scripts.Render("~/bundles/Bootstrap")
-
-
 <div class="container" id="div_main">
     <div class="row">
         <div class="col-md-12">
             <div id="div_header">
 
-                <h2> @ViewBag.Message</h2>
+                @{
+                    if (ViewBag.Product_ID != null)
+                    {
+                        <h2>
+                            Update Product
+                        </h2>
+                    }
+                    else
+                    {
+                        <h2>
+                            Insert Product
+                        </h2>
+                    }
+                }
 
                 <input type="button" class="btn btn-primary" title="Product list" value="Product List" id="text_link" onclick="window.location='@Url.Action("Listing", "Product")'" />
                 <br><br>

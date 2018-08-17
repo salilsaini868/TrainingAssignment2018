@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace TrainingProject.Controllers
 {
+    [RedirectToLogin]
     public class DashboardController : Controller
     {
         // GET: Dashboard

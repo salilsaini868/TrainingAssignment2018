@@ -145,6 +145,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\Product.js" />
+    <Content Include="Scripts\ProductList.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

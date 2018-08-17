@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TrainingProject.Models;
 
@@ -21,7 +18,7 @@ namespace TrainingProject.Controllers
 
         [HttpGet]
         public ActionResult Detail(int? id)
-        {       
+        {
             CategoryModel category = new CategoryModel();
             if (id != null)
             {
@@ -61,7 +58,6 @@ namespace TrainingProject.Controllers
                 if (connect_category.State != ConnectionState.Open)
                 {
                     connect_category.Open();
-
                 }
                 SqlCommand command = new SqlCommand();
                 command = new SqlCommand("[dbo].[Training_insertCategory]", connect_category);
@@ -91,7 +87,6 @@ namespace TrainingProject.Controllers
                 }
                 connect_category.Close();
             }
-
             return View("insertCategory", category);
         }
 
@@ -142,5 +137,4 @@ namespace TrainingProject.Controllers
             return RedirectToAction("Listing");
         }
     }
-
 }
