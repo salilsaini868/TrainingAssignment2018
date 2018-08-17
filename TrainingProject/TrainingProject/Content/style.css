@@ -155,7 +155,7 @@ code {
         background: #ffffff;
         margin: 10% auto 0;
         padding: 40px 50px 50px;
-        border-radius: 10px;
+        border-radius: 30px;
     }
 
 @media screen and (max-width: 767px) {

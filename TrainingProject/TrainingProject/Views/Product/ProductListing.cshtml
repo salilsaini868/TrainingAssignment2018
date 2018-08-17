@@ -51,6 +51,7 @@
                         <th>Created By</th>
                         <th>Created Date</th>
                         <th>Modified By</th>
+                        <th></th>
                     </tr>
 
                     @foreach (var item in Model)
@@ -66,16 +67,14 @@
                             @{
                                 if (item.IsActive == true)
                                 {
-                                    <td style="color:darkgreen">
-                                        <h5>Active</h5>
-                                        <p hidden> <b>@item.IsActive</b></p>
+                                    <td id="active">
+                                        Active
                                     </td>
                                 }
                                 else
                                 {
-                                    <td style="color:red">
-                                        <h5>Inactive</h5>
-                                        <p hidden> <b>@item.IsActive</b></p>
+                                    <td id="inactive">
+                                        Inactive                                        
                                     </td>
                                 }
 
@@ -87,11 +86,9 @@
                             <td>
                                 <text class="link_edit"><a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
                                 <text class="link_delete"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
-
                             </td>
 
                         </tr>
-                        @TempData["DataNotFound"]
                     }
                 </table>
 
