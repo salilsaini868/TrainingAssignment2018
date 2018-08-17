@@ -24,7 +24,7 @@ namespace TrainingProject.Controllers
             {
                 List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
                 parameter.Add(new KeyValuePair<string, object>("CategoryId", id));
-                var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail ,query: "Training_selectCategory",command: CommandType.StoredProcedure, valuePairs: parameter);
+                var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail, query: "Training_selectCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
                 command_select.Read();
                 {
                     category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
@@ -48,24 +48,29 @@ namespace TrainingProject.Controllers
             parameter.Add(new KeyValuePair<string, object>("CategoryName", category.CategoryName));
             parameter.Add(new KeyValuePair<string, object>("CategoryDescription", category.CategoryDescription));
             parameter.Add(new KeyValuePair<string, object>("IsActive", category.IsActive));
-            
+
             if (category.CategoryID == 0)
             {
                 category.CreatedUser = userlogin.Username;
                 parameter.Add(new KeyValuePair<string, object>("CreatedBy", userlogin.UserID));
                 parameter.Add(new KeyValuePair<string, object>("CreatedDate", DateTime.Now));
-                
-                TempData["Message_CategoryInsert"] = "category added.";
             }
             else
             {
                 parameter.Add(new KeyValuePair<string, object>("CategoryID", category.CategoryID));
                 parameter.Add(new KeyValuePair<string, object>("ModifiedBy", userlogin.UserID));
                 parameter.Add(new KeyValuePair<string, object>("ModifiedDate", DateTime.Now));
-
-                TempData["Message_CategoryUpdate"] = "category updated.";
             }
             var command_insert = sqlconnect.CreateResult(executeType: ExecuteEnum.Insert, query: "Training_insertCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            if (category.CategoryID == 0)
+            {
+                TempData["Message_CategoryInsert"] = "category added.";
+            }
+            else
+            {
+                TempData["Message_CategoryUpdate"] = "category updated.";
+                return View("InsertCategory", category);
+            }
             int result = command_insert;
             return RedirectToAction("Detail");
         }
@@ -78,8 +83,12 @@ namespace TrainingProject.Controllers
             ViewBag.searchQuery = searchView;
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
             parameter.Add(new KeyValuePair<string, object>("search", strSearch[0]));
-            var cmd_search = sqlconnect.CreateResult(executeType:ExecuteEnum.List ,query: "Training_searchCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
-
+            var cmd_search = sqlconnect.CreateResult(executeType: ExecuteEnum.List, query: "Training_searchCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            var count = cmd_search.Rows.Count;
+            if (count == 0)
+            {
+                TempData["nodata"] = "No records found.";
+            }
             return View("ListCategory", cmd_search);
         }
 
@@ -87,10 +96,11 @@ namespace TrainingProject.Controllers
         {
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
             parameter.Add(new KeyValuePair<string, object>("CategoryID", ID));
-            var cmd_delete = sqlconnect.CreateResult(executeType: ExecuteEnum.Delete ,query: "Training_deleteCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            var cmd_delete = sqlconnect.CreateResult(executeType: ExecuteEnum.Delete, query: "Training_deleteCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
             int del_user = cmd_delete;
 
             return RedirectToAction("Listing");
         }
     }
+
 }

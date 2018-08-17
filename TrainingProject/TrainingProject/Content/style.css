@@ -155,7 +155,7 @@ code {
         background: #ffffff;
         margin: 10% auto 0;
         padding: 40px 50px 50px;
-        border-radius: 10px;
+        border-radius: 30px;
     }
 
 @media screen and (max-width: 767px) {
@@ -271,6 +271,10 @@ form {
 
         .sidebar-nav li a:hover {
             color: #00b6e1;
+        }
+
+        .bgcolor li:active{
+            background-color:lightgray;
         }
 
 .sidebar-nav .active {
@@ -729,6 +733,14 @@ form {
 
     .list-item {
         font-size: 20px;
+    }
+    /*.list-item :active {
+        background-color: #00b6e1;
+    }*/
+
+    .selected a {
+        background-color: #eee;
+        color:#00b6e1;
     }
 
     .no-padding {

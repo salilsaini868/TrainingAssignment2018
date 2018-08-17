@@ -14,7 +14,5 @@ namespace TrainingProject
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
-
-       
     }
 }

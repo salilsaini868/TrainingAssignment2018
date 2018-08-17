@@ -27,5 +27,6 @@ namespace TrainingProject.Models
         { get; set; }
         public string CreatedUser
         { get; set; }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace TrainingProject.Controllers
 {
-    
+
     public class ProductController : Controller
     {
         string strconnect = string.Empty;
@@ -38,11 +38,19 @@ namespace TrainingProject.Controllers
                 {
                     cmd_search.Parameters.AddWithValue("@searchProduct", searchName);
                 }
+
                 ListOfProducts = SearchFunction(cmd_search);
+
+                if (ListOfProducts == null)
+                {
+                    TempData["DataNotFound"] = "No records found.";
+                }
+
                 connect_search.Close();
                 return View("ProductListing", ListOfProducts);
             }
         }
+
 
         List<ProductModel> SearchFunction(SqlCommand cmd_search)
         {
@@ -189,6 +197,7 @@ namespace TrainingProject.Controllers
                         edit.Price = Convert.ToInt32(reader["Price"]);
                         edit.NoOfProducts = Convert.ToInt32(reader["No_Of_Products"]);
                         edit.CategoryID = Convert.ToString(reader["CategoryID"]);
+                        //String Date = edit.Date.ToShortDateString();
                         edit.Date = Convert.ToDateTime(reader["Visible_Till"]);
                         edit.Description = Convert.ToString(reader["Product_Description"]);
                         edit.IsActive = Convert.ToBoolean(reader["IsActive"]);
@@ -197,6 +206,7 @@ namespace TrainingProject.Controllers
                         edit.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(reader["ModifiedBy"]) : 0;
                         edit.ModifiedDate = reader["ModifiedDate"] != DBNull.Value ? Convert.ToDateTime(reader["ModifiedDate"]) : default(DateTime);
                     }
+
                 }
                 return View("ProductInsert", edit);
             }
