@@ -37,11 +37,9 @@
             <br>
             <div class="table-responsive" id="table_style">
                 <br>
-
                 <table class="table table-bordered">
 
                     <tr id="table_head">
-
                         <th hidden>Product ID</th>
                         <th>Name</th>
                         <th>Category</th>
@@ -53,7 +51,7 @@
                         <th>Created By</th>
                         <th>Created Date</th>
                         <th>Modified By</th>
-                        
+                        <th></th>
                     </tr>
 
                     @foreach (var item in Model)
@@ -64,22 +62,41 @@
                             <td>@item.Category</td>
                             <td>@item.Price</td>
                             <td>@item.NoOfProducts</td>
-                            <td>@item.Date.ToString("dd-MMM-yyyy")</td>
+                            <td>@item.VisibleDate.ToString("dd-MMM-yyyy")</td>
                             <td>@item.Description</td>
-                            <td>@item.IsActive</td>
+                            @{
+                                if (item.IsActive == true)
+                                {
+                                    <td id="active">
+                                        Active
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td id="inactive">
+                                        Inactive                                        
+                                    </td>
+                                }
+
+                            }
                             <td>@item.CreatedUser</td>
                             <td>@item.CreatedDate.ToString("dd-MMM-yyyy")</td>
-                            <td>@item.ModifiedUser</td>                            
+                            <td>@item.ModifiedUser</td>
+
                             <td>
                                 <text class="link_edit"><a href="@Url.Action("GetProductByID", "Product", new { id = @item.Product_ID })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
                                 <text class="link_delete"><a href="@Url.Action("DeleteProduct", "Product", new {  id = @item.Product_ID })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
-
                             </td>
+
                         </tr>
                     }
-
                 </table>
+
+                @if (TempData["DataNotFound"] != null)
+                {
+                    <div id="InsertMsg">@TempData["DataNotFound"]</div>
+                }
             </div>
         </div>
     </div>
-  </div>
+</div>

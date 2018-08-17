@@ -11,6 +11,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
+    [RedirectToLogin]
     public class CategoryController : Controller
     {
         // GET: Category                
@@ -33,8 +34,16 @@ namespace TrainingProject.Controllers
                     category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
                     category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
                     category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
-                    category.ModifiedBy = command_select["ModifiedBy"] != null ? Convert.ToInt32(command_select["ModifiedBy"]) : 0;
-                    category.ModifiedDate = command_select["ModifiedDate"] != null ? Convert.ToDateTime(command_select["ModifiedDate"]) : default(DateTime);
+                    
+                    if (command_select["ModifiedBy"] is DBNull)
+                    { category.ModifiedBy = 0; }
+                    else
+                    { category.ModifiedBy = Convert.ToInt32(command_select["ModifiedBy"]); }
+
+                    if (command_select["ModifiedDate"] is DBNull)
+                    { category.ModifiedDate = default(DateTime); }
+                    else
+                    { category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]); }
                 }
             }
             return View("InsertCategory", category);
@@ -65,14 +74,14 @@ namespace TrainingProject.Controllers
             if (category.CategoryID == 0)
             {
                 TempData["Message_CategoryInsert"] = "category added.";
+                return RedirectToAction("Detail");
             }
             else
             {
-                TempData["Message_CategoryUpdate"] = "category updated.";
-                return View("InsertCategory", category);
+                TempData["Message_CategoryUpdate"] = "category updated.";                
             }
             int result = command_insert;
-            return RedirectToAction("Detail");
+            return RedirectToAction("Detail",  new { id = category.CategoryID });
         }
 
         public ActionResult Listing(FormCollection coll)

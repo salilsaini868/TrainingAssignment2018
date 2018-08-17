@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿
 @using System.Data;
 @using TrainingProject.Models;
 @using TrainingProject.Views.Shared;
@@ -28,11 +28,8 @@
     <link href="~/Content/style.css" rel="stylesheet">
     <link href="~/Content/LayoutStyle.css" rel="stylesheet" type="text/css" />
 
-
-
-
 </head>
-<body>
+<body id="LayoutBody">
 
     <div class="container-fluid" style="overflow:hidden">
         <div class="row">
@@ -59,7 +56,7 @@
                     <div>
                         <header class="row">
                             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-                                <text id="training-heading">Training Project</text>
+                                <h1>Training Project</h1>
                             </div>
                             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                                 <text>
@@ -67,7 +64,7 @@
                                     {
                                         <div class="navbar-brand" id="user-name">
                                             @userlogin.FirstName &nbsp;
-                                            <a href="@Url.Action("LoginPage", "Login")">
+                                            <a href="@Url.Action("LogOut", "Login")">
                                                 <i class="fa fa-sign-out" aria-hidden="true"> </i>
                                             </a>
                                         </div>

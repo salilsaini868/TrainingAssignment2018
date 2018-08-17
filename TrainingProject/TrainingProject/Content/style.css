@@ -648,6 +648,7 @@ form {
 
     .form-cont .container {
         max-width: 720px;
+        font-family:Calibri;
     }
 
     .form-cont label {
@@ -729,6 +730,8 @@ form {
 
     #training-heading {
         font-size: 42px;
+        font-family: Calibri;
+        font-weight:bold;
     }
 
     .list-item {
@@ -749,6 +752,11 @@ form {
 
     #user-name {
         float: right;
+    }
+
+    #LayoutBody
+    {
+        background-color:ghostwhite;
     }
 }
 
