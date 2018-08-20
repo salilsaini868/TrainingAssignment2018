@@ -1,12 +1,11 @@
 ﻿@model TrainingProject.Models.ProductModel
+
 @{
     ViewBag.Title = "InsertProduct";
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-<script src="~/Scripts/Product.js"></script>
-
 
 <div class="container" id="div_main">
     <div class="row">
@@ -54,7 +53,7 @@
 
                     <div>
                         <label for="Valid Till">Valid Till </label>
-                        @Html.TextBoxFor(x => x.VisibleDate, "{0:yyyy-MM-dd}", new { type = "date", id= "VisibleDate" })
+                        @Html.TextBoxFor(x => x.VisibleDate, "{0:yyyy-MM-dd}", new { type = "date", id = "VisibleDate" })
                         <span hidden id="p_date" class="error">Please Enter a Valid date</span>
                     </div>
 

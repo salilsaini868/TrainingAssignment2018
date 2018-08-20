@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace TrainingProject.Controllers
 {
-
     public class LoginController : Controller
     {
         // GET: Default
@@ -19,7 +18,6 @@ namespace TrainingProject.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult LoginPage(LoginModel lpage)
         {
@@ -42,6 +40,7 @@ namespace TrainingProject.Controllers
             else
             {
                 ViewBag.Message_IncorrectLogin = "Authentication Failed";
+
             }
             return View();
         }
@@ -50,7 +49,6 @@ namespace TrainingProject.Controllers
             Session["user"] = null;
             Session.Clear();
             Session.Abandon();
-
             return RedirectToAction("LoginPage", "Login");
         }
     }

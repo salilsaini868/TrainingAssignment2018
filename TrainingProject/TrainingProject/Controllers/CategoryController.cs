@@ -11,7 +11,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
-    [RedirectToLogin]
+    [AuthorizationFilter]
     public class CategoryController : Controller
     {
         // GET: Category                
@@ -27,24 +27,15 @@ namespace TrainingProject.Controllers
                 parameter.Add(new KeyValuePair<string, object>("CategoryId", id));
                 var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail, query: "Training_selectCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
                 command_select.Read();
-                {
-                    category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
-                    category.CategoryName = Convert.ToString(command_select["CategoryName"]);
-                    category.CategoryDescription = Convert.ToString(command_select["CategoryDescription"]);
-                    category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
-                    category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
-                    category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
-                    
-                    if (command_select["ModifiedBy"] is DBNull)
-                    { category.ModifiedBy = 0; }
-                    else
-                    { category.ModifiedBy = Convert.ToInt32(command_select["ModifiedBy"]); }
 
-                    if (command_select["ModifiedDate"] is DBNull)
-                    { category.ModifiedDate = default(DateTime); }
-                    else
-                    { category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]); }
-                }
+                category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
+                category.CategoryName = Convert.ToString(command_select["CategoryName"]);
+                category.CategoryDescription = Convert.ToString(command_select["CategoryDescription"]);
+                category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
+                category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
+                category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
+                category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]);
+
             }
             return View("InsertCategory", category);
         }
@@ -78,10 +69,10 @@ namespace TrainingProject.Controllers
             }
             else
             {
-                TempData["Message_CategoryUpdate"] = "category updated.";                
+                TempData["Message_CategoryUpdate"] = "category updated.";
             }
             int result = command_insert;
-            return RedirectToAction("Detail",  new { id = category.CategoryID });
+            return RedirectToAction("Detail", new { id = category.CategoryID });
         }
 
         public ActionResult Listing(FormCollection coll)
@@ -111,5 +102,4 @@ namespace TrainingProject.Controllers
             return RedirectToAction("Listing");
         }
     }
-
 }

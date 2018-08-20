@@ -5,6 +5,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
+    [AuthorizationFilter]
     public class DashboardController : Controller
     {
         // GET: Dashboard
