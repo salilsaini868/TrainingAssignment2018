@@ -26,17 +26,6 @@ namespace TrainingProject.Controllers
             parameter.Add(new KeyValuePair<string, object>("password", lpage.Password));
             var reader = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail, query: "Training_selectUser", command: CommandType.StoredProcedure, valuePairs: parameter);
 
-//<<<<<<< HEAD
-//                        return RedirectToAction("Index", "Dashboard");
-//                    }
-//                    else
-//                    {
-//                        ViewBag.Message_IncorrectLogin = "Authentication Failed";
-//                    }
-
-//                    connectLogin.Close();
-//                }
-//=======
             if (reader.Read())
             {
                 lpage.Username = Convert.ToString(reader["Username"]);

@@ -12,20 +12,7 @@
         <div class="col-md-12">
             <div id="div_header">
 
-                @{
-                    if (ViewBag.Product_ID != null)
-                    {
-                        <h2>
-                            Update Product
-                        </h2>
-                    }
-                    else
-                    {
-                        <h2>
-                            Insert Product
-                        </h2>
-                    }
-                }
+                <h2> @ViewBag.Message</h2>
 
                 <input type="button" class="btn btn-primary" title="Product list" value="Product List" id="text_link" onclick="window.location='@Url.Action("Listing", "Product")'" />
                 <br><br>

@@ -5,7 +5,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
-    [RedirectToLogin]
+    [AuthorizationFilter]
     public class DashboardController : Controller
     {
         // GET: Dashboard

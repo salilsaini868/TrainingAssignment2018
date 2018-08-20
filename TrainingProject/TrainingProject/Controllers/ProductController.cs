@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace TrainingProject.Controllers
 {
-    [RedirectToLogin]
+    [AuthorizationFilter]
     public class ProductController : Controller
     {
         string strconnect = string.Empty;
@@ -80,6 +80,7 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult InsertProduct()
         {
+            ViewBag.Message = "Insert Product";
             GetCategories();
             return View("ProductInsert");
         }
@@ -168,6 +169,7 @@ namespace TrainingProject.Controllers
         [HttpGet]
         public ActionResult GetProductByID(int? id)
         {
+            ViewBag.Message = "Update Product";
             GetCategories();
             ProductModel edit = new ProductModel();
 

@@ -11,7 +11,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
-    [RedirectToLogin]
+    [AuthorizationFilter]
     public class CategoryController : Controller
     {
         // GET: Category                
