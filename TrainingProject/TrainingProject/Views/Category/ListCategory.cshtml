@@ -53,49 +53,49 @@
                         <th>Modified By</th>
 
                         <th></th>
-                    </tr>
+                    </tr>                   
                     @foreach (DataRow item in Model.Rows)
                     {
 
-                    <tr>
-                        <td hidden>@item["CategoryID"].ToString()</td>
+                        <tr>
+                            <td hidden>@item["CategoryID"].ToString()</td>
 
-                        <td>@item["CategoryName"].ToString()</td>
+                            <td>@item["CategoryName"].ToString()</td>
 
-                        <td>@item["CategoryDescription"].ToString()</td>
+                            <td>@item["CategoryDescription"].ToString()</td>
 
-                        @{
-                            if (item["IsActive"].ToString() == "True")
-                            {
-                                <td id="active">
-                                    Active
-                                </td>
+                            @{
+                                if (item["IsActive"].ToString() == "True")
+                                {
+                                    <td id="active">
+                                        Active
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td id="inactive">
+                                        InActive
+                                    </td>
+                                }
                             }
-                            else
-                            {
-                                <td id="inactive">
-                                    InActive
-                                </td>
-                            }
-                        }
 
-                        <td>@item["CreatedUser"].ToString()</td>
+                            <td>@item["CreatedUser"].ToString()</td>
 
-                        <td>
-                            @{ DateTime createdDate = @item["CreatedDate"].ToString().AsDateTime();
-                                var Date = String.Format("{0:dd-MMM-yyyy}", createdDate);
-                            }
-                            @Date
-                        </td>
+                            <td>
+                                @{ DateTime createdDate = @item["CreatedDate"].ToString().AsDateTime();
+                                    var Date = String.Format("{0:dd-MMM-yyyy}", createdDate);
+                                }
+                                @Date
+                            </td>
 
-                        <td>@item["ModifiedUser"].ToString()</td>
+                            <td>@item["ModifiedUser"].ToString()</td>
 
 
-                        <td>
-                            <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
-                            <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
-                        </td>
-                    </tr>                
+                            <td>
+                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
+                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
+                            </td>
+                        </tr>
                     }
                 </table>
                 @if (TempData["nodata"] != null)

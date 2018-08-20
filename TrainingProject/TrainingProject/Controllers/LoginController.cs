@@ -30,8 +30,7 @@ namespace TrainingProject.Controllers
 
             if (reader.Read())
             {
-                lpage.Username = Convert.ToString(reader["Username"]);
-                lpage.Password = Convert.ToString(reader["Password"]);
+                lpage.Username = Convert.ToString(reader["Username"]);           
                 lpage.UserID = Convert.ToInt32(reader["UserID"]);
                 lpage.FirstName = Convert.ToString(reader["FirstName"]);
                 lpage.LastName = Convert.ToString(reader["LastName"]);
