@@ -24,7 +24,8 @@ namespace TrainingProject
                     filterContext.Result =
                            new RedirectToRouteResult(
                                new RouteValueDictionary{{ "controller", "Login" },
-                                          { "LoginPage", "Login" }
+                                          { "Login", "Login" }
+                                   //Action Method, controller
                                });
                 }
             }
