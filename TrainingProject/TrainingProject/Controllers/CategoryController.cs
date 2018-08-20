@@ -11,7 +11,7 @@ using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
 {
-    [RedirectToLogin]
+    [AuthorizationFilter]
     public class CategoryController : Controller
     {
         // GET: Category                
@@ -40,7 +40,7 @@ namespace TrainingProject.Controllers
                 else
                 {
                     TempData["falseID"] = "Category not found.";
-                }
+                }            
             }
             return View("InsertCategory", category);
         }
@@ -106,5 +106,4 @@ namespace TrainingProject.Controllers
             return RedirectToAction("Listing");
         }
     }
-
 }

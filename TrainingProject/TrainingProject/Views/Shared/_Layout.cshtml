@@ -1,7 +1,7 @@
-﻿
-@using System.Data;
+﻿@using System.Data;
 @using TrainingProject.Models;
-@using TrainingProject.Views.Shared;
+@using TrainingProject.Views.Shared
+@using System.Web.Optimization
 
 @{
     var userlogin = Session["user"] as LoginModel;
@@ -11,22 +11,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="images/favicon.ico">
-    <title>Training Project</title>
-    <!-- Bootstrap core CSS -->
-    <link href="~/Content/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <script src="~/Scripts/popper.min.js"></script>
-    <script src="~/Scripts/custom.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
 
-    <!-- Icons -->
+    <link href="~/Content/bootstrap.min.css" type="text/css" rel="stylesheet">
     <link href="~/Content/font-awesome.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="~/Content/style.css" rel="stylesheet">
     <link href="~/Content/LayoutStyle.css" rel="stylesheet" type="text/css" />
+
 
 </head>
 <body id="LayoutBody">
@@ -98,4 +88,6 @@
         </div>
     </div>
 </body>
+@Scripts.Render("~/bundles/Project_Scripts")
+@Scripts.Render("~/bundles/Bootstrap")
 </html>

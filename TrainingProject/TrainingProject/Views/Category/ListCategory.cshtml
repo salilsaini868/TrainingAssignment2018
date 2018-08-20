@@ -1,14 +1,12 @@
 ﻿@using System.Data;
 @model System.Data.DataTable
+
 @{
     ViewBag.Title = "CategoryList";
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryListStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/CategoryList.js"></script>
-
 
 <div class="container" id="div_main">
     <div class="row">
@@ -53,7 +51,7 @@
                         <th>Modified By</th>
 
                         <th></th>
-                    </tr>                   
+                    </tr>
                     @foreach (DataRow item in Model.Rows)
                     {
 
@@ -89,7 +87,6 @@
                             </td>
 
                             <td>@item["ModifiedUser"].ToString()</td>
-
 
                             <td>
                                 <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>

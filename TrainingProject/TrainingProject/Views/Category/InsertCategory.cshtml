@@ -1,13 +1,11 @@
 ﻿@model TrainingProject.Models.CategoryModel
+
 @{
     ViewBag.Title = "InsertCategory";
 }
 
-
 <link rel="stylesheet" type="text/css" href="~/Content/CategoryInsertStyle.css">
 <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.min.css">
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/CategoryInsert.js"></script>
 
 <div class="container" id="div_main">
     <div class="row">
@@ -76,7 +74,7 @@
                 else
                 {
                     <div>
-                        <h4>@TempData["falseID"]</h4>
+                        <h4>Category not found.</h4>
                     </div>
                 }
             }
