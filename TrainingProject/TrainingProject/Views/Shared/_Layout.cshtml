@@ -1,10 +1,11 @@
 ﻿@using System.Data;
 @using TrainingProject.Models;
-@using TrainingProject.Views.Shared
 @using System.Web.Optimization
 
 @{
     var userlogin = Session["user"] as LoginModel;
+    string controllerSelect = ViewContext.RouteData.Values["Controller"].ToString();
+    Func<string, string> IsSelected = x => x == controllerSelect ? "selected" : "";
 }
 
 <html lang="en">
@@ -32,12 +33,15 @@
                         <em class="fa fa-bars"></em>
                     </a>
                     <ul class="nav sidebar-nav navbar-fixed-left bgcolor">
-                        <li class="@Html.IsSelected(controllers: "Dashboard")">
+                        <li class="@IsSelected("Dashboard")">
                             <a href="@Url.Action("Index", "Dashboard")">Dashboard</a>
-                        <li class="@Html.IsSelected(controllers: "Product")">
+                        </li>
+                        <li class="@IsSelected("Product")">
                             <a href="@Url.Action("Listing", "Product")">Products</a>
-                        <li class="@Html.IsSelected(controllers: "Category")">
+                        </li>
+                        <li class="@IsSelected("Category")">
                             <a href="@Url.Action("Listing", "Category")">Categories</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
