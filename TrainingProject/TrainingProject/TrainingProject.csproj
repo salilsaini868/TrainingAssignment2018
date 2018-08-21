@@ -162,6 +162,7 @@
     <Compile Include="Helper\ConnectionHelper.cs" />
     <Compile Include="Helper\ExecuteEnum.cs" />
     <Compile Include="Models\CategoryModel.cs" />
+    <Compile Include="Models\StatisticsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
