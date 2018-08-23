@@ -1,7 +1,7 @@
 ﻿@model TrainingProject.Models.LoginModel
 
 @{
-    ViewBag.Title = "LoginPage";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div>
         <div class="login-pop-over">
             <img src="~/Content/images/Logo.png" alt="LOGO" class="img-fluid" />
-            @using (Html.BeginForm("LoginPage", "Login", FormMethod.Post, new { id = "form_login" }))
+            @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { id = "form_login" }))
             {
                 <div class="input-main">
                     <div>

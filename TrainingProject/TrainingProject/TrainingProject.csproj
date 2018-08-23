@@ -181,7 +181,7 @@
     <Content Include="Views\Category\InsertCategory.cshtml" />
     <Content Include="Views\Category\ListCategory.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
-    <Content Include="Views\Login\LoginPage.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -8,12 +8,14 @@ namespace TrainingProject
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            
+
             // create an object of ScriptBundle and 
             // specify bundle name (as virtual path) as constructor parameter 
             ScriptBundle javascriptBundle = new ScriptBundle("~/bundles/Project_Scripts");
             ScriptBundle bootstrapBundle = new ScriptBundle("~/bundles/Bootstrap");
-            
+            StyleBundle LayoutCSS = new StyleBundle("~/bundles/LayoutCSS");
+
+
             //use Include() method to add all the script files with their paths 
             javascriptBundle.Include(
                            "~/Scripts/Product.js",
@@ -32,10 +34,19 @@ namespace TrainingProject
                          "~/Scripts/popper.min.js"
                 );
             
+            LayoutCSS.Include(
+                       "~/Content/bootstrap.min.css",
+                      "~/Content/font-awesome.min.css",
+                       "~/Content/style.css",
+                        "~/Content/LayoutStyle.css"
+               );
+
+
             //Add the bundle into BundleCollection
             bundles.Add(javascriptBundle);
             bundles.Add(bootstrapBundle);
-
+            bundles.Add(LayoutCSS);
+            
             BundleTable.EnableOptimizations = true;
         }
     }

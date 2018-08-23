@@ -14,12 +14,12 @@ namespace TrainingProject.Controllers
         ConnectionHelper sqlconnect = new ConnectionHelper();
 
         [HttpGet]
-        public ActionResult LoginPage()
+        public ActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult LoginPage(LoginModel lpage)
+        public ActionResult Login(LoginModel lpage)
         {
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
             parameter.Add(new KeyValuePair<string, object>("username", lpage.Username));
@@ -48,7 +48,7 @@ namespace TrainingProject.Controllers
             Session["user"] = null;
             Session.Clear();
             Session.Abandon();
-            return RedirectToAction("LoginPage", "Login");
+            return RedirectToAction("Login", "Login");
         }
     }
 }

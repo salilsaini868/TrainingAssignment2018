@@ -10,6 +10,7 @@ namespace TrainingProject.Helper
         Detail,
         Insert,
         Delete,
-        List
+        List,
+        ListProduct
     }
 }

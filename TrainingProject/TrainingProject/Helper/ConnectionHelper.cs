@@ -55,6 +55,10 @@ namespace TrainingProject.Helper
                 SqlDataReader reader = result_command.ExecuteReader();                
                 return reader;
             }
+            if (executeType == ExecuteEnum.ListProduct)
+            {
+                return result_command;
+            }
             return null;
         }
     }
