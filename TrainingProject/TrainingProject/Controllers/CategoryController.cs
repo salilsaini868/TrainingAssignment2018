@@ -26,16 +26,21 @@ namespace TrainingProject.Controllers
                 List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
                 parameter.Add(new KeyValuePair<string, object>("CategoryId", id));
                 var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail, query: "Training_selectCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
-                command_select.Read();
-
-                category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
-                category.CategoryName = Convert.ToString(command_select["CategoryName"]);
-                category.CategoryDescription = Convert.ToString(command_select["CategoryDescription"]);
-                category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
-                category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
-                category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
-                category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]);
-
+                TempData["categoryid"] = category.CategoryID;
+                if (command_select.Read())
+                {                    
+                    category.CategoryID = Convert.ToInt32(command_select["CategoryID"]);
+                    category.CategoryName = Convert.ToString(command_select["CategoryName"]);
+                    category.CategoryDescription = Convert.ToString(command_select["CategoryDescription"]);
+                    category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
+                    category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
+                    category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
+                    category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]);
+                }
+                else
+                {
+                    TempData["falseID"] = "Category not found.";
+                }            
             }
             return View("InsertCategory", category);
         }
@@ -48,7 +53,6 @@ namespace TrainingProject.Controllers
             parameter.Add(new KeyValuePair<string, object>("CategoryName", category.CategoryName));
             parameter.Add(new KeyValuePair<string, object>("CategoryDescription", category.CategoryDescription));
             parameter.Add(new KeyValuePair<string, object>("IsActive", category.IsActive));
-
             if (category.CategoryID == 0)
             {
                 category.CreatedUser = userlogin.Username;
