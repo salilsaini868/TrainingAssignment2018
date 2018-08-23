@@ -25,6 +25,7 @@ namespace TrainingProject.Helper
             cmd.CommandType = type;
             foreach (var item in parameters)
             {
+
                 cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
             }
             return cmd;
@@ -34,15 +35,19 @@ namespace TrainingProject.Helper
         {
             var result_command = CreateCommand(cmdstring: query, type: command, parameters: valuePairs);
             if (executeType == ExecuteEnum.Insert)
+
             {
                 int insertVal = result_command.ExecuteNonQuery();
                 return insertVal;
             }
+
             if (executeType == ExecuteEnum.Delete)
+
             {
                 int deleteVal = result_command.ExecuteNonQuery();
                 return deleteVal;
             }
+
             if (executeType == ExecuteEnum.List)
             {
                 DataTable searchResult = new DataTable();
@@ -50,9 +55,12 @@ namespace TrainingProject.Helper
                 adapter_search.Fill(searchResult);
                 return searchResult;
             }
+
+
             if (executeType == ExecuteEnum.Detail)
             {
                 SqlDataReader reader = result_command.ExecuteReader();
+
                 return reader;
             }
             if (executeType == ExecuteEnum.ListProduct)
@@ -60,7 +68,6 @@ namespace TrainingProject.Helper
                 return result_command;
             }
             return null;
-
         }
     }
 }
