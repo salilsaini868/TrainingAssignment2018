@@ -66,6 +66,8 @@ namespace TrainingProject.Controllers
         {
             ViewBag.Message = "Insert Product";
             GetCategories();
+            ViewBag.Message = "Insert Product";
+
             return View("ProductInsert");
         }
 
@@ -137,6 +139,8 @@ namespace TrainingProject.Controllers
         {
             ViewBag.Message = "Update Product";
             GetCategories();
+            ViewBag.Message = "Update Product";
+
             ProductModel edit = new ProductModel();
 
             if (id != 0)
