@@ -32,7 +32,7 @@ namespace TrainingProject.Helper
 
         public dynamic CreateResult(ExecuteEnum executeType ,string query, CommandType command, List<KeyValuePair<string, object>> valuePairs)
         {
-            var result_command = CreateCommand(cmdstring: query, type: command, parameters: valuePairs);
+            var result_command = CreateCommand( query, command, valuePairs);
             if(executeType == ExecuteEnum.Insert)
             {
                 int insertVal = result_command.ExecuteNonQuery();

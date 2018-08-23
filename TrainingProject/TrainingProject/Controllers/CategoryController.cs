@@ -25,7 +25,7 @@ namespace TrainingProject.Controllers
             {
                 List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
                 parameter.Add(new KeyValuePair<string, object>("CategoryId", id));
-                var command_select = sqlconnect.CreateResult(executeType: ExecuteEnum.Detail, query: "Training_selectCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+                var command_select = sqlconnect.CreateResult( ExecuteEnum.Detail, "Training_selectCategory", CommandType.StoredProcedure, parameter);
                 TempData["categoryid"] = category.CategoryID;
                 if (command_select.Read())
                 {                    
@@ -35,7 +35,6 @@ namespace TrainingProject.Controllers
                     category.IsActive = Convert.ToBoolean(command_select["IsActive"]);
                     category.CreatedBy = Convert.ToInt32(command_select["CreatedBy"]);
                     category.CreatedDate = Convert.ToDateTime(command_select["CreatedDate"]);
-                    category.ModifiedDate = Convert.ToDateTime(command_select["ModifiedDate"]);
                 }
                 else
                 {
@@ -65,7 +64,7 @@ namespace TrainingProject.Controllers
                 parameter.Add(new KeyValuePair<string, object>("ModifiedBy", userlogin.UserID));
                 parameter.Add(new KeyValuePair<string, object>("ModifiedDate", DateTime.Now));
             }
-            var command_insert = sqlconnect.CreateResult(executeType: ExecuteEnum.Insert, query: "Training_insertCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            var command_insert = sqlconnect.CreateResult( ExecuteEnum.Insert, "Training_insertCategory", CommandType.StoredProcedure, parameter);
             if (category.CategoryID == 0)
             {
                 TempData["Message_CategoryInsert"] = "category added.";
@@ -87,7 +86,7 @@ namespace TrainingProject.Controllers
             ViewBag.searchQuery = searchView;
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
             parameter.Add(new KeyValuePair<string, object>("search", strSearch[0]));
-            var cmd_search = sqlconnect.CreateResult(executeType: ExecuteEnum.List, query: "Training_searchCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            var cmd_search = sqlconnect.CreateResult( ExecuteEnum.List, "Training_searchCategory", CommandType.StoredProcedure, parameter);
             var count = cmd_search.Rows.Count;
             if (count == 0)
             {
@@ -100,7 +99,7 @@ namespace TrainingProject.Controllers
         {
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
             parameter.Add(new KeyValuePair<string, object>("CategoryID", ID));
-            var cmd_delete = sqlconnect.CreateResult(executeType: ExecuteEnum.Delete, query: "Training_deleteCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
+            var cmd_delete = sqlconnect.CreateResult( ExecuteEnum.Delete, "Training_deleteCategory", CommandType.StoredProcedure, parameter);
             int del_user = cmd_delete;
 
             return RedirectToAction("Listing");
