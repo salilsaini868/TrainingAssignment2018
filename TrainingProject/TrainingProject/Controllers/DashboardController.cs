@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Web.Mvc;
+using TrainingProject.Models;
 using TrainingProject.Helper;
 
 namespace TrainingProject.Controllers
@@ -13,16 +15,16 @@ namespace TrainingProject.Controllers
 
         public ActionResult Index()
         {
+            StatisticsModel statisticsModel = new StatisticsModel();
             List<KeyValuePair<string, object>> parameter = new List<KeyValuePair<string, object>>();
-            var count_category = sqlconnect.CreateResult(executeType: ExecuteEnum.List, query: "Training_searchCategory", command: CommandType.StoredProcedure, valuePairs: parameter);
-            var category_count = count_category.Rows.Count;
-            TempData["Message_CategoryCount"] = category_count;
+            var list_count = sqlconnect.CreateResult( ExecuteEnum.Detail, "Training_ListCount", CommandType.StoredProcedure, parameter);
+            list_count.Read();
 
-            List<KeyValuePair<string, object>> prod_parameter = new List<KeyValuePair<string, object>>();
-            var count_product = sqlconnect.CreateResult(executeType: ExecuteEnum.List, query: "Training_SearchProduct", command: CommandType.StoredProcedure, valuePairs: prod_parameter);
-            var product_count = count_product.Rows.Count;
-            TempData["Message_ProductCount"] = product_count;
-
+            statisticsModel.CategoryCount = Convert.ToInt32(list_count["CategoryCount"]);
+            statisticsModel.ProductCount = Convert.ToInt32(list_count["ProductCount"]);            
+            TempData["Message_CategoryCount"] = statisticsModel.CategoryCount;
+            TempData["Message_ProductCount"] = statisticsModel.ProductCount;
+             
             return View();
         }
     }
