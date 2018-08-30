@@ -1,5 +1,5 @@
 ﻿@using System.Data;
-@model System.Data.DataTable
+@model IEnumerable<TrainingProject.Models.CategoryModel>
 
 @{
     ViewBag.Title = "CategoryList";
@@ -35,35 +35,23 @@
                 <br>
                 <table class="table table-bordered">
                     <tr id="table_head">
-
                         <th hidden>Category ID</th>
-
                         <th>Name</th>
-
                         <th>Description</th>
-
                         <th>IsActive</th>
-
                         <th>Created By</th>
-
                         <th>Created Date</th>
-
                         <th>Modified By</th>
-
                         <th></th>
                     </tr>
-                    @foreach (DataRow item in Model.Rows)
+                    @foreach (var item in Model)
                     {
-
                         <tr>
-                            <td hidden>@item["CategoryID"].ToString()</td>
-
-                            <td>@item["CategoryName"].ToString()</td>
-
-                            <td>@item["CategoryDescription"].ToString()</td>
-
+                            <td hidden>@item.CategoryID</td>
+                            <td>@item.CategoryName</td>
+                            <td>@item.CategoryDescription</td>
                             @{
-                                if (item["IsActive"].ToString() == "True")
+                                if (item.IsActive == true)
                                 {
                                     <td id="active">
                                         Active
@@ -76,21 +64,12 @@
                                     </td>
                                 }
                             }
-
-                            <td>@item["CreatedUser"].ToString()</td>
-
+                            <td>@item.CreatedUser</td>
+                            <td>@item.CreatedDate.ToString("dd-MMM-yyyy")</td>
+                            <td>@item.ModifiedUser</td>
                             <td>
-                                @{ DateTime createdDate = @item["CreatedDate"].ToString().AsDateTime();
-                                    var Date = String.Format("{0:dd-MMM-yyyy}", createdDate);
-                                }
-                                @Date
-                            </td>
-
-                            <td>@item["ModifiedUser"].ToString()</td>
-
-                            <td>
-                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item["CategoryId"] })"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
-                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item["CategoryId"] })"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
+                                <text class="link_edit"><a href="@Url.Action("Detail", "Category", new { id = item.CategoryID})"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit"></i></a></text>
+                                <text class="link_delete"><a href="@Url.Action("Delete", "Category", new { id = item.CategoryID})"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a></text>
                             </td>
                         </tr>
                     }
