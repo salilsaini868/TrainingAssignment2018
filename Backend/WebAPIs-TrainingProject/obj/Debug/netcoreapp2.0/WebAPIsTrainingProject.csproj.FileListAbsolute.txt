@@ -1,0 +1,22 @@
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.deps.json
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.runtimeconfig.json
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.runtimeconfig.dev.json
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.dll
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.pdb
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.csproj.CoreCompileInputs.cache
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.AssemblyInfoInputs.cache
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.AssemblyInfo.cs
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.dll
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.pdb
+D:\New Project - APIs\WebAPIs-TrainingProject\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.csprojAssemblyReference.cache
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.deps.json
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.runtimeconfig.json
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.runtimeconfig.dev.json
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.dll
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\bin\Debug\netcoreapp2.0\WebAPIsTrainingProject.pdb
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.csprojAssemblyReference.cache
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.csproj.CoreCompileInputs.cache
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.AssemblyInfoInputs.cache
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.AssemblyInfo.cs
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.dll
+D:\Project\TrainingProject\TrainingAssignment2018\Backend\WebAPIs-TrainingProject\obj\Debug\netcoreapp2.0\WebAPIsTrainingProject.pdb
