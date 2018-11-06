@@ -1,0 +1,57 @@
+<div>
+  <h2 id="training-heading">
+    Register User
+  </h2>
+  <div id="login-page">
+    <button class="btn btn-info" [routerLink]="['']">back</button>
+  </div>
+  <hr>
+</div>
+<div class="row">
+  <div class="col-md-4">
+
+  </div>
+  <div class="col-md-4">
+    <form class="emp-form" #employeeForm="ngForm" (ngSubmit)="submitForm(employeeForm)" novalidate>
+      <div class="form-row">
+
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" autocomplete="off" name="firstName" #firstName="ngModel" [(ngModel)]="registerService.selectedUser.firstName"
+            [ngClass]="{ 'is-invalid': firstName.errors && submitted}" placeholder="First Name" required />
+          <div *ngIf="submitted && firstName.errors?.required" class="invalid-feedback">*required</div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" autocomplete="off" name="lastName" #lastName="ngModel" [(ngModel)]="registerService.selectedUser.lastName"
+            [ngClass]="{ 'is-invalid': lastName.errors && submitted}" placeholder="Last Name" required />
+          <div *ngIf="submitted && lastName.errors?.required" class="invalid-feedback">*required</div>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" autocomplete="off" name="username" #username="ngModel" [(ngModel)]="registerService.selectedUser.username"
+          [ngClass]="{ 'is-invalid': username.errors && submitted}" placeholder="Username" required />
+        <div *ngIf="submitted && username.errors?.required" class="invalid-feedback">*required</div>
+      </div>
+
+      <div class="form-group">
+        <input type="password" class="form-control" autocomplete="off" name="password" #password="ngModel" [(ngModel)]="registerService.selectedUser.password"
+          [ngClass]="{ 'is-invalid': password.errors && submitted}" placeholder="Password" required />
+        <div *ngIf="submitted && password.errors?.required" class="invalid-feedback">*required</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <button type="submit" [disabled]="loading" class="btn btn-lg btn-block btn-info">Submit</button>
+        </div>
+        <div class="form-group col-md-4">
+          <button type="button" class="btn btn-lg btn-block btn-secondary" (click)="resetForm(employeeForm)">Reset</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4">
+
+  </div>
+</div>
