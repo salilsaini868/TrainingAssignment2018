@@ -20,17 +20,13 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private SignInService: SigninService) { }
 
-  ngOnInit() {
-    // reset login status
-    // this.authenticationService.logout();
-  }
+  ngOnInit() { }
 
   login(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
       this.SignInService.login(this.model.username, this.model.password)
         .subscribe(result => {
-          debugger;
           console.log(result);
           if (result.statusCode === 200) {
             console.log(result.value.token);
@@ -41,8 +37,7 @@ export class LoginComponent implements OnInit {
             this.error = 'Username or Password is incorrect';
           }
         }, error => {
-          debugger;
-          // console.log('error: ' + error);
+           console.log('error: ' + error);
         });
     }
   }
