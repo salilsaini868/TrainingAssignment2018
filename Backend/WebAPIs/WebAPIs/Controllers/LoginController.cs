@@ -17,9 +17,9 @@ using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class LoginController : Controller
     {
         private readonly WebApisContext context;
@@ -31,9 +31,18 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
+        /// <summary>
+        /// Authenticates the user.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>
+        /// Token string for correct details.
+        /// </returns>
+
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetUser(string username, string password)
+        public async Task<IActionResult> LoginUser(string username, string password)
         {
             IActionResult response = Unauthorized();
             if (username != null && password != null)
@@ -57,6 +66,14 @@ namespace WebAPIs.Controllers
             }
         }
 
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// Returns token generated.
+        /// </returns>
+        
         private string BuildToken(LoginModel user)
         {
 

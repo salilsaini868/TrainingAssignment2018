@@ -23,8 +23,16 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
+        /// <summary>
+        /// Creates new user.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns>
+        /// Login object with new UserID.
+        /// </returns>
         [AllowAnonymous]
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(LoginModel))]
         public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
         {
             if (!ModelState.IsValid)

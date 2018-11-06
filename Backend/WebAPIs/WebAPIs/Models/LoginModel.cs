@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace WebAPIs.Models
 {
+    /// <summary>
+    /// Class containing parameters for users.
+    /// </summary>
     public class LoginModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
