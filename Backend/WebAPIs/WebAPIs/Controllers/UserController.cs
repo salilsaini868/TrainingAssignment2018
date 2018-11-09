@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +34,7 @@ namespace WebAPIs.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(201, Type = typeof(LoginModel))]
-        public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
+        public async Task<IActionResult> CreateLogin([FromBody] [Required] LoginModel login)
         {
             if (!ModelState.IsValid)
             {

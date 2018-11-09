@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -42,7 +43,7 @@ namespace WebAPIs.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> LoginUser(string username, string password)
+        public async Task<IActionResult> LoginUser([Required] string username, [Required] string password)
         {
             IActionResult response = Unauthorized();
             if (username != null && password != null)
