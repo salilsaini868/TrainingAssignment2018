@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,5 +22,16 @@ namespace WebAPIs.Models
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+    }
+
+    public class LoginValidator : AbstractValidator<LoginModel>
+    {
+        public LoginValidator()
+        {
+            RuleFor(x => x.Username).NotNull();
+            RuleFor(x => x.FirstName).NotNull();
+            RuleFor(x => x.LastName).NotNull();
+            RuleFor(x => x.Password).Length(5, 10).NotNull();
+        }
     }
 }
