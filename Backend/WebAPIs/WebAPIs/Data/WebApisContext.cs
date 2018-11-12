@@ -12,6 +12,6 @@ namespace WebAPIs.Data
             : base(options)
         {
         }
-        public DbSet<Models.LoginModel> LoginTable { get; set; }
+        public DbSet<Models.UserModel> LoginTable { get; set; }
     }
 }

@@ -60,7 +60,7 @@ namespace WebAPIs
 
             services.AddMvc(setup => {
             }).AddFluentValidation();
-            services.AddTransient<IValidator<LoginModel>, LoginValidator>();
+            services.AddTransient<IValidator<UserModel>, UserValidator>();
 
             services.AddDbContext<WebApisContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebAPIsTrainingProjectContext")));

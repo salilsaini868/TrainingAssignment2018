@@ -33,8 +33,8 @@ namespace WebAPIs.Controllers
         /// </returns>
         [AllowAnonymous]
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(LoginModel))]
-        public async Task<IActionResult> CreateLogin([FromBody] [Required] LoginModel login)
+        [ProducesResponseType(201, Type = typeof(UserModel))]
+        public async Task<IActionResult> CreateLogin([FromBody] [Required] UserModel login)
         {
             if (!ModelState.IsValid)
             {

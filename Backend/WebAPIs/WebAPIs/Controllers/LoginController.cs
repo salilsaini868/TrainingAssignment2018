@@ -43,16 +43,16 @@ namespace WebAPIs.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> LoginUser([Required] string username, [Required] string password)
-        {
+        public async Task<IActionResult> LoginUser( [FromQuery] LoginModel loginModel)
+        {            
             IActionResult response = Unauthorized();
-            if (username != null && password != null)
+            if (loginModel.Username != null && loginModel.Password != null)
             {
                 if (!ModelState.IsValid)
                 {
                     return response = BadRequest(ModelState);
                 }
-                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
+                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == loginModel.Username && m.Password == loginModel.Password);                
                 if (user == null)
                 {
                     return response = Ok(new { message = "Username or Password is incorrect" });
@@ -75,7 +75,7 @@ namespace WebAPIs.Controllers
         /// Returns token generated.
         /// </returns>
         
-        private string BuildToken(LoginModel user)
+        private string BuildToken(UserModel user)
         {
 
             var claims = new[] {
