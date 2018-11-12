@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +19,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using WebAPIs.Data;
+using WebAPIs.Models;
+using WebAPIs.Validator;
 
 namespace WebAPIs
 {
@@ -26,12 +31,25 @@ namespace WebAPIs
             Configuration = configuration;
         }
 
+        private const string DefaultCorsPolicyName = "http://localhost:4200/";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IPrincipal>(
+                provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+            
+            services.AddCors(options =>
+                        {
+                            options.AddPolicy(DefaultCorsPolicyName, p =>
+                            {
+                                p.WithOrigins(Configuration["AllowedHeader"]).AllowAnyHeader().AllowAnyMethod();
+                            });
+                        });
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
@@ -40,7 +58,7 @@ namespace WebAPIs
                 ClockSkew = TimeSpan.FromMinutes(5),
                 RequireSignedTokens = true,
                 RequireExpirationTime = true,
-                ValidateLifetime = true,                
+                ValidateLifetime = true,
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
@@ -51,9 +69,15 @@ namespace WebAPIs
         });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
+            //services.AddMvc()
+            //    .AddFluentValidation();
+            //services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
+
+            
 
             services.AddDbContext<WebApisContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("WebAPIsTrainingProjectContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("WebAPIsContext")));
 
             services.AddSwaggerGen(c =>
             {
@@ -86,8 +110,10 @@ namespace WebAPIs
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();            
+            app.UseHttpsRedirection();
 
+            app.UseCors(DefaultCorsPolicyName);
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

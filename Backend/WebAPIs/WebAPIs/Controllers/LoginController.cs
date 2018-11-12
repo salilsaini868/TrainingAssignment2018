@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,11 +16,13 @@ using Newtonsoft.Json;
 using WebAPIs.Data;
 using WebAPIs.Models;
 
+
 namespace WebAPIs.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
+    [Produces("application/json")]
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private readonly WebApisContext context;
@@ -30,36 +33,32 @@ namespace WebAPIs.Controllers
             context = APIcontext;
             config = _config;
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            context.LoginTable.Add(login);
-            await context.SaveChangesAsync();
-            return CreatedAtAction("CreateLogin", new { id = login.UserID }, login);
-        }
-
-        [AllowAnonymous]
+        
         [HttpGet]
         public async Task<IActionResult> GetUser(string username, string password)
         {
             IActionResult response = Unauthorized();
-            if (!ModelState.IsValid)
+            if (username != null && password != null)
             {
-                response = BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return response = BadRequest(ModelState);
+                }
+                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
+               
+                if (user == null)
+                {
+                    return response = NotFound("User does not exist");
+                }
+                var tokenString = BuildToken(user);
+                response = Ok(new { token = tokenString });
+                return Ok(response);
             }
-            var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
-            if (user == null)
+            else
             {
-                response = NotFound("User does not exist");
+                return response = NotFound("Enter username and password");
             }
-            var tokenString = BuildToken(user);
-            response = Ok(new { token = tokenString });
-            return Ok(response);
+
         }
 
         private string BuildToken(LoginModel user)
@@ -85,3 +84,6 @@ namespace WebAPIs.Controllers
         }
     }
 }
+
+
+
