@@ -17,7 +17,7 @@ using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     //[ApiController]
     public class LoginController : Controller
@@ -31,35 +31,30 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            context.LoginTable.Add(login);
-            await context.SaveChangesAsync();
-            return CreatedAtAction("CreateLogin", new { id = login.UserID }, login);
-        }
-
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetUser(string username, string password)
         {
             IActionResult response = Unauthorized();
-            if (!ModelState.IsValid)
+            if (username != null && password != null)
             {
-                response = BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return response = BadRequest(ModelState);
+                }
+                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
+                if (user == null)
+                {
+                    return response = Ok(new { message = "Username or Password is incorrect" });
+                }
+                var tokenString = BuildToken(user);
+                response = Ok(new { token = tokenString });
+                return Ok(response);
             }
-            var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
-            if (user == null)
+            else
             {
-                response = NotFound("User does not exist");
+                return response = Ok(new { message= "Enter username and password" });
             }
-            var tokenString = BuildToken(user);
-            response = Ok(new { token = tokenString });
-            return Ok(response);
         }
 
         private string BuildToken(LoginModel user)
