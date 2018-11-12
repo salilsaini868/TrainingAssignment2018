@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -19,7 +20,7 @@ namespace WebAPIs.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class LoginController : Controller
     {
         private readonly WebApisContext context;
@@ -31,38 +32,50 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            context.LoginTable.Add(login);
-            await context.SaveChangesAsync();
-            return CreatedAtAction("CreateLogin", new { id = login.UserID }, login);
-        }
+        /// <summary>
+        /// Authenticates the user.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>
+        /// Token string for correct details.
+        /// </returns>
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetUser(string username, string password)
-        {
+        public async Task<IActionResult> LoginUser( [FromQuery] LoginModel loginModel)
+        {            
             IActionResult response = Unauthorized();
-            if (!ModelState.IsValid)
+            if (loginModel.Username != null && loginModel.Password != null)
             {
-                response = BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return response = BadRequest(ModelState);
+                }
+                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == loginModel.Username && m.Password == loginModel.Password);                
+                if (user == null)
+                {
+                    return response = Ok(new { message = "Username or Password is incorrect" });
+                }
+                var tokenString = BuildToken(user);
+                response = Ok(new { token = tokenString });
+                return Ok(response);
             }
-            var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
-            if (user == null)
+            else
             {
-                response = NotFound("User does not exist");
+                return response = Ok(new { message= "Enter username and password" });
             }
-            var tokenString = BuildToken(user);
-            response = Ok(new { token = tokenString });
-            return Ok(response);
         }
 
-        private string BuildToken(LoginModel user)
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// Returns token generated.
+        /// </returns>
+        
+        private string BuildToken(UserModel user)
         {
 
             var claims = new[] {
