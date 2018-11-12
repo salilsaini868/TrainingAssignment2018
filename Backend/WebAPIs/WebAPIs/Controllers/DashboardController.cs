@@ -26,7 +26,10 @@ namespace WebAPIs.Controllers
         public async Task<IActionResult> GetCount()
         {
             StatisticsModel statisticsModel = new StatisticsModel();
-
+            //var categoryQuery = await context.CategoryTable.ToListAsync();
+            //var productQuery = await context.ProductTable.ToListAsync();
+            //statisticsModel.CategoryCount = categoryQuery.ToList().Count;
+            //statisticsModel.ProductCount = productQuery.ToList().Count;            
             return Ok(statisticsModel);
 
         }
