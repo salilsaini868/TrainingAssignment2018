@@ -19,7 +19,4 @@ export class SigninService {
     return this.http.get('http://localhost:50100/api/login', { params: queryParameters });
   }
 
-  logout(): void {
-    // clear token remove user from local storage to log user out
-  }
 }

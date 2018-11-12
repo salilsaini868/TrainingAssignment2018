@@ -19,7 +19,6 @@ export class RegisterService {
     constructor(private http: Http) { }
 
     postLogin(user: LoginUser) {
-        debugger;
         const body = JSON.stringify(user);
         const headerOptions = new Headers({ 'Content-Type': 'application/json' });
         const requestOptions = new RequestOptions({ method: RequestMethod.Post, headers: headerOptions });

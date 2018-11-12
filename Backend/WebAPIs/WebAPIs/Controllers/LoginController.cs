@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -17,9 +18,9 @@ using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
-    //[ApiController]
+    [ApiController]
     public class LoginController : Controller
     {
         private readonly WebApisContext context;
@@ -31,18 +32,27 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
+        /// <summary>
+        /// Authenticates the user.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns>
+        /// Token string for correct details.
+        /// </returns>
+
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetUser(string username, string password)
-        {
+        public async Task<IActionResult> LoginUser( [FromQuery] LoginModel loginModel)
+        {            
             IActionResult response = Unauthorized();
-            if (username != null && password != null)
+            if (loginModel.Username != null && loginModel.Password != null)
             {
                 if (!ModelState.IsValid)
                 {
                     return response = BadRequest(ModelState);
                 }
-                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == username && m.Password == password);
+                var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == loginModel.Username && m.Password == loginModel.Password);                
                 if (user == null)
                 {
                     return response = Ok(new { message = "Username or Password is incorrect" });
@@ -57,7 +67,15 @@ namespace WebAPIs.Controllers
             }
         }
 
-        private string BuildToken(LoginModel user)
+        /// <summary>
+        /// Generates the token.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>
+        /// Returns token generated.
+        /// </returns>
+        
+        private string BuildToken(UserModel user)
         {
 
             var claims = new[] {
