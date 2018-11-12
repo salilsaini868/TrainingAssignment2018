@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -70,9 +71,9 @@ namespace WebAPIs
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
-            //services.AddMvc()
-            //    .AddFluentValidation();
-            //services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
+            services.AddMvc()
+               .AddFluentValidation();
+            services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
 
             
 
