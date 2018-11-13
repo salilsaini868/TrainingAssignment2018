@@ -1,0 +1,23 @@
+.login-pop-over {
+  width: auto;
+  height: auto;
+  background-color: white;
+  margin: 10% auto 0;
+  padding: 30px 30px 10px;
+  border-radius: 30px;
+  text-align: center
+}
+
+#image {
+  background-image: url('../../assets/images/logo_training.png');
+}
+
+img {
+  height: 250px;
+  width: auto;
+}
+
+#new-user {
+  text-align-last: right;
+  margin-top: 35px;
+}

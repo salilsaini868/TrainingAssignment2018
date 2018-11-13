@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Filters;
 
 namespace WebAPIs.Models
 {
     public class ProductModel
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [BindNever]
         public int ProductID { get; set; }
@@ -42,4 +48,77 @@ namespace WebAPIs.Models
         public Nullable<DateTime> ModifiedDate { get; set; }
     }
 
+    public class ProductValidator : AbstractValidator<ProductModel>
+    {
+        public ProductValidator()
+        {
+            RuleFor(prop => prop.ProductName).NotNull()
+                                             .Length(3, 20)
+                                             .WithMessage("Product Name should be greater than 3 characters");
+
+            RuleFor(prop => prop.ProductDescription).NotNull()
+                                             .WithMessage("Description Can't be empty");
+
+            RuleFor(prop => prop.CategoryID).NotNull()
+                                             .GreaterThanOrEqualTo(1)
+                                             .WithMessage("Category ID Can't be empty");
+
+            RuleFor(prop => prop.IsActive).NotEmpty()
+                                             .Must(prop => prop == false || prop == true)
+                                             .WithMessage("IsActive Can't be empty"); 
+            
+            RuleFor(prop => prop.Price).NotNull()
+                                             .GreaterThanOrEqualTo(1)
+                                             .WithMessage("Price Can't be empty");
+
+            RuleFor(prop => prop.Quantity).NotNull()
+                                             .GreaterThanOrEqualTo(1)
+                                             .WithMessage("Quantity Can't be empty");
+
+            RuleFor(prop => prop.VisibleTill).NotNull()
+                                             .GreaterThan(DateTime.Today)
+                                             .WithMessage("You cannot enter a  date from the past");
+                                             
+        }
+    }   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//public class ValidatorActionFilter : IActionFilter
+//{
+//    public void OnActionExecuting(ActionExecutingContext filterContext)
+//    {
+//        if (!filterContext.ModelState.IsValid)
+//        {
+//            filterContext.Result = new BadRequestObjectResult(filterContext.ModelState);
+//        }
+//    }
+
+//    public void OnActionExecuted(ActionExecutedContext filterContext)
+//    {
+
+//    }
+//}

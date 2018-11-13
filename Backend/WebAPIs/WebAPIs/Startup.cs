@@ -21,7 +21,6 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using WebAPIs.Data;
 using WebAPIs.Models;
-using WebAPIs.Validator;
 
 namespace WebAPIs
 {
@@ -42,15 +41,15 @@ namespace WebAPIs
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(
                 provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
-            
+
             services.AddCors(options =>
-                        {
-                            options.AddPolicy(DefaultCorsPolicyName, p =>
-                            {
-                                p.WithOrigins(Configuration["AllowedHeader"]).AllowAnyHeader().AllowAnyMethod();
-                            });
-                        });
-            
+            {
+                options.AddPolicy(DefaultCorsPolicyName, p =>
+                {
+                    p.WithOrigins(Configuration["AllowedHeader"]).AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
@@ -70,13 +69,12 @@ namespace WebAPIs
         });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
-            services.AddMvc()
-               .AddFluentValidation();
-            services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
 
+            services.AddMvc(setup => { })
+                .AddFluentValidation();
+            services.AddTransient<IValidator<ProductModel>, ProductValidator>();
+            services.AddTransient<IValidator<UserModel>, UserValidator>();
             
-
             services.AddDbContext<WebApisContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebAPIsContext")));
 
@@ -114,7 +112,7 @@ namespace WebAPIs
             app.UseHttpsRedirection();
 
             app.UseCors(DefaultCorsPolicyName);
-            
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

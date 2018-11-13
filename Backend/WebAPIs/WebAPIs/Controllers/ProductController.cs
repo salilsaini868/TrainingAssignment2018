@@ -4,31 +4,39 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using System.Web.Http.Cors;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WebAPIs.Data;
 using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
-    //[Produces("application/json")]
+    /// <summary>
+    /// Product Controller.
+    /// </summary>
     [Authorize]
     [Route("api/Product/[action]")]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private WebApisContext context;
         private readonly ClaimsPrincipal principal;
+
+        /// <summary>
+        /// Initializes a new instance of the ProductController.
+        /// </summary>
+        /// <param name="_context, _principal"></param>
         public ProductController(WebApisContext _context, IPrincipal _principal)
         {
             context = _context;
             principal = _principal as ClaimsPrincipal;
         }
-        
+
+        /// <summary>
+        /// Get a specific Product.
+        /// </summary>
+        /// <returns>Record of that product.</returns>
+        /// <param name="id">Identifier of the Product.</param>
         [HttpGet("{id}")]
         public async Task<ActionResult> GetProductById(int? id)
         {
@@ -63,11 +71,19 @@ namespace WebAPIs.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert a new product.
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(ProductModel))]
         public async Task<ActionResult> InsertProduct(ProductModel prop)
         {
-            //var str = HttpContext.Session.GetString("User");
-            //var userlogin = JsonConvert.DeserializeObject<LoginModel>(str);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             if (prop.ProductID == 0)
             {
@@ -93,11 +109,14 @@ namespace WebAPIs.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Update a Product.
+        /// </summary>
+        /// <param name="id, prop"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, ProductModel prop)
         {
-            //var str = HttpContext.Session.GetString("User");
-            //var userlogin = JsonConvert.DeserializeObject<LoginModel>(str);
             var EditQuery = context.ProductTable.Where(x => x.ProductID == id).FirstOrDefault();
             EditQuery.ProductName = prop.ProductName;
             EditQuery.CategoryID = prop.CategoryID;
@@ -116,10 +135,14 @@ namespace WebAPIs.Controllers
             return Ok(prop);
         }
 
+        /// <summary>
+        /// Get all Products.
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Listing(string search)
         {
-
             var listQuery = from c in context.ProductTable
                             join createdUser in context.LoginTable
                             on c.CreatedBy equals createdUser.UserID
@@ -168,6 +191,11 @@ namespace WebAPIs.Controllers
             return Ok(viewList);
         }
 
+        /// <summary>
+        /// Delete a Product.
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteProduct(int ID)
         {

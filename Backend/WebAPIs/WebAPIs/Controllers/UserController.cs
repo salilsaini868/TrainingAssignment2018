@@ -1,25 +1,20 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using WebAPIs.Data;
 using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/User/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly WebApisContext context;
         private IConfiguration config;
@@ -30,9 +25,17 @@ namespace WebAPIs.Controllers
             config = _config;
         }
 
-        
+        /// <summary>
+        /// Creates new user.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns>
+        /// Login object with new UserID.
+        /// </returns>
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> CreateLogin([FromBody] LoginModel login)
+        [ProducesResponseType(201, Type = typeof(UserModel))]
+        public async Task<IActionResult> CreateLogin([FromBody] [Required] UserModel login)
         {
             if (!ModelState.IsValid)
             {
