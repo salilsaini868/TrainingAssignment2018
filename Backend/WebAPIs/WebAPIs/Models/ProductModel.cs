@@ -1,14 +1,8 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http.Filters;
 
 namespace WebAPIs.Models
 {
@@ -82,43 +76,3 @@ namespace WebAPIs.Models
         }
     }   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//public class ValidatorActionFilter : IActionFilter
-//{
-//    public void OnActionExecuting(ActionExecutingContext filterContext)
-//    {
-//        if (!filterContext.ModelState.IsValid)
-//        {
-//            filterContext.Result = new BadRequestObjectResult(filterContext.ModelState);
-//        }
-//    }
-
-//    public void OnActionExecuted(ActionExecutedContext filterContext)
-//    {
-
-//    }
-//}
