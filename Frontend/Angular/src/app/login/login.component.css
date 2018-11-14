@@ -19,5 +19,13 @@ img {
 
 #new-user {
   text-align-last: right;
-  margin-top: 35px;
+  margin-top: 60px;
+  margin-right: 30px;
 }
+
+.inner-margin{
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+
