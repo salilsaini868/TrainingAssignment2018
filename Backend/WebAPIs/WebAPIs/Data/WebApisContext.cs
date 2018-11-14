@@ -12,6 +12,12 @@ namespace WebAPIs.Data
             : base(options)
         {
         }
+
+        
+        public DbSet<Models.ProductModel> ProductTable { get; set; }
+
+        public DbSet<Models.CategoryModel> CategoryTable { get; set; }
+
         public DbSet<Models.UserModel> LoginTable { get; set; }
     }
 }

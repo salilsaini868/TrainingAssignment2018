@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Principal;
 using System.Text;
+using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 using WebAPIs.Data;
@@ -19,22 +26,27 @@ namespace WebAPIs
 {
     public class Startup
     {
-        private const string DefaultCorsPolicyName = "localhost";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        private const string DefaultCorsPolicyName = "http://localhost:4200/";
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IPrincipal>(
+                provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
+
             services.AddCors(options =>
             {
                 options.AddPolicy(DefaultCorsPolicyName, p =>
                 {
-                    p.WithOrigins(Configuration["AllowedHeader"]).AllowAnyHeader().AllowAnyMethod().AllowAnyMethod();
+                    p.WithOrigins(Configuration["AllowedHeader"]).AllowAnyHeader().AllowAnyMethod();
                 });
             });
 
@@ -54,16 +66,17 @@ namespace WebAPIs
                 ValidAudience = Configuration["Jwt:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             };
-        });            
+        });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddMvc(setup => {
-            }).AddFluentValidation();
+            services.AddMvc(setup => { })
+                .AddFluentValidation();
+            services.AddTransient<IValidator<ProductModel>, ProductValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
-
+            
             services.AddDbContext<WebApisContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("WebAPIsTrainingProjectContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("WebAPIsContext")));
 
             services.AddSwaggerGen(c =>
             {
@@ -95,10 +108,11 @@ namespace WebAPIs
             {
                 app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
+
             app.UseCors(DefaultCorsPolicyName);
-            // app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseMvc();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -106,6 +120,10 @@ namespace WebAPIs
                 c.DocumentTitle = "Title Documentation";
                 c.DocExpansion(DocExpansion.None);
             });
+
+            app.UseAuthentication();
+
+            app.UseMvc();
         }
     }
 }

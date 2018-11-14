@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +18,7 @@ namespace WebAPIs.Controllers
     {
         private readonly WebApisContext context;
         private IConfiguration config;
+
         public UserController(WebApisContext APIcontext, IConfiguration _config)
         {
             context = APIcontext;

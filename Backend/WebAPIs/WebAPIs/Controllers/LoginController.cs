@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using WebAPIs.Data;
 using WebAPIs.Models;
 
+
 namespace WebAPIs.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+
     public class LoginController : Controller
     {
         private readonly WebApisContext context;
@@ -31,6 +27,7 @@ namespace WebAPIs.Controllers
             context = APIcontext;
             config = _config;
         }
+
 
         /// <summary>
         /// Authenticates the user.
@@ -46,12 +43,14 @@ namespace WebAPIs.Controllers
         public async Task<IActionResult> LoginUser( [FromQuery] LoginModel loginModel)
         {            
             IActionResult response = Unauthorized();
+
             if (loginModel.Username != null && loginModel.Password != null)
             {
                 if (!ModelState.IsValid)
                 {
                     return response = BadRequest(ModelState);
                 }
+
                 var user = await context.LoginTable.SingleOrDefaultAsync(m => m.Username == loginModel.Username && m.Password == loginModel.Password);                
                 if (user == null)
                 {
@@ -98,3 +97,6 @@ namespace WebAPIs.Controllers
         }
     }
 }
+
+
+
