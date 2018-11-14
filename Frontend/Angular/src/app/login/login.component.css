@@ -12,12 +12,18 @@
   background-image: url('../../assets/images/logo_training.png');
 }
 
+.top-margin{
+  margin-top: 45px;
+}
+
 img {
   height: 250px;
   width: auto;
 }
 
-#new-user {
-  text-align-last: right;
-  margin-top: 35px;
+.inner-margin{
+  padding-left: 50px;
+  padding-right: 50px;
 }
+
+

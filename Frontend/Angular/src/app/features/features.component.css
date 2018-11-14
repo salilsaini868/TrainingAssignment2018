@@ -1,0 +1,69 @@
+.white-main-inner {
+    width: 100%;
+    height: 490px;
+    float: left;
+    background: #ffffff;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 20px 0;
+    -moz-box-shadow: 0 0 8px #dfdfdf;
+    -webkit-box-shadow: 0 0 8px #dfdfdf;
+    box-shadow: 0 0 8px #a19f9f;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.page-margin{
+    margin-top: 25px;
+    padding-top: 10px;
+    padding-left: 40px;
+}
+
+h1, h2 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-bottom: 1.2rem;
+    color: darkslategrey;
+}
+
+h1 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+}
+
+h2 {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2.4rem;
+    font-weight: 500;
+}
+
+#side-bar{
+    border-left: 2px solid teal;
+    height: 657px;
+}
+
+#side-margin{
+    margin-left:1px;
+}
+
+.sub-container{
+    background: #ffffff;
+    height: 490px;
+    margin-top: 25px;
+    border-top-left-radius: 7px;
+    padding: 20px 0;
+    -moz-box-shadow: 0 0 8px #dfdfdf;
+    -webkit-box-shadow: 0 0 8px #dfdfdf;
+    box-shadow: 0 0 8px #a19f9f;
+}
+
+.img-prop{
+    margin-top: 10px;
+}
+
+.sidebar-padding{
+    padding-top: 30px;
+    padding-right: 0px;
+    padding-left: 0px;
+}

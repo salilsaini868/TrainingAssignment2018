@@ -3,11 +3,15 @@ import { AppComponent } from '../app.component';
 import { RegisterComponent } from 'src/app/register/register.component';
 import { LoginComponent } from 'src/app/login/login.component';
 import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
+import { FeaturesComponent } from 'src/app/features/features.component';
 
 const routes: Routes = [
     {
         path: 'dashboard',
-        component: DashboardComponent
+        component: FeaturesComponent,
+        children: [
+            { path: '', component: DashboardComponent }
+        ]
     },
     {
         path: 'register',
