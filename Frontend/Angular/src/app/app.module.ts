@@ -13,6 +13,7 @@ import { APPROUTERMODULE } from 'src/app/routes/app.route';
 import { AuthInterceptor } from 'src/app/shared/Interceptor';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FeaturesComponent } from './features/features.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { FeaturesComponent } from './features/features.component';
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    FeaturesComponent
+    FeaturesComponent,
+    SidebarComponent
   ],
 
   providers: [

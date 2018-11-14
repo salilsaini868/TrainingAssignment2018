@@ -24,13 +24,12 @@
 h1, h2 {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
     padding-bottom: 1.2rem;
-    color: #20275a;
+    color: darkslategrey;
 }
 
 h1 {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 2.4rem;
-    font-weight: 600;
+    font-weight: 300;
 }
 
 h2 {
@@ -52,6 +51,7 @@ h2 {
     background: #ffffff;
     height: 490px;
     margin-top: 25px;
+    border-top-left-radius: 7px;
     padding: 20px 0;
     -moz-box-shadow: 0 0 8px #dfdfdf;
     -webkit-box-shadow: 0 0 8px #dfdfdf;
@@ -60,4 +60,10 @@ h2 {
 
 .img-prop{
     margin-top: 10px;
+}
+
+.sidebar-padding{
+    padding-top: 30px;
+    padding-right: 0px;
+    padding-left: 0px;
 }
