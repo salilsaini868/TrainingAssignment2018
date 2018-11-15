@@ -18,5 +18,7 @@ export class SigninService {
     console.log(queryParameters.toString());
     return this.http.get('http://localhost:50100/api/login', { params: queryParameters });
   }
-
+  logout() {
+    localStorage.removeItem('token');
+  }
 }

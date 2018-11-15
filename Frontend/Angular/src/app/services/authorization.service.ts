@@ -7,7 +7,6 @@ export class AuthService implements CanActivate {
     constructor(public router: Router) { }
 
     public canActivate(): boolean {
-        debugger;
         const token = localStorage.getItem('token');
         if (!token) {
             this.router.navigate(['']);
