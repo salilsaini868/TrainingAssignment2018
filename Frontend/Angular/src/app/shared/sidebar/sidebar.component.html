@@ -1,16 +1,13 @@
 <div class="left-sidebar-new">
     <nav>
-        <!-- <h1 class="site-title logo-left text-center">
-            <img src="../../../assets/images/logo_training.png" class="img-fluid" />
-        </h1>         -->
         <ul class="nav sidebar-nav navbar-fixed-left bgcolor">
-            <li class="Dashboard">
-                <a>Dashboard</a>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+                <a [routerLink]="['/dashboard']">Dashboard</a>
             </li>
-            <li class="Product">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
                 <a>Products</a>
             </li>
-            <li class="Category">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
                 <a>Categories</a>
             </li>
         </ul>
