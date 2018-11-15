@@ -14,6 +14,7 @@ import { AuthInterceptor } from 'src/app/shared/Interceptor';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FeaturesComponent } from './features/features.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { AuthService } from './services/authorization.service';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
