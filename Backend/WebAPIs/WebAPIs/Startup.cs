@@ -74,6 +74,7 @@ namespace WebAPIs
                 .AddFluentValidation();
             services.AddTransient<IValidator<ProductModel>, ProductValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
+            services.AddTransient<IValidator<CategoryModel>, CategoryValidator>();
             
             services.AddDbContext<WebApisContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebAPIsContext")));

@@ -29,5 +29,15 @@ namespace WebAPIs.Models
         public Nullable<int> ModifiedBy { get; set; }
         [BindNever]
         public Nullable<DateTime> ModifiedDate { get; set; }
-    }    
+    }
+    public class CategoryValidator : AbstractValidator<CategoryModel>
+    {
+        public CategoryValidator()
+        {
+            RuleFor(x => x.CategoryName).NotNull();
+            RuleFor(x => x.CategoryDescription).NotNull();
+            RuleFor(x => x.IsActive).NotNull();
+        }
+    }
+
 }
