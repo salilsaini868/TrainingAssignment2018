@@ -18,6 +18,8 @@ namespace WebAPIs.Controllers
     {
         private WebApisContext context;
         private readonly ClaimsPrincipal principal;
+        private Helper helper;
+
         public CategoryController(WebApisContext APIcontext, IPrincipal _principal)
         {
             context = APIcontext;
@@ -42,21 +44,6 @@ namespace WebAPIs.Controllers
             return Ok();
         }
 
-        private dynamic GetSpecificClaim(string type)
-        {
-            var claimsIdentity = (ClaimsIdentity)principal.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.Sid).Value;
-            var userName = claimsIdentity.FindFirst(ClaimTypes.GivenName).Value;
-            if (type == "ID")
-            {
-                return Convert.ToInt32(userId);
-            }
-            else
-            {
-                return Convert.ToString(userName);
-            }
-        }
-
         [HttpPost]
         public async Task<IActionResult> InsertCategory(CategoryModel categories)
         {
@@ -66,13 +53,13 @@ namespace WebAPIs.Controllers
                 category.CategoryName = categories.CategoryName;
                 category.CategoryDescription = categories.CategoryDescription;
                 category.IsActive = categories.IsActive;
-                category.CreatedBy = GetSpecificClaim("ID");
+                category.CreatedBy = helper.GetSpecificClaim("ID");
                 category.CreatedDate = DateTime.Now;
                 context.CategoryTable.Add(category);
                 await context.SaveChangesAsync();
                 localCategoryModel localmodel = new localCategoryModel()
                 {
-                    CreatedUser = GetSpecificClaim("Name")
+                    CreatedUser = helper.GetSpecificClaim("Name")
                 };
             }
             return Ok(categories);
@@ -85,12 +72,12 @@ namespace WebAPIs.Controllers
             updateQuery.CategoryName = categories.CategoryName;
             updateQuery.CategoryDescription = categories.CategoryDescription;
             updateQuery.IsActive = categories.IsActive;
-            updateQuery.ModifiedBy = GetSpecificClaim("ID");
+            updateQuery.ModifiedBy = helper.GetSpecificClaim("ID");
             updateQuery.ModifiedDate = DateTime.Now;
             await context.SaveChangesAsync();
             localCategoryModel localmodel = new localCategoryModel()
             {
-                ModifiedUser = GetSpecificClaim("Name")
+                ModifiedUser = helper.GetSpecificClaim("Name")
             };
             return Ok(categories);
         }
