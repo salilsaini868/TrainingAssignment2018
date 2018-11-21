@@ -35,7 +35,7 @@ namespace WebAPIs.Controllers
         {
             if (id != 0)
             {
-                var detail = await context.CategoryTable.Where(x => x.CategoryID == id).FirstOrDefaultAsync();
+                var detail = await context.CategoryTable.FirstOrDefaultAsync(x => x.CategoryID == id);
                 if (detail != null)
                 {
                     return Ok(detail);
@@ -69,8 +69,10 @@ namespace WebAPIs.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryModel categories)
         {
-            var updateQuery = await context.CategoryTable.Where(x => x.CategoryID == id).FirstOrDefaultAsync();
-            mapper.Map<CategoryModel>(categories);
+            var updateQuery = await context.CategoryTable.FirstOrDefaultAsync(x => x.CategoryID == id);
+            updateQuery.CategoryName = categories.CategoryName;
+            updateQuery.CategoryDescription = categories.CategoryDescription;
+            updateQuery.IsActive = categories.IsActive;            
             updateQuery.ModifiedBy = helper.GetSpecificClaim("ID");
             updateQuery.ModifiedDate = DateTime.Now;
             await context.SaveChangesAsync();
@@ -82,7 +84,7 @@ namespace WebAPIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Listing(string search) 
+        public async Task<IActionResult> Listing(string search)
         {
             var listQuery = from c in context.CategoryTable
                             join createdUser in context.LoginTable
@@ -93,7 +95,8 @@ namespace WebAPIs.Controllers
                             on c.ModifiedBy equals modifiedUser.UserID
                             into modifyname
                             from p1 in modifyname.DefaultIfEmpty()
-                            select new localCategoryModel {
+                            select new localCategoryModel
+                            {
                                 CategoryID = c.CategoryID,
                                 CategoryName = c.CategoryName,
                                 CategoryDescription = c.CategoryDescription,
@@ -103,14 +106,14 @@ namespace WebAPIs.Controllers
                                 CreatedUser = p.Username,
                                 ModifiedBy = c.ModifiedBy,
                                 ModifiedDate = c.ModifiedDate,
-                                ModifiedUser = p1.Username            
-        };
+                                ModifiedUser = p1.Username
+                            };
             if (search != null)
             {
                 listQuery = listQuery.Where(x => x.CategoryName.Contains(search) || x.CategoryDescription.Contains(search));
             }
             var list = await listQuery.ToListAsync();
-            List<CategoryModel> viewList = new List<CategoryModel>();            
+            List<CategoryModel> viewList = new List<CategoryModel>();
             viewList = mapper.Map<List<CategoryModel>>(list);
 
             if (list.Count == 0)
@@ -123,11 +126,8 @@ namespace WebAPIs.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int ID)
         {
-            var deleteQuery = await context.CategoryTable.Where(x => x.CategoryID == ID).ToListAsync();
-            foreach (var item in deleteQuery)
-            {
-                context.CategoryTable.Remove(item);
-            }
+            var deleteQuery = await context.CategoryTable.FirstOrDefaultAsync(x => x.CategoryID == ID);
+            context.CategoryTable.Remove(deleteQuery);
             await context.SaveChangesAsync();
             return Ok("Deleted successfully.");
         }
