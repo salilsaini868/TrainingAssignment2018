@@ -29,8 +29,8 @@ namespace WebAPIs.Controllers
             StatisticsModel statisticsModel = new StatisticsModel();
             var categoryQuery = await context.CategoryTable.ToListAsync();
             var productQuery = await context.ProductTable.ToListAsync();
-            statisticsModel.CategoryCount = categoryQuery.ToList().Count;
-            statisticsModel.ProductCount = productQuery.ToList().Count;
+            statisticsModel.CategoryCount = categoryQuery.Count;
+            statisticsModel.ProductCount = productQuery.Count;
             return Ok(statisticsModel);
 
         }

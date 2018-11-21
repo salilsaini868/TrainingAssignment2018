@@ -30,6 +30,11 @@ namespace WebAPIs.Controllers
             helper = new Helper(_principal);
         }
 
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data of the selected category.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Detail(int? id)
         {
@@ -48,6 +53,11 @@ namespace WebAPIs.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Creates a new category.
+        /// </summary>
+        /// <param name="categories"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> InsertCategory(CategoryModel categories)
         {
@@ -66,6 +76,12 @@ namespace WebAPIs.Controllers
             return Ok(categories);
         }
 
+        /// <summary>
+        /// Edits the selected category.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categories"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, CategoryModel categories)
         {
@@ -83,6 +99,11 @@ namespace WebAPIs.Controllers
             return Ok(categories);
         }
 
+        /// <summary>
+        /// Gets all categories
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Listing(string search)
         {
@@ -123,6 +144,11 @@ namespace WebAPIs.Controllers
             return Ok(viewList);
         }
 
+        /// <summary>
+        /// Deletes category.
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Delete(int ID)
         {
