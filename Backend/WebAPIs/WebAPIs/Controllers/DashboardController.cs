@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAPIs.Data;
 using WebAPIs.Models;
 
@@ -26,10 +27,10 @@ namespace WebAPIs.Controllers
         public async Task<IActionResult> GetCount()
         {
             StatisticsModel statisticsModel = new StatisticsModel();
-            //var categoryQuery = await context.CategoryTable.ToListAsync();
-            //var productQuery = await context.ProductTable.ToListAsync();
-            //statisticsModel.CategoryCount = categoryQuery.ToList().Count;
-            //statisticsModel.ProductCount = productQuery.ToList().Count;            
+            var categoryQuery = await context.CategoryTable.ToListAsync();
+            var productQuery = await context.ProductTable.ToListAsync();
+            statisticsModel.CategoryCount = categoryQuery.Count;
+            statisticsModel.ProductCount = productQuery.Count;
             return Ok(statisticsModel);
 
         }

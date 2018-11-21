@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,13 +68,14 @@ namespace WebAPIs
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             };
         });
-
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddMvc(setup => { })
                 .AddFluentValidation();
             services.AddTransient<IValidator<ProductModel>, ProductValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
+            services.AddTransient<IValidator<CategoryModel>, CategoryValidator>();
             
             services.AddDbContext<WebApisContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebAPIsContext")));

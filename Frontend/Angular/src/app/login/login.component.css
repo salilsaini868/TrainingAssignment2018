@@ -19,6 +19,7 @@
 img {
   height: 250px;
   width: auto;
+  padding-bottom: 30px;
 }
 
 .inner-margin{

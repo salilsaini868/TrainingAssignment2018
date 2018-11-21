@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPIs.Data;
 
 namespace WebAPIs.Migrations
 {
     [DbContext(typeof(WebApisContext))]
-    partial class WebApisContextModelSnapshot : ModelSnapshot
+    [Migration("20181115100314_Migration-CategoryTable")]
+    partial class MigrationCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
