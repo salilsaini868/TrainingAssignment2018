@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +19,15 @@ namespace WebAPIs.Controllers
     {
         private WebApisContext context;
         private readonly ClaimsPrincipal principal;
-        private Helper helper;
+        Helper helper;
+        private readonly IMapper mapper;
 
-        public CategoryController(WebApisContext APIcontext, IPrincipal _principal)
+        public CategoryController(WebApisContext APIcontext, IPrincipal _principal, IMapper _mapper)
         {
             context = APIcontext;
             principal = _principal as ClaimsPrincipal;
+            mapper = _mapper;
+            helper = new Helper(_principal);
         }
 
         [HttpGet("{id}")]
@@ -49,10 +53,7 @@ namespace WebAPIs.Controllers
         {
             if (categories.CategoryID == 0)
             {
-                CategoryModel category = new CategoryModel();
-                category.CategoryName = categories.CategoryName;
-                category.CategoryDescription = categories.CategoryDescription;
-                category.IsActive = categories.IsActive;
+                var category = mapper.Map<CategoryModel>(categories);
                 category.CreatedBy = helper.GetSpecificClaim("ID");
                 category.CreatedDate = DateTime.Now;
                 context.CategoryTable.Add(category);
@@ -69,9 +70,7 @@ namespace WebAPIs.Controllers
         public async Task<IActionResult> UpdateCategory(int id, CategoryModel categories)
         {
             var updateQuery = await context.CategoryTable.Where(x => x.CategoryID == id).FirstOrDefaultAsync();
-            updateQuery.CategoryName = categories.CategoryName;
-            updateQuery.CategoryDescription = categories.CategoryDescription;
-            updateQuery.IsActive = categories.IsActive;
+            mapper.Map<CategoryModel>(categories);
             updateQuery.ModifiedBy = helper.GetSpecificClaim("ID");
             updateQuery.ModifiedDate = DateTime.Now;
             await context.SaveChangesAsync();
@@ -83,7 +82,7 @@ namespace WebAPIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Listing(string search)
+        public async Task<IActionResult> Listing(string search) 
         {
             var listQuery = from c in context.CategoryTable
                             join createdUser in context.LoginTable
@@ -94,28 +93,26 @@ namespace WebAPIs.Controllers
                             on c.ModifiedBy equals modifiedUser.UserID
                             into modifyname
                             from p1 in modifyname.DefaultIfEmpty()
-                            select new { category = c, createdUser = p.Username, modifiedBy = p1.Username };
+                            select new localCategoryModel {
+                                CategoryID = c.CategoryID,
+                                CategoryName = c.CategoryName,
+                                CategoryDescription = c.CategoryDescription,
+                                IsActive = c.IsActive,
+                                CreatedBy = c.CreatedBy,
+                                CreatedDate = c.CreatedDate,
+                                CreatedUser = p.Username,
+                                ModifiedBy = c.ModifiedBy,
+                                ModifiedDate = c.ModifiedDate,
+                                ModifiedUser = p1.Username            
+        };
             if (search != null)
             {
-                listQuery = listQuery.Where(x => x.category.CategoryName.Contains(search) || x.category.CategoryDescription.Contains(search));
+                listQuery = listQuery.Where(x => x.CategoryName.Contains(search) || x.CategoryDescription.Contains(search));
             }
             var list = await listQuery.ToListAsync();
-            List<CategoryModel> viewList = new List<CategoryModel>();
-            foreach (var item in list)
-            {
-                localCategoryModel model = new localCategoryModel();
-                model.CategoryID = item.category.CategoryID;
-                model.CategoryName = item.category.CategoryName;
-                model.CategoryDescription = item.category.CategoryDescription;
-                model.IsActive = item.category.IsActive;
-                model.CreatedBy = item.category.CreatedBy;
-                model.CreatedUser = item.createdUser;
-                model.CreatedDate = item.category.CreatedDate;
-                model.ModifiedBy = item.category.ModifiedBy;
-                model.ModifiedDate = item.category.ModifiedDate;
-                model.ModifiedUser = item.modifiedBy;
-                viewList.Add(model);
-            }
+            List<CategoryModel> viewList = new List<CategoryModel>();            
+            viewList = mapper.Map<List<CategoryModel>>(list);
+
             if (list.Count == 0)
             {
                 return NotFound("No records present.");
